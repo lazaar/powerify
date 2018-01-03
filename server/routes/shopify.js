@@ -21,6 +21,8 @@ import {
 
 import { Models } from '../db';
 
+import { init } from './initStore';
+
 const { Shop } = Models;
 
 const router = express.Router();
@@ -97,6 +99,7 @@ export default () => {
   const afterShopifyAuth = session => {
     const shopify = getShopifyApi(session);
 
+    init(shopify);
     const webhook = {
       topic: 'app/uninstalled',
       address: `${APP_URL}${UNINSTALL_ROUTE}`,
@@ -284,6 +287,7 @@ export default () => {
     logger.info(`Checking for active application charge: ${req.query.shop}`);
     const { shopify } = req;
 
+    init(shopify);
     hasActiveRecurringApplicationCharge(shopify).then(isActive => {
       if (!isActive) {
         logger.info(`No active charge found: ${req.query.shop}`);

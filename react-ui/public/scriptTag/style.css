@@ -1,0 +1,23 @@
+#fsb_bar{
+	opacity: 1;
+	margin: 0px;
+	padding: 0px;
+	left: 0px;
+	height: 40px;
+	width: 100%;
+	z-index: 100000;
+	background-color: #000000;
+	top: 0px;
+	position: fixed;
+	display: block;
+	text-align: center; 
+	box-sizing: border-box;
+	border: none;
+	color: #FFF;
+	font-size: 20px;
+	line-height: 40px; 
+}
+
+#fsb_bar.inAdmin{
+	top: 40px;
+}

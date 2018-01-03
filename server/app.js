@@ -96,14 +96,6 @@ app.get('/api/products', (req, res) => {
   shopify.product.list({ limit: 5 }).then(products => {
     res.status(200).json(products);
   });
-
-shopify.scriptTag.list().then(scriptTag => {
-    logger.error(scriptTag);
-  });
-
-  // shopify.scriptTag.create({ "event": "onload", "src": "https:\/\/a1cee8ca.ngrok.io\/scriptTag\/index.js"}).then(scriptTag => {
-  //   logger.error("scriptTag Added");
-  // });
 });
 
 app.get('*', (req, res, next) => {
