@@ -2,8 +2,9 @@
 import React, {Component} from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import './style.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import {Layout, ColorPicker, hsbToRgb,rgbToHsb, Select, Card, FormLayout, TextField, Checkbox} from '@shopify/polaris';
+import {Layout, ColorPicker, hsbToRgb,rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField, Checkbox} from '@shopify/polaris';
 
 class UpperBar extends Component {
     constructor(props) {
@@ -20,6 +21,7 @@ class UpperBar extends Component {
         };
         this.state = {
             enable: true,
+            enableDate:false,
             selectedDate: moment(),
             text: "",
             color: color,
@@ -35,7 +37,6 @@ class UpperBar extends Component {
         this.setState(()=>({
             [property]: value
         }));
-        console.log(this.state, value);
         if (typeof callback === "function") {
             callback();
         }
@@ -68,23 +69,36 @@ class UpperBar extends Component {
                 description="Show/hide the Upper Bar">
                 <Card sectioned>
                     <FormLayout>
-                        <Checkbox
-                            value={this.state.enable}
-                            checked={this.state.enable}
-                            onChange={(e) => this.onPropertyChange("enable", e) }
-                            label="Show Upper Bar"/>
-                        <TextField
-                            label="Show Upper Bar until "
-                            value={this.state.selectedDate.format("YYYY/MM/DD HH:mm")}/>
-                        <DatePicker
-                            selected={this.state.selectedDate}
-                            onChange={(e) => this.onPropertyChange("selectedDate", e)}
-                            showTimeSelect
-                            inline
-                            minDate={moment()}
-                            timeIntervals={30}
-                            dateFormat="YYYY/MM/DD HH:mm"
-                        />
+                        <FormLayout.Group>
+                            <Checkbox
+                                value={this.state.enable}
+                                checked={this.state.enable}
+                                onChange={(e) => this.onPropertyChange("enable", e) }
+                                label="Show Upper Bar"/>
+                            <Checkbox
+                                value={this.state.enableDate}
+                                checked={this.state.enableDate}
+                                onChange={(e) => this.onPropertyChange("enableDate", e) }
+                                label="Enable date limit"/>
+                        </FormLayout.Group>
+                        {
+                            this.state.enableDate && (
+                                <div>
+                                    <TextField
+                                        label="Show Upper Bar until "
+                                        value={this.state.selectedDate.format("YYYY/MM/DD HH:mm")}/>
+                                    < DatePicker
+                                    selected={this.state.selectedDate}
+                                    onChange={(e) => this.onPropertyChange("selectedDate", e)}
+                                    showTimeSelect
+                                    inline
+                                    minDate={moment()}
+                                    timeIntervals={30}
+                                    dateFormat="YYYY/MM/DD HH:mm"
+                                    />
+                                </div>
+                            )
+                        }
                         <TextField
                             label="Text"
                             value={this.state.text}
@@ -98,6 +112,14 @@ class UpperBar extends Component {
                 description="Customize the style of the Upper Bar">
                 <Card sectioned>
                     <FormLayout>
+                        <div className="powerify_upper_bar"
+                            style={{
+                              color:hsbToHex(this.state.color),
+                              backgroundColor:hsbToHex(this.state.bg_color)
+                            }}
+                        >
+                            {this.state.text}
+                        </div>
                         <FormLayout.Group condensed>
                             <TextField
                                 label="Text Color RGB "

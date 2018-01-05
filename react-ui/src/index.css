@@ -5,6 +5,7 @@ body {
 }
 .Polaris-FormLayout .react-datepicker {
   font-size: 1em;
+  margin-top: 20px;
 }
 .Polaris-FormLayout .react-datepicker__header {
   padding-top: 0.8em;
