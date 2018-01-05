@@ -52,10 +52,10 @@ export class ProductsPageComponent extends Component<Props, OwnState> {
     fetchProducts();
   }
 
-  handleGoToProducts = () => {
+  handleGoToState = route => {
     const { history } = this.props;
 
-    history.push('/about');
+    history.push('/' + route);
   };
 
   handleResourceSelected = (resources: Resources) => {
@@ -80,8 +80,11 @@ export class ProductsPageComponent extends Component<Props, OwnState> {
         }}
         secondaryActions={[
           {
+            content: 'Settings',
+            onAction: () => this.handleGoToState('settings')
+          },{
             content: 'Go to About',
-            onAction: this.handleGoToProducts
+            onAction: () => this.handleGoToState('about')
           }
         ]}
       >
