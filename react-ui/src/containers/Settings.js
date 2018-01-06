@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import { Tabs, Page } from '@shopify/polaris';
 import UpperBar from './tabs/UpperBar';
+import Scarcity from './tabs/Scarcity';
 import { connect } from 'react-redux';
 
 class Settings extends Component {
@@ -34,9 +35,9 @@ class Settings extends Component {
         panelID: 'panel2',
       },
       {
-        id: 'tab3',
-        content: 'something else',
-        panelID: 'panel3',
+        id: 'Scarcity',
+        content: 'Scarcity',
+        panelID: 'Scarcity',
       },
     ];
 
@@ -50,8 +51,8 @@ class Settings extends Component {
         </Tabs.Panel>
       ),
       (
-        <Tabs.Panel id="panel3">
-          something elser
+        <Tabs.Panel id="Scarcity">
+          <Scarcity/>
         </Tabs.Panel>
       ),
     ];
