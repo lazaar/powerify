@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import './style.css';
+import './fonts.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import {Layout, ColorPicker, hsbToRgb,rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField, Checkbox} from '@shopify/polaris';
 
@@ -22,13 +23,13 @@ class UpperBar extends Component {
         this.state = {
             enable: true,
             enableDate:false,
+            font: "Chewy",
             selectedDate: moment(),
             text: "",
             color: color,
             colorText: this.displayColor(color),
             bg_color: bg_color,
             bg_colorText: this.displayColor(bg_color),
-            font: ""
         };
 
     }
@@ -104,6 +105,33 @@ class UpperBar extends Component {
                             value={this.state.text}
                             onChange={(e) => this.onPropertyChange("text", e) }
                         />
+                            <Select
+                              label="Font"
+                              placeholder="Select"
+                              value={this.state.font}
+                              options={[
+                                {
+                                  label: 'Raleway',
+                                  value: 'Raleway',
+                                },{
+                                  label: 'Montserrat',
+                                  value: 'Montserrat',
+                                },{
+                                  label: 'Titillium',
+                                  value: 'Titillium',
+                                },{
+                                  label: 'Pacifico',
+                                  value: 'Pacifico',
+                                },{
+                                  label: 'Orbitron',
+                                  value: 'Orbitron',
+                                },{
+                                  label: 'Comfortaa',
+                                  value: 'Comfortaa',
+                                }
+                              ]}
+                              onChange={(e) => this.onPropertyChange("font", e) }
+                            />
                     </FormLayout>
                 </Card>
             </Layout.AnnotatedSection>
@@ -115,10 +143,11 @@ class UpperBar extends Component {
                         <div className="powerify_upper_bar"
                             style={{
                               color:hsbToHex(this.state.color),
-                              backgroundColor:hsbToHex(this.state.bg_color)
+                              backgroundColor:hsbToHex(this.state.bg_color),
+                              fontFamily: this.state.font
                             }}
                         >
-                            {this.state.text}
+                            {this.state.text} 
                         </div>
                         <FormLayout.Group condensed>
                             <TextField
@@ -142,18 +171,6 @@ class UpperBar extends Component {
                                 onChange={(e) => this.onPropertyChange("bg_color", e, () => this.onPropertyChange("bg_colorText", this.displayColor(e)))}
                             />
                         </FormLayout.Group>
-                        <Select
-                            label="Text Font"
-                            options={[
-                          'two',
-                          'three',
-                          {
-                            label: 'four',
-                            value: '4'
-                          }
-                        ]}
-                            placeholder="Font"
-                        />
                     </FormLayout>
                 </Card>
             </Layout.AnnotatedSection>

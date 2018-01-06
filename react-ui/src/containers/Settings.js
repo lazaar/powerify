@@ -33,6 +33,11 @@ class Settings extends Component {
         content: 'something2',
         panelID: 'panel2',
       },
+      {
+        id: 'tab3',
+        content: 'something else',
+        panelID: 'panel3',
+      },
     ];
 
     const tabPanels = [
@@ -42,6 +47,11 @@ class Settings extends Component {
       (
         <Tabs.Panel id="panel2">
           something else
+        </Tabs.Panel>
+      ),
+      (
+        <Tabs.Panel id="panel3">
+          something elser
         </Tabs.Panel>
       ),
     ];
