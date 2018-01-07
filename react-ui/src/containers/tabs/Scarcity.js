@@ -1,11 +1,11 @@
 // @flow
 import React, {Component} from 'react';
-import DatePicker from 'react-datepicker';
+//import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import './style.css';
 import './fonts.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import {Layout, ColorPicker, hsbToRgb,rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField, Checkbox, TextContainer, Heading} from '@shopify/polaris';
+import {Layout, ColorPicker, hsbToRgb,rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField,  TextContainer, Heading} from '@shopify/polaris';
 
 class Scarcity extends Component {
     constructor(props) {
@@ -24,6 +24,14 @@ class Scarcity extends Component {
             enable: true,
             enableDate:false,
             font: "Chewy",
+            fontweight: "bold",
+            textabovetimer: "Hurry! Sales Ends In",
+            fontsize: 20,
+            days: 0,
+            hours: 0,
+            minutes: 44,
+            seconds: 8,
+            textalign: "center",
             countdown: "Flipper",
             selectedDate: moment(),
             text: "",
@@ -72,67 +80,73 @@ class Scarcity extends Component {
                 <Card sectioned>
                     <FormLayout>
                         <FormLayout.Group>
-                            <Checkbox
-                                value={this.state.enable}
-                                checked={this.state.enable}
-                                onChange={(e) => this.onPropertyChange("enable", e) }
-                                label="Show Upper Bar"/>
-                            <Checkbox
-                                value={this.state.enableDate}
-                                checked={this.state.enableDate}
-                                onChange={(e) => this.onPropertyChange("enableDate", e) }
-                                label="Enable date limit"/>
-                        </FormLayout.Group>
-                        {
-                            this.state.enableDate && (
-                                <div>
-                                    <TextField
-                                        label="Show Upper Bar until "
-                                        value={this.state.selectedDate.format("YYYY/MM/DD HH:mm")}/>
-                                    < DatePicker
-                                    selected={this.state.selectedDate}
-                                    onChange={(e) => this.onPropertyChange("selectedDate", e)}
-                                    showTimeSelect
-                                    inline
-                                    minDate={moment()}
-                                    timeIntervals={30}
-                                    dateFormat="YYYY/MM/DD HH:mm"
-                                    />
-                                </div>
-                            )
-                        }
-                        <TextField
-                            label="Text"
-                            value={this.state.text}
-                            onChange={(e) => this.onPropertyChange("text", e) }
-                        />
-                            <Select
-                              label="Font"
+                            
+                          <Select
+                              label="Text above the timer"
                               placeholder="Select"
-                              value={this.state.font}
+                              value={this.state.textabovetimer}
                               options={[
                                 {
-                                  label: 'Raleway',
-                                  value: 'Raleway',
+                                  label: 'Hurry! Sales Ends In',
+                                  value: 'Hurry! Sales Ends In',
                                 },{
-                                  label: 'Montserrat',
-                                  value: 'Montserrat',
+                                  label: 'Hurry Up! Sales Ends In',
+                                  value: 'Hurry Up! Sales Ends In',
                                 },{
-                                  label: 'Titillium',
-                                  value: 'Titillium',
+                                  label: 'Hurry! Offer Ends In',
+                                  value: 'Hurry! Offer Ends In',
                                 },{
-                                  label: 'Pacifico',
-                                  value: 'Pacifico',
+                                  label: '1 Time offer, Ending In',
+                                  value: '1 Time offer, Ending In',
                                 },{
-                                  label: 'Orbitron',
-                                  value: 'Orbitron',
+                                  label: 'X CLAIMED. HURRY, ONLY FEW LEFT IN STOCK',
+                                  value: 'X CLAIMED. HURRY, ONLY FEW LEFT IN STOCK',
                                 },{
-                                  label: 'Comfortaa',
-                                  value: 'Comfortaa',
+                                  label: 'Hurry! Only X left in stock',
+                                  value: 'Hurry! Only X left in stock',
+                                },{
+                                  label: 'Custom text',
+                                  value: 'CustomText',
                                 }
                               ]}
-                              onChange={(e) => this.onPropertyChange("font", e) }
+                              onChange={(e) => this.onPropertyChange("textabovetimer", e) }
                             />
+                        </FormLayout.Group>
+
+                        <FormLayout.Group condensed>
+                        <TextField
+						  label="Days"
+						  type="number"
+	                 	  value={this.state.days}
+						  readOnly={false}
+						/>
+						<TextField
+						  label="Hours"
+						  type="number"
+						  value={this.state.hours}
+						  readOnly={false}
+						  onChange={(e) => this.onPropertyChange("hours", e) }
+
+						/>
+						<TextField
+						  label="Minutes"
+						  type="number"
+						  value={this.state.minutes}
+						  readOnly={false}
+						  onChange={(e) => this.onPropertyChange("minutes", e) }
+
+						/>
+						<TextField
+						  label="Seconds"
+						  type="number"
+						  value={this.state.seconds}
+						  readOnly={false}
+						  onChange={(e) => this.onPropertyChange("seconds", e) }
+
+						/>
+
+
+                        </FormLayout.Group> 
                     </FormLayout>
                 </Card>
             </Layout.AnnotatedSection>
@@ -216,67 +230,36 @@ class Scarcity extends Component {
                               ]}
                               onChange={(e) => this.onPropertyChange("font", e) }
                             />
-                            <Select
-							  label="Font size"
-							  options={[
-							    {
-							      label: '15px',
-							      value: '15',
-							    },{
-							      label: '16px',
-							      value: '16',
-							    },{
-							      label: '17px',
-							      value: '17',
-							    },{
-							      label: '18px',
-							      value: '18',
-							    },{
-							      label: '19px',
-							      value: '19',
-							    },{
-							      label: '20px',
-							      value: '20',
-							    },{
-							      label: '21px',
-							      value: '21',
-							    },{
-							      label: '22px',
-							      value: '22',
-							    },{
-							      label: '23px',
-							      value: '23',
-							    },{
-							      label: '24px',
-							      value: '24',
-							    },{
-							      label: '25px',
-							      value: '25',
-							    },{
-							      label: '26px',
-							      value: '26',
-							    },{
-							      label: '27px',
-							      value: '27',
-							    },
-							  ]}
-							  placeholder="Select"
+                            <TextField
+							  label="font size"
+							  type="number"
+							  value={this.state.fontsize}
+							  readOnly={false}
+							  suffix="px"
+							  onChange={(e) => this.onPropertyChange("fontsize", e) }
+
 							/>
 							<Select
 							  label="Text Align"
+							  value={this.state.fontsize}
 							  options={[
 							    'left',
 							    'center',
 							    'right',
 							  ]}
+					          onChange={(e) => this.onPropertyChange("textalign", e) }
+
 							  placeholder="Select"
 							/>
 							<Select
 							  label="Font Weight"
+  							  value={this.state.fontweight}
 							  options={[
 							    'normal',
 							    'bold',
 							  ]}
+				              onChange={(e) => this.onPropertyChange("fontweight", e) }
+
 							  placeholder="Select"
 							/>
 
