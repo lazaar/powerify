@@ -5,7 +5,7 @@ import moment from 'moment';
 import './style.css';
 import './fonts.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import {Layout, ColorPicker, hsbToRgb,rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField, Checkbox} from '@shopify/polaris';
+import {Layout, ColorPicker, hsbToRgb,rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField, Checkbox, TextContainer, Heading} from '@shopify/polaris';
 
 class Scarcity extends Component {
     constructor(props) {
@@ -24,6 +24,7 @@ class Scarcity extends Component {
             enable: true,
             enableDate:false,
             font: "Chewy",
+            countdown: "Flipper",
             selectedDate: moment(),
             text: "",
             color: color,
@@ -66,7 +67,7 @@ class Scarcity extends Component {
     render() {
         return (<Layout sectioned>
             <Layout.AnnotatedSection
-                title="Display Upper Bar"
+                title="Display Scarcity Countdown"
                 description="Show/hide the Upper Bar">
                 <Card sectioned>
                     <FormLayout>
@@ -140,36 +141,145 @@ class Scarcity extends Component {
                 description="Customize the style of the Upper Bar">
                 <Card sectioned>
                     <FormLayout>
-                        <div className="powerify_upper_bar"
+                        
+                        <FormLayout.Group condensed>
+                        <Select
+                              label="Style"
+                              placeholder="Select"
+                              value={this.state.countdown}
+                              options={[
+                                {
+                                  label: 'Simple Timer',
+                                  value: 'Simple',
+                                },{
+                                  label: 'FlipClock',
+                                  value: 'FlipClock',
+                                },{
+                                  label: 'Flipper',
+                                  value: 'Flipper',
+                                }
+                              ]}
+                              onChange={(e) => this.onPropertyChange("font", e) }
+                            />
+                            
+                        </FormLayout.Group>
+                        <FormLayout.Group>
+                        	<TextContainer>
+		  					<Heading>Text Above Timer</Heading> 
+		  					</TextContainer>
+                        </FormLayout.Group>
+                        <FormLayout.Group>
+                        	 <div className="powerify_color_choose"
                             style={{
                               color:hsbToHex(this.state.color),
                               backgroundColor:hsbToHex(this.state.bg_color),
-                              fontFamily: this.state.font
+                              
                             }}
                         >
-                            {this.state.text} 
+                            Pick a color  
                         </div>
+                        
+                         </FormLayout.Group>
                         <FormLayout.Group condensed>
-                            <TextField
-                                label="Text Color RGB "
-                                value={this.state.colorText}
-                                onChange={(e) => this.onPropertyChange("colorText", e) }
-                                onBlur={() => this.blurInputColor("colorText", "color") }/>
-                            <TextField
-                                label="Background Color RGB "
-                                value={this.state.bg_colorText}
-                                onChange={(e) => this.onPropertyChange("bg_colorText", e) }
-                                onBlur={() => this.blurInputColor("bg_colorText", "bg_color") }/>
-                        </FormLayout.Group>
-                        <FormLayout.Group condensed>
-                            <ColorPicker
-                                color={this.state.color}
-                                onChange={(e) => this.onPropertyChange("color", e, () => this.onPropertyChange("colorText", this.displayColor(e)))}
-                            />
+
                             <ColorPicker
                                 color={this.state.bg_color}
                                 onChange={(e) => this.onPropertyChange("bg_color", e, () => this.onPropertyChange("bg_colorText", this.displayColor(e)))}
                             />
+                        </FormLayout.Group>
+                         <FormLayout.Group condensed>
+
+                            <Select
+                              label="Font"
+                              placeholder="Select"
+                              value={this.state.font}
+                              options={[
+                                {
+                                  label: 'Raleway',
+                                  value: 'Raleway',
+                                },{
+                                  label: 'Montserrat',
+                                  value: 'Montserrat',
+                                },{
+                                  label: 'Titillium',
+                                  value: 'Titillium',
+                                },{
+                                  label: 'Pacifico',
+                                  value: 'Pacifico',
+                                },{
+                                  label: 'Orbitron',
+                                  value: 'Orbitron',
+                                },{
+                                  label: 'Comfortaa',
+                                  value: 'Comfortaa',
+                                }
+                              ]}
+                              onChange={(e) => this.onPropertyChange("font", e) }
+                            />
+                            <Select
+							  label="Font size"
+							  options={[
+							    {
+							      label: '15px',
+							      value: '15',
+							    },{
+							      label: '16px',
+							      value: '16',
+							    },{
+							      label: '17px',
+							      value: '17',
+							    },{
+							      label: '18px',
+							      value: '18',
+							    },{
+							      label: '19px',
+							      value: '19',
+							    },{
+							      label: '20px',
+							      value: '20',
+							    },{
+							      label: '21px',
+							      value: '21',
+							    },{
+							      label: '22px',
+							      value: '22',
+							    },{
+							      label: '23px',
+							      value: '23',
+							    },{
+							      label: '24px',
+							      value: '24',
+							    },{
+							      label: '25px',
+							      value: '25',
+							    },{
+							      label: '26px',
+							      value: '26',
+							    },{
+							      label: '27px',
+							      value: '27',
+							    },
+							  ]}
+							  placeholder="Select"
+							/>
+							<Select
+							  label="Text Align"
+							  options={[
+							    'left',
+							    'center',
+							    'right',
+							  ]}
+							  placeholder="Select"
+							/>
+							<Select
+							  label="Font Weight"
+							  options={[
+							    'normal',
+							    'bold',
+							  ]}
+							  placeholder="Select"
+							/>
+
                         </FormLayout.Group>
                     </FormLayout>
                 </Card>
