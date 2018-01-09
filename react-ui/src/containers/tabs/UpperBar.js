@@ -5,6 +5,7 @@ import moment from 'moment';
 import './style.css';
 import './fonts.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+import { connect } from 'react-redux';
 import {Layout, ColorPicker, hsbToRgb,rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField, Checkbox} from '@shopify/polaris';
 
 class UpperBar extends Component {
@@ -20,24 +21,35 @@ class UpperBar extends Component {
             brightness: 0,
             saturation: 0
         };
-        this.state = {
-            enable: true,
-            enableDate:false,
-            font: "Chewy",
-            selectedDate: moment(),
-            text: "",
-            color: color,
-            colorText: this.displayColor(color),
-            bg_color: bg_color,
-            bg_colorText: this.displayColor(bg_color),
-        };
 
+        if(this.props.settings.upperBar){
+            this.state = this.props.settings.upperBar;
+        }
+        else{
+            this.state = {
+                enable: true,
+                enableDate:false,
+                font: "Chewy",
+                selectedDate: moment(),
+                text: "",
+                color: color,
+                colorText: this.displayColor(color),
+                bg_color: bg_color,
+                bg_colorText: this.displayColor(bg_color)
+            };
+        }
     }
 
+    componentDidMount(){
+        console.log("toto",this.props.settings);
+    }
+    
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
-        }));
+        }), function () {
+            this.props.onSettingsChange("upperBar", this.state);
+        });
         if (typeof callback === "function") {
             callback();
         }
@@ -178,7 +190,14 @@ class UpperBar extends Component {
     }
 }
 
-export default UpperBar;
+const mapStateToProps = (state) => {
+    const {settings} = state;
+    return{
+        settings: settings
+    }
+};
+
+export default connect(mapStateToProps, null)(UpperBar);
 
 
 

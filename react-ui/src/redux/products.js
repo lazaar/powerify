@@ -9,7 +9,6 @@ export const fetchProducts = (): ThunkAction => dispatch =>
       credentials: 'include'
     })
     .then(response => {
-      console.log(response);
       dispatch({
         type: 'LOAD_PRODUCTS',
         products: response.data

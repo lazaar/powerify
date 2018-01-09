@@ -97,6 +97,7 @@ app.get('/api/products', (req, res) => {
     res.status(200).json(products);
   });
 });
+require('./routes/settings')(app);
 
 app.get('*', (req, res, next) => {
   const { shop } = req.session.shopify || {};
