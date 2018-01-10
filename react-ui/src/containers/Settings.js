@@ -1,8 +1,10 @@
 // @flow
 import React, {Component} from 'react';
-import { Tabs, Page, Spinner } from '@shopify/polaris';
+import { Tabs, Page } from '@shopify/polaris';
 import UpperBar from './tabs/UpperBar';
 import Scarcity from './tabs/Scarcity';
+import Salespop from './tabs/Salespop';
+import ImageReviews from './tabs/ImageReviews'
 import {addSettings} from '../redux/actions/index'
 import { connect } from 'react-redux';
 import {fetchSettings, saveSettings} from '../redux/settings'
@@ -48,6 +50,14 @@ class Settings extends Component {
         id: 'Scarcity',
         content: 'Scarcity',
         panelID: 'Scarcity'
+      },{
+        id: 'ImageReviews',
+        content: 'ImageReviews',
+        panelID: 'ImageReviews'
+      },{
+        id: 'Salespop',
+        content: 'Salespop',
+        panelID: 'Salespop'
       }
     ];
 
@@ -63,6 +73,16 @@ class Settings extends Component {
       (
         <Tabs.Panel id="Scarcity">
           <Scarcity/>
+        </Tabs.Panel>
+      ),
+      (
+        <Tabs.Panel id="ImageReviews">
+          <ImageReviews/>
+        </Tabs.Panel>
+      ),
+      (
+        <Tabs.Panel id="Salespop">
+          <Salespop/>
         </Tabs.Panel>
       )
     ];
@@ -82,8 +102,7 @@ class Settings extends Component {
           tabs={tabs}
           onSelect={this.handleTabChange}
         />
-        {!this.props.settings.finishLoading && (<Spinner size="large" />)}
-        {this.props.settings.finishLoading && tabPanels[selectedTab]}
+        { tabPanels[selectedTab]}
       </Page>
     );
   }
