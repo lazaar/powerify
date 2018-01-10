@@ -4,6 +4,7 @@ import { Tabs, Page } from '@shopify/polaris';
 import UpperBar from './tabs/UpperBar';
 import Scarcity from './tabs/Scarcity';
 import Salespop from './tabs/Salespop';
+import ExitCoupon from './tabs/ExitCoupon';
 import Buyme from './tabs/Buyme';
 import PushNotifications from './tabs/PushNotifications';
 import CurrencyConverter from './tabs/CurrencyConverter';
@@ -77,6 +78,10 @@ class Settings extends Component {
         id: 'CurrencyConverter',
         content: 'CurrencyConverter',
         panelID: 'CurrencyConverter'
+      },{
+        id: 'ExitCoupon',
+        content: 'ExitCoupon',
+        panelID: 'ExitCoupon'
       }
     ];
 
@@ -117,6 +122,11 @@ class Settings extends Component {
       (
         <Tabs.Panel id="CurrencyConverter">
           <CurrencyConverter/>
+        </Tabs.Panel>
+      ),
+      (
+        <Tabs.Panel id="ExitCoupon">
+          <ExitCoupon/>
         </Tabs.Panel>
       )
     ];
