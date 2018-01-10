@@ -4,9 +4,9 @@ import React, {Component} from 'react';
 import './style.css';
 import './fonts.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import {Layout, Card, FormLayout, TextField, Select} from '@shopify/polaris';
+import {Layout, Card, FormLayout, TextField, Select, Checkbox} from '@shopify/polaris';
 
-class PushNotifications extends Component {
+class CurrencyConverter extends Component {
     constructor(props) {
         super(props);
         
@@ -45,26 +45,41 @@ class PushNotifications extends Component {
 
 
     render() {
-        return (<Layout sectioned>
+        return (
+        	
+        	<Layout sectioned>
+        	<Card
+				  title="Online store dashboard"
+				  sectioned
+				> 
+
+	        	<p> You need to edit your Money . <a href="http://www.example.com/default.htm"> Click here to see how </a> </p>
+				   
+
+			</Card>
             <Layout.AnnotatedSection
-                title="Set up Push notifications"
-                description="">
+                title="Select Currencies"
+                description="Select the currencies that will appear in the Currency Switcher on your website.">
                 <Card sectioned>
                     <FormLayout>
                         <FormLayout.Group>
-                            <Select
-								    label="Prompt Delay"
-		                            value={this.state.emtiming}
-		                            options={[
-		                                'Instant',
-		                                '5 seconds',
-		                                '10 seconds',
-		                                '15 seconds',
-		                                '30 seconds',
-		                                '1 min'
-		                                     ]}
-		                            onChange={(e) => this.onPropertyChange("emtiming", e) }
-		                    />			   
+                        	
+	                         <Checkbox 
+				              label="Enable App" 
+				              value = {this.state.shadow}
+				              onChange={(e) => this.onPropertyChange("shadow", e) }
+				              />
+				              <Checkbox 
+				              label="Auto Switch" 
+				              value = {this.state.shadow}
+				              onChange={(e) => this.onPropertyChange("shadow", e) }
+				              />
+				              <Checkbox 
+				              label="Hide converted label" 
+				              value = {this.state.shadow}
+				              onChange={(e) => this.onPropertyChange("shadow", e) }
+				              />
+                            	   
                         </FormLayout.Group>
                     </FormLayout>
                 </Card>
@@ -75,74 +90,92 @@ class PushNotifications extends Component {
                 <Card sectioned>
                     <FormLayout>
                         <FormLayout.Group>
-                            <TextField
-                            label="Title"
-                            type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
-                          	/>
+                            <Select
+								    label="Currency Switcher Theme"
+		                            value={this.state.emtiming}
+		                            options={[
+		                                'Flag ',
+		                                'No theme'
+		                                     ]}
+		                            onChange={(e) => this.onPropertyChange("emtiming", e) }
+		                    />		
                           	<TextField
-                            label="Description"
+                            label="Background color"
                             type="text"
                             value={this.state.discount}
                             onChange={(e) => this.onPropertyChange("discount", e) }
                             multiline
                           	/>
                           	<TextField
-                            label="Call to Action"
+                            label="Text Color"
                             type="text"
                             value={this.state.discount}
                             onChange={(e) => this.onPropertyChange("discount", e) }
-                          	/>				   
+                            multiline
+                          	/>	
+                          	<TextField
+                            label="Hover color"
+                            type="text"
+                            value={this.state.discount}
+                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            multiline
+                          	/>			   
 				             
                         </FormLayout.Group>
                     </FormLayout>
                 </Card>
             </Layout.AnnotatedSection>
             <Layout.AnnotatedSection
-                title="Sent 1 hour after cart abandonment"
+                title="Price Configuration"
                 description="">
                 <Card sectioned>
                     <FormLayout>
-                        
-                        <FormLayout.Group >
-                           <TextField
-                            label="Title"
-                            type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
-                          	/>
+                       
+                        <FormLayout.Group>
+                        	
+                        	<Checkbox 
+				              label="Display Currency Code" 
+				              value = {this.state.shadow}
+				              onChange={(e) => this.onPropertyChange("shadow", e) }
+				              />
+
+                           <Select
+								    label=" Chose how to display decimals"
+		                            value={this.state.emtiming}
+		                            options={[
+		                                "Remove",
+		                                "Round to next digit",
+		                                "Round to .99",
+		                                "Custom Rounding"
+		                                     ]}
+		                            onChange={(e) => this.onPropertyChange("emtiming", e) }
+		                    />
+
                           	<TextField
-                            label="Description"
-                            type="text"
+                            label="Rounding number to"
+                            type="number"
                             value={this.state.discount}
                             onChange={(e) => this.onPropertyChange("discount", e) }
                             multiline
                           	/>
-                          	<TextField
-                            label="Call to Action"
-                            type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
-                          	/>	
+
                         </FormLayout.Group>
                       </FormLayout>  
                 </Card>
             </Layout.AnnotatedSection>
             <Layout.AnnotatedSection
-                  title="Sent 24 hour after cart abandonment"
+                  title="Extra Features"
                 description="">
                 <Card sectioned>
 
 		                <FormLayout.Group>
-		               	    <TextField
-                            label="Title"
-                            type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
-                          	/>
+		               	    <Checkbox 
+				              label="Checkout currency notification" 
+				              value = {this.state.shadow}
+				              onChange={(e) => this.onPropertyChange("shadow", e) }
+				             />
                           	<TextField
-                            label="Description"
+                            label="Message"
                             type="text"
                             value={this.state.discount}
                             onChange={(e) => this.onPropertyChange("discount", e) }
@@ -162,4 +195,4 @@ class PushNotifications extends Component {
     }
 }
 
-export default PushNotifications;
+export default CurrencyConverter;

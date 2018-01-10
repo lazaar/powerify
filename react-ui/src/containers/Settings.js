@@ -6,6 +6,7 @@ import Scarcity from './tabs/Scarcity';
 import Salespop from './tabs/Salespop';
 import Buyme from './tabs/Buyme';
 import PushNotifications from './tabs/PushNotifications';
+import CurrencyConverter from './tabs/CurrencyConverter';
 import ImageReviews from './tabs/ImageReviews'
 import {addSettings} from '../redux/actions/index'
 import { connect } from 'react-redux';
@@ -72,6 +73,10 @@ class Settings extends Component {
         id: 'PushNotifications',
         content: 'PushNotifications',
         panelID: 'PushNotifications'
+      },{
+        id: 'CurrencyConverter',
+        content: 'CurrencyConverter',
+        panelID: 'CurrencyConverter'
       }
     ];
 
@@ -107,6 +112,11 @@ class Settings extends Component {
       (
         <Tabs.Panel id="PushNotifications">
           <PushNotifications/>
+        </Tabs.Panel>
+      ),
+      (
+        <Tabs.Panel id="CurrencyConverter">
+          <CurrencyConverter/>
         </Tabs.Panel>
       )
     ];
