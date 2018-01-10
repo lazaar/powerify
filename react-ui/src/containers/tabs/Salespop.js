@@ -4,12 +4,13 @@ import React, {Component} from 'react';
 import './style.css';
 import './fonts.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import {Layout,  Select, Card, FormLayout, TextField,  TextContainer, Heading, Checkbox, ColorPicker, Popover, Button} from '@shopify/polaris';
+import {Layout,  Select, Card, FormLayout, TextField,  TextContainer, Heading, Checkbox} from '@shopify/polaris';
 
 class Salespop extends Component {
     constructor(props) {
         super(props);
         
+       
         
         this.state = {
             Language: "English",
@@ -40,15 +41,6 @@ class Salespop extends Component {
         if (typeof callback === "function") {
             callback();
         }
-    };
-
-    displayColor = (hsbColor) => {
-      
-    };
-
-    blurInputColor = (property, changeProperty) => {
-        
-        
     };
 
 
@@ -190,80 +182,48 @@ class Salespop extends Component {
                 </Card>
             </Layout.AnnotatedSection>
             <Layout.AnnotatedSection
-                  titre = "Theme"
-                  description = ""
-             >
+                  title="Theme"
+                description="">
                 <Card sectioned>
 
-                <FormLayout.Group condensed>
-                  <Select
-                              label="Shape"
-                              value={this.state.emtiming}
-                              options={[
-                                'Classic',
-                                'Curved',
-                                'Pill',
-                                'Split',
-                                     ]}
-                              onChange={(e) => this.onPropertyChange("emtiming", e) }
+		                <FormLayout.Group>
+		                <TextField
+                            label="Notification message: "
+                            type="number"
+                            value={this.state.discount}
+                            onChange={(e) => this.onPropertyChange("discount", e) }
+                          />	
+		                  <Select
+		                              label="Shape"
+		                              value={this.state.emtiming}
+		                              options={[
+		                                'Classic',
+		                                'Curved',
+		                                'Pill',
+		                                'Split',
+		                                     ]}
+		                              onChange={(e) => this.onPropertyChange("emtiming", e) }
 
-                                />
-                   <Checkbox 
-				              label="Show Preview Image" 
-				              value = {this.state.upsell}
-				              onChange={(e) => this.onPropertyChange("upsell", e) }
-				              />
-            </FormLayout.Group>
-            <FormLayout.Group >
-              <Popover
-              	active = {this.state.colpic}
-              	activator = {<Button>More actions</Button>}
-				  sectioned
-              	
-				>    
-				  <FormLayout>
-				  	<ColorPicker
-					  color={{
-					    hue: 120,
-					    brightness: 1,
-					    saturation: 1,
-					  }}
-					/>
-				  </FormLayout>
-			</Popover>
-			<TextField
-                            label="Color value"
-                            type="text"
-                            onChange={(e) => this.onPropertyChange("colpic", true) }
+		                                />
+		                     </FormLayout.Group>
+		                     <FormLayout.Group>
+		                   <Checkbox 
+						              label="Show Preview Image" 
+						              value = {this.state.upsell}
+						              onChange={(e) => this.onPropertyChange("upsell", e) }
+						              />
+		            	</FormLayout.Group>
+			            <FormLayout.Group>
 
-                                               
-                            />      
-              <TextField
-                            label="Email subject"
-                            type="text"
-                            placeholder = "[Name], tell us what you think!"
-                            readOnly={false}
-                            onChange={(e) => this.onPropertyChange("emailsubject", e) }
-                            helpText="Use [Name] as a placeholder for the user's first name"
-                         /> 
-              <TextField
-                            label="Email text"
-                            type="text"
-                            placeholder = "We would be grateful if you shared how things look and feel. Your review helps us and the community that supports us, and it only takes a few seconds."
-                            onChange={(e) => this.onPropertyChange("emailtext", e) }
-                            helpText="Use [Name] as a placeholder for the user's first name"
-                            multiline
-                         /> 
-              <Checkbox 
-              label="Smart Upsell" 
-              value = {this.state.upsell}
-              onChange={(e) => this.onPropertyChange("upsell", e) }
-              />
+			                        
+			              <Checkbox 
+			              label="shadow" 
+			              value = {this.state.shadow}
+			              onChange={(e) => this.onPropertyChange("shadow", e) }
+			              />
+			            </FormLayout.Group>
 
-
-            </FormLayout.Group>
-
-              </Card>
+             	</Card>
              </Layout.AnnotatedSection>
         </Layout>);
     }

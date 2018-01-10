@@ -4,6 +4,8 @@ import { Tabs, Page } from '@shopify/polaris';
 import UpperBar from './tabs/UpperBar';
 import Scarcity from './tabs/Scarcity';
 import Salespop from './tabs/Salespop';
+import Buyme from './tabs/Buyme';
+import PushNotifications from './tabs/PushNotifications';
 import ImageReviews from './tabs/ImageReviews'
 import {addSettings} from '../redux/actions/index'
 import { connect } from 'react-redux';
@@ -62,6 +64,14 @@ class Settings extends Component {
         id: 'Salespop',
         content: 'Salespop',
         panelID: 'Salespop'
+      },{
+        id: 'Buyme',
+        content: 'Buyme',
+        panelID: 'Buyme'
+      },{
+        id: 'PushNotifications',
+        content: 'PushNotifications',
+        panelID: 'PushNotifications'
       }
     ];
 
@@ -87,6 +97,16 @@ class Settings extends Component {
       (
         <Tabs.Panel id="Salespop">
           <Salespop/>
+        </Tabs.Panel>
+      ),
+      (
+        <Tabs.Panel id="Buyme">
+          <Buyme/>
+        </Tabs.Panel>
+      ),
+      (
+        <Tabs.Panel id="PushNotifications">
+          <PushNotifications/>
         </Tabs.Panel>
       )
     ];
