@@ -13,21 +13,25 @@ class Settings extends Component {
 
     this.handleTabChange = this.handleTabChange.bind(this);
     this.state = {
-        selectedTab: 0
+        selectedTab: 0,
+        saveState : "done"
     };
 
-      let { fetchSettings } = this.props;
-
-      fetchSettings();
+      const { loadSettings } = this.props;
+      loadSettings();
   }
 
     handleSettings = (name, settings) => {
         this.props.settings[name]= settings;
     };
 
+    saveState = (name) => {
+        this.setState({saveState : name});
+    };
+
   handleTabChange(selectedTab) {
     this.setState({selectedTab});
-      this.props.saveSetings(this.props.settings);
+    this.props.saveSettingsInStore(this.props.settings);
   }
 
   render() {
@@ -71,9 +75,9 @@ class Settings extends Component {
         <Page
           title="Settings"
           fullWidth
-          primaryAction={{ content: 'Save', onAction: () => saveSettings(this.props.settings) }}
+          primaryAction={{ content:  this.state.saveState === "progress" ? "Saving ..." : "Save", onAction: () => this.props.saveSettings(this.props.settings,this.saveState), disabled:this.state.saveState === "progress" }}
           secondaryActions={[
-            { content: 'Back to products', onAction: () => this.props.history.goBack() }
+            { content: "Go back", onAction: () => this.props.history.goBack() }
           ]}
         >
 
@@ -97,11 +101,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        saveSetings: (settings) => {
+        saveSettingsInStore: (settings) => {
             dispatch(addSettings(settings))
         },
-        fetchSettings: () => {
+        loadSettings: () => {
             fetchSettings(dispatch);
+        },
+        saveSettings: (settings, callback) => {
+            callback("progress");
+            saveSettings(settings).then(()=>{callback("done")}).catch(()=>{callback("error")});
         }
     }
 };

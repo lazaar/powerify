@@ -9,21 +9,21 @@ export const fetchSettings =  (dispatch) =>
     axios
         .get('/v1/api/settings')
         .then(response => {
-            console.log("load Settings", response);
             if(response.data.value){
                 const data = JSON.parse(response.data.value);
                 data.finishLoading = true;
                 dispatch(addSettings(data));
             }
+        }).catch(error => {
+            console.log("Error getting Settings", error);
+            const data = {finishLoading : true, error:error};
+            dispatch(addSettings(data));
         });
 
 
-export const saveSettings =  settings =>
+export const saveSettings =  (settings) =>
     axios
-        .post('/v1/api/settings',settings)
-        .then(response => {
-            console.log("save Settings", response);
-        });
+        .post('/v1/api/settings',settings);
 
 
 
@@ -31,7 +31,6 @@ const settings = (state = [], action) => {
     switch (action.type) {
         case 'ADD_SETTING':
             state = action.settings;
-            console.log('ADD_SETTING', state);
             return state;
         default:
             return state

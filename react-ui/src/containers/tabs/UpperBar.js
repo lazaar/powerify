@@ -40,9 +40,6 @@ class UpperBar extends Component {
         }
     }
 
-    componentDidMount(){
-        console.log("toto",this.props.settings);
-    }
     
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
@@ -50,6 +47,7 @@ class UpperBar extends Component {
         }), function () {
             this.props.onSettingsChange("upperBar", this.state);
         });
+
         if (typeof callback === "function") {
             callback();
         }
@@ -124,22 +122,22 @@ class UpperBar extends Component {
                               options={[
                                 {
                                   label: 'Raleway',
-                                  value: 'Raleway',
+                                  value: 'Raleway'
                                 },{
                                   label: 'Montserrat',
-                                  value: 'Montserrat',
+                                  value: 'Montserrat'
                                 },{
                                   label: 'Titillium',
-                                  value: 'Titillium',
+                                  value: 'Titillium'
                                 },{
                                   label: 'Pacifico',
-                                  value: 'Pacifico',
+                                  value: 'Pacifico'
                                 },{
                                   label: 'Orbitron',
-                                  value: 'Orbitron',
+                                  value: 'Orbitron'
                                 },{
                                   label: 'Comfortaa',
-                                  value: 'Comfortaa',
+                                  value: 'Comfortaa'
                                 }
                               ]}
                               onChange={(e) => this.onPropertyChange("font", e) }
