@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import './style.css';
 import './fonts.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import {Layout, ColorPicker, hsbToRgb,rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField,  TextContainer, Heading, ChoiceList} from '@shopify/polaris';
+import {Layout, ColorPicker, hsbToRgb,rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField,  TextContainer, Heading, ChoiceList, Popover} from '@shopify/polaris';
 
 class ExitCoupon extends Component {
     constructor(props) {
@@ -35,10 +35,11 @@ class ExitCoupon extends Component {
             colorText: this.displayColor(color),
             bg_color: bg_color,
             bg_colorText: this.displayColor(bg_color),
+            showme: false,
         };
 
     }
-
+    
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
@@ -47,7 +48,11 @@ class ExitCoupon extends Component {
             callback();
         }
     };
+    handleClose = () => {
+    this.setState({ showme: false })
+  	};
 
+    
     displayColor = (hsbColor) => {
         let color = hsbToRgb(hsbColor);
         return color.red + "," + color.green + "," + color.blue;
@@ -68,9 +73,18 @@ class ExitCoupon extends Component {
     };
 
 
+
     render() {
+    	const cover = {
+      position: 'fixed',
+      top: '0px',
+      right: '0px',
+      bottom: '0px',
+      left: '0px',
+    	}
         return (<Layout sectioned>
             <Layout.Section
+
                 >
                 <Card sectioned>
                     <FormLayout>
@@ -149,27 +163,40 @@ class ExitCoupon extends Component {
 		  					<Heading>Text Above Timer</Heading> 
 		  					</TextContainer>
                         </FormLayout.Group>
-                        <FormLayout.Group>
-                        	 <div className="powerify_color_choose"
-                            style={{
-                              color:hsbToHex(this.state.color),
-                              backgroundColor:hsbToHex(this.state.bg_color),
-                              
-                            }}
-                        >
-                            Pick a color  
-                        </div>
                         
-                         </FormLayout.Group>
-                        <FormLayout.Group >
+                         <FormLayout.Group >
+                         	<Popover
+							  active={this.state.showme}
+							  activator={ 
+							  	<button className="button" style={{
+				                backgroundColor:hsbToHex(this.state.bg_color),
+				      			 
+							  	 }} 
+							  	 onClick={(e) => this.onPropertyChange("showme", true)}
+							  	 ></button>
 
-                            <ColorPicker
+							  			}
+							  sectioned
+							>
+
+							  <FormLayout>
+
+							  	<div style={ cover } onClick={ this.handleClose }/>
+							    <ColorPicker
                                 color={this.state.bg_color}
                                 onChange={(e) => this.onPropertyChange("bg_color", e, () => this.onPropertyChange("bg_colorText", this.displayColor(e)))}
-                            />
-                        </FormLayout.Group>
-                         <FormLayout.Group condensed>
-
+                                onBlur={(e) => this.onPropertyChange("showme", false)}
+                            	/>
+							    
+							  </FormLayout>
+							</Popover>
+						</FormLayout.Group>
+						<FormLayout.Group>
+							<TextField
+							        label="Background color"
+							        value={this.state.bg_colorText}
+							        onFocus={(e) => this.onPropertyChange("showme", true)}
+							      /> 
                             <Select
                               label="Font"
                               placeholder="Select"
