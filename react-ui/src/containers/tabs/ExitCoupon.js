@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import './style.css';
 import './fonts.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import {Layout, ColorPicker, hsbToRgb,rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField,  TextContainer, Heading, ChoiceList, Popover} from '@shopify/polaris';
+import {Layout, ColorPicker, rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField, ChoiceList, Popover} from '@shopify/polaris';
 
 class ExitCoupon extends Component {
     constructor(props) {
@@ -14,17 +14,27 @@ class ExitCoupon extends Component {
             brightness: 1,
             saturation: 0
         };
-        let bg_color = {
-            hue: 0,
-            brightness: 0,
+         let secondLineColor = {
+            hue: 120,
+            brightness: 1,
             saturation: 0
         };
+        let bg_color = {
+            hue: 181,
+            brightness: 0.57,
+            saturation: 1
+        };
+        let couponTextColor = {
+            hue: 45,
+            brightness: 1,
+            saturation: 1
+        };
+
         this.state = {
             enable: true,
             enableDate:false,
-            font: "Chewy",
+            font: "Raleway",
             fontweight: "bold",
-            textabovetimer: "Hurry! Sales Ends In",
             fontsize: 20,
             firstline: "Get 10% off your purchase Today",
             textalign: "center",
@@ -35,7 +45,15 @@ class ExitCoupon extends Component {
             colorText: this.displayColor(color),
             bg_color: bg_color,
             bg_colorText: this.displayColor(bg_color),
+            secondLineColor: secondLineColor,
+            secondLineColorText: this.displayColor(secondLineColor),
+            couponTextColor: couponTextColor,
+            couponTextColorText: this.displayColor(couponTextColor),
             showme: false,
+            showmecouponTextColor: false,
+            showmetoo: false,
+            showmesecondLineColor: false,
+
         };
 
     }
@@ -52,10 +70,21 @@ class ExitCoupon extends Component {
     this.setState({ showme: false })
   	};
 
+  	handleCloseToo = () => {
+    this.setState({ showmetoo: false })
+  	};
+
+  	handleClosesecondLineColor = () => {
+    this.setState({ showmesecondLineColor: false })
+  	};
+	handleClosecouponTextColor = () => {
+    this.setState({ showmecouponTextColor: false })
+  	};
+
     
     displayColor = (hsbColor) => {
-        let color = hsbToRgb(hsbColor);
-        return color.red + "," + color.green + "," + color.blue;
+        let color = hsbToHex(hsbColor);
+        return color;
     };
 
     blurInputColor = (property, changeProperty) => {
@@ -131,7 +160,7 @@ class ExitCoupon extends Component {
 						      value: 'Cartnoempty',
 						    },
 						  ]}
-						  selected={['Cart not empty']}
+						  selected={['Cartnoempty']}
 						/>
 						<ChoiceList
 						  title="Display on: "
@@ -145,13 +174,17 @@ class ExitCoupon extends Component {
 						      value: 'cartandproduct',
 						    }
 						  ]}
-						  selected={['Cart and product Only (recommended)']}
+						  selected={['cartandproduct']}
 						/>
+						
 
                         </FormLayout.Group> 
                     </FormLayout>
                 </Card>
             </Layout.Section>
+
+
+
             <Layout.AnnotatedSection
                 title="Style Settings"
                 description="Customize the style of the Upper Bar">
@@ -159,12 +192,35 @@ class ExitCoupon extends Component {
                     <FormLayout>
                         
                         <FormLayout.Group>
-                        	<TextContainer>
-		  					<Heading>Text Above Timer</Heading> 
-		  					</TextContainer>
+                        	<div className = "template_selected_preview">
+                        	<div className = "coupon-select-preview" style = {{
+		                              color:hsbToHex(this.state.color),
+		                              backgroundColor:hsbToHex(this.state.bg_color),
+		                              fontFamily: this.state.font
+		                            }} >
+                        		<div className = "coupon-wrapper-preview">
+	                        		<div className = "coupon-innerbox-preview"> 
+		                        		<h3 className = "coupon-title-preview" >{this.state.firstline} </h3>
+		                        		<br/> 
+		                        		<h4 className="coupon-subtitle-preview " style={{color: hsbToHex(this.state.secondLineColor)}}>{this.state.secondline} </h4>
+	                        			<div className="coupon-code-preview" style={{color: hsbToHex(this.state.couponTextColor)}}> {this.state.couponcode} </div>
+                        			</div>
+
+                        		</div>
+
+                        	</div>
+                        	</div>
+                        	
                         </FormLayout.Group>
                         
                          <FormLayout.Group >
+                         	
+  							<TextField label="Coupon backgroundColor" 
+  										value={this.state.bg_colorText}
+  								    	onClick={(e) => this.onPropertyChange("showme", true)}
+
+  							
+  							/>
                          	<Popover
 							  active={this.state.showme}
 							  activator={ 
@@ -190,13 +246,98 @@ class ExitCoupon extends Component {
 							    
 							  </FormLayout>
 							</Popover>
+							<TextField label="First Line Color" 
+  										value={this.state.bg_colorText}
+  								    	onClick={(e) => this.onPropertyChange("showmetoo", true)}
+  							
+  							/>
+							<Popover
+							  active={this.state.showmetoo}
+							  activator={ 
+							  	<button className="button" style={{
+				                backgroundColor:hsbToHex(this.state.color),
+				      			 
+							  	 }} 
+							  	 onClick={(e) => this.onPropertyChange("showmetoo", true)}
+							  	 ></button>
+
+							  			}
+							  sectioned
+							>
+
+							  <FormLayout>
+
+							  	<div style={ cover } onClick={ this.handleCloseToo }/>
+							    <ColorPicker
+                                color={this.state.color}
+                                onChange={(e) => this.onPropertyChange("color", e, () => this.onPropertyChange("colorText", this.displayColor(e)))}
+                                onBlur={(e) => this.onPropertyChange("showmetoo", false)}
+                            	/>
+							    
+							  </FormLayout>
+							</Popover>
+							<TextField label="Second Line Color" 
+  										value={this.state.bg_colorText}
+  								    	onClick={(e) => this.onPropertyChange("showmesecondLineColor", true)}
+  							
+  							/>
+							<Popover
+							  active={this.state.showmesecondLineColor}
+							  activator={ 
+							  	<button className="button" style={{
+				                backgroundColor:hsbToHex(this.state.secondLineColor),
+				      			 
+							  	 }} 
+							  	 onClick={(e) => this.onPropertyChange("showmesecondLineColor", true)}
+							  	 ></button>
+
+							  			}
+							  sectioned
+							>
+
+							  <FormLayout>
+
+							  	<div style={ cover } onClick={ this.handleClosesecondLineColor }/>
+							    <ColorPicker
+                                color={this.state.secondLineColor}
+                                onChange={(e) => this.onPropertyChange("secondLineColor", e, () => this.onPropertyChange("secondLineColorText", this.displayColor(e)))}
+                                onBlur={(e) => this.onPropertyChange("showmesecondLineColor", false)}
+                            	/>
+							    
+							  </FormLayout>
+							</Popover>
+							<TextField label="Coupon Text Color" 
+  										value={this.state.bg_colorText}
+  								    	onClick={(e) => this.onPropertyChange("showmecouponTextColor", true)}
+  							/>
+							<Popover
+							  active={this.state.showmecouponTextColor}
+							  activator={ 
+							  	<button className="button" style={{
+				                backgroundColor:hsbToHex(this.state.couponTextColor),
+				      			 
+							  	 }} 
+							  	 onClick={(e) => this.onPropertyChange("showmecouponTextColor", true)}
+							  	 ></button>
+
+							  			}
+							  sectioned
+							>
+
+							  <FormLayout>
+
+							  	<div style={ cover } onClick={ this.handleClosecouponTextColor }/>
+							    <ColorPicker
+                                color={this.state.couponTextColor}
+                                onChange={(e) => this.onPropertyChange("couponTextColor", e, () => this.onPropertyChange("couponTextColorText", this.displayColor(e)))}
+                                onBlur={(e) => this.onPropertyChange("showmecouponTextColor", false)}
+                            	/>
+							    
+							  </FormLayout>
+							</Popover>
 						</FormLayout.Group>
 						<FormLayout.Group>
-							<TextField
-							        label="Background color"
-							        value={this.state.bg_colorText}
-							        onFocus={(e) => this.onPropertyChange("showme", true)}
-							      /> 
+							
                             <Select
                               label="Font"
                               placeholder="Select"
@@ -205,6 +346,9 @@ class ExitCoupon extends Component {
                                 {
                                   label: 'Raleway',
                                   value: 'Raleway',
+                                },{
+                                  label: 'Chewy',
+                                  value: 'Chewy',
                                 },{
                                   label: 'Montserrat',
                                   value: 'Montserrat',
@@ -215,23 +359,22 @@ class ExitCoupon extends Component {
                                   label: 'Pacifico',
                                   value: 'Pacifico',
                                 },{
-                                  label: 'Orbitron',
-                                  value: 'Orbitron',
+                                  label: 'Josefin Sans',
+                                  value: 'Josefin Sans',
                                 },{
                                   label: 'Comfortaa',
                                   value: 'Comfortaa',
+                                },{
+                                  label: 'Lobster',
+                                  value: 'Lobster Two',
+                                },{
+                                  label: 'Quattrocento',
+                                  value: 'Quattrocento Sans',
                                 }
                               ]}
                               onChange={(e) => this.onPropertyChange("font", e) }
                             />
-                            <TextField
-							  label="font size"
-							  type="number"
-							  value={this.state.fontsize}
-							  readOnly={false}
-							  suffix="px"
-							  onChange={(e) => this.onPropertyChange("fontsize", e) }
-							/>
+                           
 							
                         </FormLayout.Group>
                     </FormLayout>

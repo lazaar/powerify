@@ -6,7 +6,7 @@ import './style.css';
 import './fonts.css';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import { connect } from 'react-redux';
-import {Layout, ColorPicker, hsbToRgb,rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField, Checkbox} from '@shopify/polaris';
+import {Layout, ColorPicker, rgbToHsb,hsbToHex,   Select, Card, FormLayout, TextField, Checkbox, Popover} from '@shopify/polaris';
 
 class UpperBar extends Component {
     constructor(props) {
@@ -31,11 +31,13 @@ class UpperBar extends Component {
                 enableDate:false,
                 font: "Chewy",
                 selectedDate: moment(),
-                text: "",
+                text: "Free shipping / happy customer",
                 color: color,
                 colorText: this.displayColor(color),
                 bg_color: bg_color,
-                bg_colorText: this.displayColor(bg_color)
+                bg_colorText: this.displayColor(bg_color),
+                showme: false,
+                showmetoo: false,
             };
         }
     }
@@ -53,9 +55,17 @@ class UpperBar extends Component {
         }
     };
 
+    handleClose = () => {
+    this.setState({ showme: false })
+    };
+
+    handleCloseToo = () => {
+    this.setState({ showmetoo: false })
+    };
+
     displayColor = (hsbColor) => {
-        let color = hsbToRgb(hsbColor);
-        return color.red + "," + color.green + "," + color.blue;
+        let color = hsbToHex(hsbColor);
+        return color;
     };
 
     blurInputColor = (property, changeProperty) => {
@@ -73,7 +83,16 @@ class UpperBar extends Component {
     };
 
 
+
+
     render() {
+        const cover = {
+      position: 'fixed',
+      top: '0px',
+      right: '0px',
+      bottom: '0px',
+      left: '0px',
+        }
         return (<Layout sectioned>
             <Layout.AnnotatedSection
                 title="Display Upper Bar"
@@ -160,25 +179,62 @@ class UpperBar extends Component {
                             {this.state.text} 
                         </div>
                         <FormLayout.Group condensed>
-                            <TextField
-                                label="Text Color RGB "
-                                value={this.state.colorText}
-                                onChange={(e) => this.onPropertyChange("colorText", e) }
-                                onBlur={() => this.blurInputColor("colorText", "color") }/>
-                            <TextField
-                                label="Background Color RGB "
-                                value={this.state.bg_colorText}
-                                onChange={(e) => this.onPropertyChange("bg_colorText", e) }
-                                onBlur={() => this.blurInputColor("bg_colorText", "bg_color") }/>
-                        </FormLayout.Group>
-                        <FormLayout.Group condensed>
-                            <ColorPicker
+                            <Popover
+                              active={this.state.showme}
+                              activator={ 
+                                <button className="button" style={{
+                                backgroundColor:hsbToHex(this.state.color),
+                                 
+                                 }} 
+                                 onClick={(e) => this.onPropertyChange("showme", true)}
+                                 ></button>
+
+                                        }
+                              sectioned
+                            >
+
+                              <FormLayout>
+
+                                <div style={ cover } onClick={ this.handleClose }/>
+                                <ColorPicker
                                 color={this.state.color}
                                 onChange={(e) => this.onPropertyChange("color", e, () => this.onPropertyChange("colorText", this.displayColor(e)))}
-                            />
-                            <ColorPicker
+                                onBlur={(e) => this.onPropertyChange("showme", false)}
+                                />
+                                
+                              </FormLayout>
+                            </Popover>
+
+                            <Popover
+                              active={this.state.showmetoo}
+                              activator={ 
+                                <button className="button" style={{
+                                backgroundColor:hsbToHex(this.state.bg_color),
+                                 
+                                 }} 
+                                 onClick={(e) => this.onPropertyChange("showmetoo", true)}
+                                 ></button>
+
+                                        }
+                              sectioned
+                            >
+
+                              <FormLayout>
+
+                                <div style={ cover } onClick={ this.handleCloseToo }/>
+                                <ColorPicker
                                 color={this.state.bg_color}
                                 onChange={(e) => this.onPropertyChange("bg_color", e, () => this.onPropertyChange("bg_colorText", this.displayColor(e)))}
+                                onBlur={(e) => this.onPropertyChange("showmetoo", false)}
+                                />
+                                
+                              </FormLayout>
+                            </Popover>
+                            <TextField 
+                                
+                                type="text"
+                                value={this.state.colorText}
+
                             />
                         </FormLayout.Group>
                     </FormLayout>
