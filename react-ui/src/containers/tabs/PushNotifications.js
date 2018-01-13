@@ -1,9 +1,5 @@
 // @flow
 import React, {Component} from 'react';
-//import DatePicker from 'react-datepicker';
-import './style.css';
-import './fonts.css';
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import {Layout, Card, FormLayout, TextField, Select} from '@shopify/polaris';
 
 class PushNotifications extends Component {

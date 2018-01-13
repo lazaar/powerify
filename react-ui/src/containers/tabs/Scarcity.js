@@ -1,11 +1,6 @@
 // @flow
 import React, {Component} from 'react';
-//import DatePicker from 'react-datepicker';
-import moment from 'moment';
-import './style.css';
-import './fonts.css';
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
-import {Layout, ColorPicker, hsbToRgb,rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField,  TextContainer, Heading} from '@shopify/polaris';
+import {Layout, ColorPicker, Popover, rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField,  TextContainer, Heading} from '@shopify/polaris';
 
 class Scarcity extends Component {
     constructor(props) {
@@ -33,12 +28,12 @@ class Scarcity extends Component {
             seconds: 8,
             textalign: "center",
             countdown: "Flipper",
-            selectedDate: moment(),
             text: "",
             color: color,
             colorText: this.displayColor(color),
             bg_color: bg_color,
             bg_colorText: this.displayColor(bg_color),
+            showbg_color: false,
         };
 
     }
@@ -51,10 +46,12 @@ class Scarcity extends Component {
             callback();
         }
     };
-
+    handleClose = (property) => {
+    this.setState({ [property]: false })
+    };
     displayColor = (hsbColor) => {
-        let color = hsbToRgb(hsbColor);
-        return color.red + "," + color.green + "," + color.blue;
+        let color = hsbToHex(hsbColor);
+        return color;
     };
 
     blurInputColor = (property, changeProperty) => {
@@ -73,6 +70,13 @@ class Scarcity extends Component {
 
 
     render() {
+      const cover = {
+      position: 'fixed',
+      top: '0px',
+      right: '0px',
+      bottom: '0px',
+      left: '0px',
+      }
         return (<Layout sectioned>
             <Layout.AnnotatedSection
                 title="Display Scarcity Countdown"
@@ -179,28 +183,45 @@ class Scarcity extends Component {
                         </FormLayout.Group>
                         <FormLayout.Group>
                         	<TextContainer>
-		  					<Heading>Text Above Timer</Heading> 
-		  					</TextContainer>
+        		  					<Heading>Text Above Timer</Heading> 
+        		  					</TextContainer>
+                            
                         </FormLayout.Group>
+
                         <FormLayout.Group>
-                        	 <div className="powerify_color_choose"
-                            style={{
-                              color:hsbToHex(this.state.color),
-                              backgroundColor:hsbToHex(this.state.bg_color),
+                        	 <TextField label="Second Line Color" 
+                            value={this.state.bg_colorText}
+                            onClick={(e) => this.onPropertyChange("showbg_color", true)}
+                            />
+
+                          <Popover
+                            active={this.state.showbg_color}
+                            activator={ 
+                              <button className="button" style={{
+                                    backgroundColor:hsbToHex(this.state.bg_color),
+                                 
+                               }} 
+                               onClick={(e) => this.onPropertyChange("showbg_color", true)}
+                               ></button>
+
+                                  }
+                            sectioned
+                          >
+
+                            <FormLayout>
+
+                              <div style={ cover } onClick={(e) => this.handleClose("showbg_color")} />
+                              <ColorPicker
+                                            color={this.state.bg_color}
+                                            onChange={(e) => this.onPropertyChange("bg_color", e, () => this.onPropertyChange("bg_colorText", this.displayColor(e)))}
+                                            onBlur={(e) => this.onPropertyChange("showbg_color", false)}
+                                          />
                               
-                            }}
-                        >
-                            Pick a color  
-                        </div>
+                            </FormLayout>
+                          </Popover>
                         
                          </FormLayout.Group>
-                        <FormLayout.Group condensed>
-
-                            <ColorPicker
-                                color={this.state.bg_color}
-                                onChange={(e) => this.onPropertyChange("bg_color", e, () => this.onPropertyChange("bg_colorText", this.displayColor(e)))}
-                            />
-                        </FormLayout.Group>
+                        
                          <FormLayout.Group condensed>
 
                             <Select
@@ -231,37 +252,37 @@ class Scarcity extends Component {
                               onChange={(e) => this.onPropertyChange("font", e) }
                             />
                             <TextField
-							  label="font size"
-							  type="number"
-							  value={this.state.fontsize}
-							  readOnly={false}
-							  suffix="px"
-							  onChange={(e) => this.onPropertyChange("fontsize", e) }
+                							  label="font size"
+                							  type="number"
+                							  value={this.state.fontsize}
+                							  readOnly={false}
+                							  suffix="px"
+                							  onChange={(e) => this.onPropertyChange("fontsize", e) }
 
-							/>
-							<Select
-							  label="Text Align"
-							  value={this.state.fontsize}
-							  options={[
-							    'left',
-							    'center',
-							    'right',
-							  ]}
-					          onChange={(e) => this.onPropertyChange("textalign", e) }
+                							/>
+                							<Select
+                							  label="Text Align"
+                							  value={this.state.fontsize}
+                							  options={[
+                							    'left',
+                							    'center',
+                							    'right',
+                							  ]}
+                					          onChange={(e) => this.onPropertyChange("textalign", e) }
 
-							  placeholder="Select"
-							/>
-							<Select
-							  label="Font Weight"
-  							  value={this.state.fontweight}
-							  options={[
-							    'normal',
-							    'bold',
-							  ]}
-				              onChange={(e) => this.onPropertyChange("fontweight", e) }
+                							  placeholder="Select"
+                							/>
+                							<Select
+                							  label="Font Weight"
+                  							  value={this.state.fontweight}
+                							  options={[
+                							    'normal',
+                							    'bold',
+                							  ]}
+                				              onChange={(e) => this.onPropertyChange("fontweight", e) }
 
-							  placeholder="Select"
-							/>
+                							  placeholder="Select"
+                							/>
 
                         </FormLayout.Group>
                     </FormLayout>

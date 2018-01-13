@@ -5,6 +5,7 @@ import UpperBar from './tabs/UpperBar';
 import Scarcity from './tabs/Scarcity';
 import Salespop from './tabs/Salespop';
 import ExitCoupon from './tabs/ExitCoupon';
+import QuickView from './tabs/QuickView';
 import Buyme from './tabs/Buyme';
 import PushNotifications from './tabs/PushNotifications';
 import CurrencyConverter from './tabs/CurrencyConverter';
@@ -50,9 +51,9 @@ class Settings extends Component {
         panelID: 'upper-bar'
       },
       {
-        id: 'tab2',
-        content: 'something2',
-        panelID: 'panel2'
+        id: 'QuickView',
+        content: 'QuickView',
+        panelID: 'QuickView'
       },
       {
         id: 'Scarcity',
@@ -90,8 +91,8 @@ class Settings extends Component {
           <UpperBar onSettingsChange={this.handleSettings}/>
         </Tabs.Panel>),
       (
-        <Tabs.Panel id="panel2">
-          something else
+        <Tabs.Panel id="QuickView">
+          <QuickView/>
         </Tabs.Panel>
       ),
       (

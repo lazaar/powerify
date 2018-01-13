@@ -1,9 +1,5 @@
 // @flow
 import React, {Component} from 'react';
-//import DatePicker from 'react-datepicker';
-import './style.css';
-import './fonts.css';
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import {Layout,  Select, Card, FormLayout, TextField,  TextContainer, Heading, Checkbox} from '@shopify/polaris';
 
 class Salespop extends Component {
@@ -193,7 +189,7 @@ class Salespop extends Component {
                             value={this.state.discount}
                             onChange={(e) => this.onPropertyChange("discount", e) }
                           />	
-		                  <Select
+		                  			<Select
 		                              label="Shape"
 		                              value={this.state.emtiming}
 		                              options={[

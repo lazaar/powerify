@@ -1,9 +1,5 @@
 // @flow
 import React, {Component} from 'react';
-//import DatePicker from 'react-datepicker';
-import './style.css';
-import './fonts.css';
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import {Layout, ColorPicker, rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField, ChoiceList, Popover} from '@shopify/polaris';
 
 class ExitCoupon extends Component {
@@ -49,10 +45,10 @@ class ExitCoupon extends Component {
             secondLineColorText: this.displayColor(secondLineColor),
             couponTextColor: couponTextColor,
             couponTextColorText: this.displayColor(couponTextColor),
-            showme: false,
-            showmecouponTextColor: false,
-            showmetoo: false,
-            showmesecondLineColor: false,
+            showCouponBgColor: false,
+            showcouponTextColor: false,
+            showFirstLineColor: false,
+            showsecondLineColor: false,
 
         };
 
@@ -66,20 +62,11 @@ class ExitCoupon extends Component {
             callback();
         }
     };
-    handleClose = () => {
-    this.setState({ showme: false })
-  	};
+   
 
-  	handleCloseToo = () => {
-    this.setState({ showmetoo: false })
-  	};
-
-  	handleClosesecondLineColor = () => {
-    this.setState({ showmesecondLineColor: false })
-  	};
-	handleClosecouponTextColor = () => {
-    this.setState({ showmecouponTextColor: false })
-  	};
+    handleClose = (property) => {
+    this.setState({ [property]: false })
+    };
 
     
     displayColor = (hsbColor) => {
@@ -185,7 +172,7 @@ class ExitCoupon extends Component {
 
 
 
-            <Layout.AnnotatedSection
+            <Layout.Section
                 title="Style Settings"
                 description="Customize the style of the Upper Bar">
                 <Card sectioned>
@@ -217,18 +204,18 @@ class ExitCoupon extends Component {
                          	
   							<TextField label="Coupon backgroundColor" 
   										value={this.state.bg_colorText}
-  								    	onClick={(e) => this.onPropertyChange("showme", true)}
+  								    	onClick={(e) => this.onPropertyChange("showCouponBgColor", true)}
 
   							
   							/>
-                         	<Popover
-							  active={this.state.showme}
+                <Popover
+							  active={this.state.showCouponBgColor}
 							  activator={ 
 							  	<button className="button" style={{
 				                backgroundColor:hsbToHex(this.state.bg_color),
 				      			 
 							  	 }} 
-							  	 onClick={(e) => this.onPropertyChange("showme", true)}
+							  	 onClick={(e) => this.onPropertyChange("showCouponBgColor", true)}
 							  	 ></button>
 
 							  			}
@@ -237,28 +224,28 @@ class ExitCoupon extends Component {
 
 							  <FormLayout>
 
-							  	<div style={ cover } onClick={ this.handleClose }/>
+							  	<div style={ cover } onClick={(e) => this.handleClose("showCouponBgColor") }/>
 							    <ColorPicker
                                 color={this.state.bg_color}
                                 onChange={(e) => this.onPropertyChange("bg_color", e, () => this.onPropertyChange("bg_colorText", this.displayColor(e)))}
-                                onBlur={(e) => this.onPropertyChange("showme", false)}
+                                onBlur={(e) => this.onPropertyChange("showCouponBgColor", false)}
                             	/>
 							    
 							  </FormLayout>
 							</Popover>
 							<TextField label="First Line Color" 
   										value={this.state.bg_colorText}
-  								    	onClick={(e) => this.onPropertyChange("showmetoo", true)}
+  								    	onClick={(e) => this.onPropertyChange("showFirstLineColor", true)}
   							
   							/>
 							<Popover
-							  active={this.state.showmetoo}
+							  active={this.state.showFirstLineColor}
 							  activator={ 
 							  	<button className="button" style={{
 				                backgroundColor:hsbToHex(this.state.color),
 				      			 
 							  	 }} 
-							  	 onClick={(e) => this.onPropertyChange("showmetoo", true)}
+							  	 onClick={(e) => this.onPropertyChange("showFirstLineColor", true)}
 							  	 ></button>
 
 							  			}
@@ -267,28 +254,28 @@ class ExitCoupon extends Component {
 
 							  <FormLayout>
 
-							  	<div style={ cover } onClick={ this.handleCloseToo }/>
+							  	<div style={ cover } onClick={(e) => this.handleClose("showFirstLineColor") }/>
 							    <ColorPicker
                                 color={this.state.color}
                                 onChange={(e) => this.onPropertyChange("color", e, () => this.onPropertyChange("colorText", this.displayColor(e)))}
-                                onBlur={(e) => this.onPropertyChange("showmetoo", false)}
+                                onBlur={(e) => this.onPropertyChange("showFirstLineColor", false)}
                             	/>
 							    
 							  </FormLayout>
 							</Popover>
 							<TextField label="Second Line Color" 
   										value={this.state.bg_colorText}
-  								    	onClick={(e) => this.onPropertyChange("showmesecondLineColor", true)}
+  								    	onClick={(e) => this.onPropertyChange("showsecondLineColor", true)}
   							
   							/>
 							<Popover
-							  active={this.state.showmesecondLineColor}
+							  active={this.state.showsecondLineColor}
 							  activator={ 
 							  	<button className="button" style={{
 				                backgroundColor:hsbToHex(this.state.secondLineColor),
 				      			 
 							  	 }} 
-							  	 onClick={(e) => this.onPropertyChange("showmesecondLineColor", true)}
+							  	 onClick={(e) => this.onPropertyChange("showsecondLineColor", true)}
 							  	 ></button>
 
 							  			}
@@ -297,27 +284,27 @@ class ExitCoupon extends Component {
 
 							  <FormLayout>
 
-							  	<div style={ cover } onClick={ this.handleClosesecondLineColor }/>
+							  	<div style={ cover } onClick={(e) => this.handleClose("showsecondLineColor")} />
 							    <ColorPicker
                                 color={this.state.secondLineColor}
                                 onChange={(e) => this.onPropertyChange("secondLineColor", e, () => this.onPropertyChange("secondLineColorText", this.displayColor(e)))}
-                                onBlur={(e) => this.onPropertyChange("showmesecondLineColor", false)}
+                                onBlur={(e) => this.onPropertyChange("showsecondLineColor", false)}
                             	/>
 							    
 							  </FormLayout>
 							</Popover>
 							<TextField label="Coupon Text Color" 
   										value={this.state.bg_colorText}
-  								    	onClick={(e) => this.onPropertyChange("showmecouponTextColor", true)}
+  								    	onClick={(e) => this.onPropertyChange("showcouponTextColor", true)}
   							/>
 							<Popover
-							  active={this.state.showmecouponTextColor}
+							  active={this.state.showcouponTextColor}
 							  activator={ 
 							  	<button className="button" style={{
 				                backgroundColor:hsbToHex(this.state.couponTextColor),
 				      			 
 							  	 }} 
-							  	 onClick={(e) => this.onPropertyChange("showmecouponTextColor", true)}
+							  	 onClick={(e) => this.onPropertyChange("showcouponTextColor", true)}
 							  	 ></button>
 
 							  			}
@@ -326,11 +313,11 @@ class ExitCoupon extends Component {
 
 							  <FormLayout>
 
-							  	<div style={ cover } onClick={ this.handleClosecouponTextColor }/>
+                  <div style={ cover } onClick={(e) => this.handleClose("showcouponTextColor")} />
 							    <ColorPicker
                                 color={this.state.couponTextColor}
                                 onChange={(e) => this.onPropertyChange("couponTextColor", e, () => this.onPropertyChange("couponTextColorText", this.displayColor(e)))}
-                                onBlur={(e) => this.onPropertyChange("showmecouponTextColor", false)}
+                                onBlur={(e) => this.onPropertyChange("showcouponTextColor", false)}
                             	/>
 							    
 							  </FormLayout>
@@ -379,7 +366,7 @@ class ExitCoupon extends Component {
                         </FormLayout.Group>
                     </FormLayout>
                 </Card>
-            </Layout.AnnotatedSection>
+            </Layout.Section>
         </Layout>);
     }
 }
