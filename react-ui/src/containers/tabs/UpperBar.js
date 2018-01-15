@@ -139,24 +139,33 @@ class UpperBar extends Component {
                               placeholder="Select"
                               value={this.state.font}
                               options={[
-                                {
+                                 {
                                   label: 'Raleway',
-                                  value: 'Raleway'
+                                  value: 'Raleway',
+                                },{
+                                  label: 'Chewy',
+                                  value: 'Chewy',
                                 },{
                                   label: 'Montserrat',
-                                  value: 'Montserrat'
+                                  value: 'Montserrat',
                                 },{
                                   label: 'Titillium',
-                                  value: 'Titillium'
+                                  value: 'Titillium',
                                 },{
                                   label: 'Pacifico',
-                                  value: 'Pacifico'
+                                  value: 'Pacifico',
                                 },{
-                                  label: 'Orbitron',
-                                  value: 'Orbitron'
+                                  label: 'Josefin Sans',
+                                  value: 'Josefin Sans',
                                 },{
                                   label: 'Comfortaa',
-                                  value: 'Comfortaa'
+                                  value: 'Comfortaa',
+                                },{
+                                  label: 'Lobster',
+                                  value: 'Lobster Two',
+                                },{
+                                  label: 'Quattrocento',
+                                  value: 'Quattrocento Sans',
                                 }
                               ]}
                               onChange={(e) => this.onPropertyChange("font", e) }

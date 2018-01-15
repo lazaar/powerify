@@ -10,9 +10,14 @@ class CurrencyConverter extends Component {
         
         this.state = {
             Language: "English",
-            enableDate:false,
-            font: "Chewy",
-            fontweight: "bold",
+            isEnable:false,
+            autoSwitch: true,
+            hideConvLabel: true,
+            isCurrencyCode: true,
+            roundTo: 12,
+            theme: "Flag",
+            message: "Chewy",
+            checkoutNotification: true,
             textabovetimer: "Hurry! Sales Ends In",
             fontsize: 20,
             Publishing: "Automatically",
@@ -62,18 +67,18 @@ class CurrencyConverter extends Component {
                         	
 	                         <Checkbox 
 				              label="Enable App" 
-				              value = {this.state.shadow}
-				              onChange={(e) => this.onPropertyChange("shadow", e) }
+				              value = {this.state.isEnable}
+				              onChange={(e) => this.onPropertyChange("isEnable", e) }
 				              />
 				              <Checkbox 
 				              label="Auto Switch" 
-				              value = {this.state.shadow}
-				              onChange={(e) => this.onPropertyChange("shadow", e) }
+				              value = {this.state.autoSwitch}
+				              onChange={(e) => this.onPropertyChange("autoSwitch", e) }
 				              />
 				              <Checkbox 
 				              label="Hide converted label" 
-				              value = {this.state.shadow}
-				              onChange={(e) => this.onPropertyChange("shadow", e) }
+				              value = {this.state.hideConvLabel}
+				              onChange={(e) => this.onPropertyChange("hideConvLabel", e) }
 				              />
                             	   
                         </FormLayout.Group>
@@ -88,12 +93,12 @@ class CurrencyConverter extends Component {
                         <FormLayout.Group>
                             <Select
 								    label="Currency Switcher Theme"
-		                            value={this.state.emtiming}
+		                            value={this.state.theme}
 		                            options={[
 		                                'Flag ',
 		                                'No theme'
 		                                     ]}
-		                            onChange={(e) => this.onPropertyChange("emtiming", e) }
+		                            onChange={(e) => this.onPropertyChange("theme", e) }
 		                    />		
                           	<TextField
                             label="Background color"
@@ -131,28 +136,29 @@ class CurrencyConverter extends Component {
                         	
                         	<Checkbox 
 				              label="Display Currency Code" 
-				              value = {this.state.shadow}
-				              onChange={(e) => this.onPropertyChange("shadow", e) }
+				              value = {this.state.isCurrencyCode}
+                              checked = {this.state.isCurrencyCode}
+				              onChange={(e) => this.onPropertyChange("isCurrencyCode", e) }
 				              />
 
                            <Select
 								    label=" Chose how to display decimals"
-		                            value={this.state.emtiming}
+		                            value={this.state.decimals}
 		                            options={[
 		                                "Remove",
 		                                "Round to next digit",
 		                                "Round to .99",
 		                                "Custom Rounding"
 		                                     ]}
-		                            onChange={(e) => this.onPropertyChange("emtiming", e) }
+		                            onChange={(e) => this.onPropertyChange("decimals", e) }
 		                    />
 
                           	<TextField
                             label="Rounding number to"
                             type="number"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
-                            multiline
+                            value={this.state.roundTo}
+                            onChange={(e) => this.onPropertyChange("roundTo", e) }
+                            
                           	/>
 
                         </FormLayout.Group>
@@ -167,14 +173,14 @@ class CurrencyConverter extends Component {
 		                <FormLayout.Group>
 		               	    <Checkbox 
 				              label="Checkout currency notification" 
-				              value = {this.state.shadow}
-				              onChange={(e) => this.onPropertyChange("shadow", e) }
+				              value = {this.state.checkoutNotification}
+				              onChange={(e) => this.onPropertyChange("checkoutNotification", e) }
 				             />
                           	<TextField
                             label="Message"
                             type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.message}
+                            onChange={(e) => this.onPropertyChange("message", e) }
                             multiline
                           	/>
                           	<TextField

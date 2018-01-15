@@ -19,6 +19,7 @@ class QuickView extends Component {
         this.state = {
             enable: true,
             enableDate:false,
+            redirect: "Cart",
             font: "Raleway",
             fontweight: "bold",
             fontsize: 20,
@@ -129,10 +130,15 @@ class QuickView extends Component {
 							      value: 'continueShopping',
 							    }
 							  ]}
-							  selected={['Cart']}
+							  selected={this.state.redirect}
+							  onChange={(e) => this.onPropertyChange("redirect",e)}
 							/>
 
-							<Checkbox label="Enable Quick View" />
+							<Checkbox label="Enable Quick View" 
+							  value={this.state.enable}
+							  onChange={(e) => this.onPropertyChange("enable",e)}
+
+							/>
 
 
                         </FormLayout.Group> 

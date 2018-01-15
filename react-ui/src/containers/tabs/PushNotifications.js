@@ -11,14 +11,14 @@ class PushNotifications extends Component {
         this.state = {
             Language: "English",
             enableDate:false,
-            font: "Chewy",
-            fontweight: "bold",
-            textabovetimer: "Hurry! Sales Ends In",
+            promptDelay: "Chewy",
+            twentyTitle: "bold",
+            twentyDescription: "Hurry! Sales Ends In",
             fontsize: 20,
-            Publishing: "Automatically",
-            code: "center",
-            discount: 0,
-            discounttype: "",
+            hourTitle: "callToAction",
+            hourDescription: "center",
+            threeHourTitle: "",
+            threeHourDescription: "",
             after: "Purchase",
             text: "",
             emtiming: "3 days",
@@ -59,7 +59,7 @@ class PushNotifications extends Component {
 		                                '30 seconds',
 		                                '1 min'
 		                                     ]}
-		                            onChange={(e) => this.onPropertyChange("emtiming", e) }
+		                            onChange={(e) => this.onPropertyChange("promptDelay", e) }
 		                    />			   
                         </FormLayout.Group>
                     </FormLayout>
@@ -74,21 +74,21 @@ class PushNotifications extends Component {
                             <TextField
                             label="Title"
                             type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.twentyTitle}
+                            onChange={(e) => this.onPropertyChange("twentyTitle", e) }
                           	/>
                           	<TextField
                             label="Description"
                             type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.twentyDescription}
+                            onChange={(e) => this.onPropertyChange("twentyDescription", e) }
                             multiline
                           	/>
                           	<TextField
                             label="Call to Action"
                             type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.callToAction}
+                            onChange={(e) => this.onPropertyChange("callToAction", e) }
                           	/>				   
 				             
                         </FormLayout.Group>
@@ -105,14 +105,14 @@ class PushNotifications extends Component {
                            <TextField
                             label="Title"
                             type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.hourTitle}
+                            onChange={(e) => this.onPropertyChange("hourTitle", e) }
                           	/>
                           	<TextField
                             label="Description"
                             type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.hourDescription}
+                            onChange={(e) => this.onPropertyChange("hourDescription", e) }
                             multiline
                           	/>
                           	<TextField
@@ -134,14 +134,14 @@ class PushNotifications extends Component {
 		               	    <TextField
                             label="Title"
                             type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.threeHourTitle}
+                            onChange={(e) => this.onPropertyChange("threeHourTitle", e) }
                           	/>
                           	<TextField
                             label="Description"
                             type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.threeHourDescription}
+                            onChange={(e) => this.onPropertyChange("threeHourDescription", e) }
                             multiline
                           	/>
                           	<TextField

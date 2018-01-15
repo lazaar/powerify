@@ -10,23 +10,27 @@ class Salespop extends Component {
         
         this.state = {
             Language: "English",
-            enableDate:false,
-            font: "Chewy",
-            fontweight: "bold",
-            textabovetimer: "Hurry! Sales Ends In",
-            fontsize: 20,
-            Publishing: "Automatically",
-            code: "center",
-            discount: 0,
-            discounttype: "",
-            after: "Purchase",
+            randomOrder:false,
+            loopNotif: false,
+            hideMobile: false,
+            hideDesktop: false,
+            usersNotifications:false,
+            randomDelay: false,
+            openNotifsNewTab: false,
+            clickableNotifs: true,
+            maxNotifsPerUser:false,
+            visitorTracking: false,
+            initialDelay: 20,
+            displayTime: 13,
+            position: "center",
+            maxPerPage: 0,
+            notificationMessage: " someone in San Francisco, USA purchased",
+            showPreviewImage: true,
             text: "",
             emtiming: "3 days",
             logourl: "",
-            emailsubject: "",
-            emailtext: "",
             upsell: true,
-            colpic: false,
+            shadow: false,
         };
 
     }
@@ -50,53 +54,62 @@ class Salespop extends Component {
                         <FormLayout.Group>
                             <Checkbox 
 				              label="Display notifications in random order" 
-				              value = {this.state.upsell}
-				              onChange={(e) => this.onPropertyChange("upsell", e) }
+				              value = {this.state.randomOrder}
+				              onChange={(e) => this.onPropertyChange("randomOrder", e) }
 				              />
 				              <Checkbox 
 				              label="Loop notifications " 
-				              value = {this.state.upsell}
-				              onChange={(e) => this.onPropertyChange("upsell", e) }
+				              value = {this.state.loopNotif}
+                      checked = {this.state.loopNotif}
+				              onChange={(e) => this.onPropertyChange("loopNotif", e) }
 				              />
 				              <Checkbox 
 				              label="Hide on mobile" 
-				              value = {this.state.upsell}
-				              onChange={(e) => this.onPropertyChange("upsell", e) }
+				              value = {this.state.hideMobile}
+                      checked = {this.state.hideMobile}
+				              onChange={(e) => this.onPropertyChange("hideMobile", e) }
 				              />
 				              <Checkbox 
 				              label="Hide on desktop" 
-				              value = {this.state.upsell}
-				              onChange={(e) => this.onPropertyChange("upsell", e) }
+				              value = {this.state.hideDesktop}
+                      checked = {this.state.hideDesktop}
+				              onChange={(e) => this.onPropertyChange("hideDesktop", e) }
 				              />
 				              <Checkbox 
 				              label="Allow users to close notifications" 
-				              value = {this.state.upsell}
-				              onChange={(e) => this.onPropertyChange("upsell", e) }
+				              value = {this.state.usersNotifications}
+                      checked = {this.state.usersNotifications}
+				              onChange={(e) => this.onPropertyChange("usersNotifications", e) }
 				              />
 				              <Checkbox 
 				              label="Randomize delay between notifications " 
-				              value = {this.state.upsell}
-				              onChange={(e) => this.onPropertyChange("upsell", e) }
+				              value = {this.state.randomDelay}
+                      checked = {this.state.randomDelay}
+				              onChange={(e) => this.onPropertyChange("randomDelay", e) }
 				              />
 				              <Checkbox 
 				              label="Open notification links in a new tab" 
-				              value = {this.state.upsell}
-				              onChange={(e) => this.onPropertyChange("upsell", e) }
+				              value = {this.state.openNotifsNewTab}
+                      checked = {this.state.openNotifsNewTab}
+				              onChange={(e) => this.onPropertyChange("openNotifsNewTab", e) }
 				              />
 				              <Checkbox 
 				              label="Enable entire notification to be a clickable link" 
-				              value = {this.state.upsell}
-				              onChange={(e) => this.onPropertyChange("upsell", e) }
+				              value = {this.state.clickableNotifs}
+                      checked = {this.state.clickableNotifs}
+				              onChange={(e) => this.onPropertyChange("clickableNotifs", e) }
 				              />
 				              <Checkbox 
 				              label="Max notifications per user session" 
-				              value = {this.state.upsell}
-				              onChange={(e) => this.onPropertyChange("upsell", e) }
+				              value = {this.state.maxNotifsPerUser}
+                      checked = {this.state.maxNotifsPerUser}
+				              onChange={(e) => this.onPropertyChange("maxNotifsPerUser", e) }
 				              />
 				              <Checkbox 
 				              label="Live visitors tracking" 
-				              value = {this.state.upsell}
-				              onChange={(e) => this.onPropertyChange("upsell", e) }
+				              value = {this.state.visitorTracking}
+                      checked = {this.state.visitorTracking}
+				              onChange={(e) => this.onPropertyChange("visitorTracking", e) }
 				              />
 				            
                         </FormLayout.Group>
@@ -119,24 +132,24 @@ class Salespop extends Component {
                           <TextField
                             label="Initial Delay"
                             type="number"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.initialDelay}
+                            onChange={(e) => this.onPropertyChange("initialDelay", e) }
                           />
                           <TextField
                             label="Max per page"
                             type="number"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.maxPerPage}
+                            onChange={(e) => this.onPropertyChange("maxPerPage", e) }
                           />
                           <TextField
                             label="Display time"
                             type="number"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.displayTime}
+                            onChange={(e) => this.onPropertyChange("displayTime", e) }
                           />
                           <Select
                               label="Position"
-                              value={this.state.emtiming}
+                              value={this.state.position}
                               options={[
                                 'Bottom left',
                                 'Bottom right',
@@ -145,24 +158,21 @@ class Salespop extends Component {
                                 'top center',
                                 'Bottom center',
                                      ]}
-                              onChange={(e) => this.onPropertyChange("emtiming", e) }
+                              onChange={(e) => this.onPropertyChange("position", e) }
                             />
                            <Select
                               label="Mobile Position"
-                              value={this.state.emtiming}
+                              value={this.state.mobilePosition}
                               options={[
-                                'Bottom left',
-                                'Bottom right',
-                                'top left',
-                                'top right',
-                                'top center',
-                                'Bottom center',
+                                'Bottom',
+                                'top',
+                                
                                      ]}
-                              onChange={(e) => this.onPropertyChange("emtiming", e) }
+                              onChange={(e) => this.onPropertyChange("mobilePosition", e) }
                             />
                             <Select
                               label="Language"
-                              value={this.state.emtiming}
+                              value={this.state.Language}
                               options={[
                                 'English',
                                 'Spanish',
@@ -171,7 +181,7 @@ class Salespop extends Component {
                                 'Italian',
                                 'German',
                                      ]}
-                              onChange={(e) => this.onPropertyChange("emtiming", e) }
+                              onChange={(e) => this.onPropertyChange("Language", e) }
                             />
                         </FormLayout.Group>
                       </FormLayout>  
@@ -185,9 +195,9 @@ class Salespop extends Component {
 		                <FormLayout.Group>
 		                <TextField
                             label="Notification message: "
-                            type="number"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            type="text"
+                            value={this.state.notificationMessage}
+                            onChange={(e) => this.onPropertyChange("notificationMessage", e) }
                           />	
 		                  			<Select
 		                              label="Shape"
@@ -205,8 +215,9 @@ class Salespop extends Component {
 		                     <FormLayout.Group>
 		                   <Checkbox 
 						              label="Show Preview Image" 
-						              value = {this.state.upsell}
-						              onChange={(e) => this.onPropertyChange("upsell", e) }
+						              value = {this.state.showPreviewImage}
+                          checked = {this.state.showPreviewImage}
+						              onChange={(e) => this.onPropertyChange("showPreviewImage", e) }
 						              />
 		            	</FormLayout.Group>
 			            <FormLayout.Group>
@@ -215,6 +226,7 @@ class Salespop extends Component {
 			              <Checkbox 
 			              label="shadow" 
 			              value = {this.state.shadow}
+                    checked = {this.state.shadow}
 			              onChange={(e) => this.onPropertyChange("shadow", e) }
 			              />
 			            </FormLayout.Group>

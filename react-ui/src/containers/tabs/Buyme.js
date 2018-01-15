@@ -11,9 +11,9 @@ class Buyme extends Component {
         this.state = {
             Language: "English",
             enableDate:false,
-            font: "Chewy",
-            fontweight: "bold",
-            textabovetimer: "Hurry! Sales Ends In",
+            backgroundTheme: "Dark Theme",
+            position: "Show at top",
+            Size: "Medium",
             fontsize: 20,
             Publishing: "Automatically",
             code: "center",
@@ -51,32 +51,32 @@ class Buyme extends Component {
                         <FormLayout.Group>
                             <Select
                               label="Choose the position"
-                              value={this.state.emtiming}
+                              value={this.state.position}
                               options={[
                                 'Show at top',
                                 'Show at bottom'
                                      ]}
-                              onChange={(e) => this.onPropertyChange("emtiming", e) }
+                              onChange={(e) => this.onPropertyChange("position", e) }
                             />
                             <Select
                               label="Choose background theme"
-                              value={this.state.emtiming}
+                              value={this.state.backgroundTheme}
                               options={[
                                 'Light Theme',
                                 'Dark Theme'
                                      ]}
-                              onChange={(e) => this.onPropertyChange("emtiming", e) } />
+                              onChange={(e) => this.onPropertyChange("backgroundTheme", e) } />
 
                             <Select
                               label="Size"
-                              value={this.state.emtiming}
+                              value={this.state.Size}
                               options={[
                                 'Small',
                                 'Medium',
                                 'Big',
                                 'Very big'
                                      ]}
-                              onChange={(e) => this.onPropertyChange("emtiming", e) }
+                              onChange={(e) => this.onPropertyChange("Size", e) }
                             />
                             <TextField
                             label="Choose your Button color "

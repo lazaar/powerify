@@ -7,6 +7,8 @@ import Salespop from './tabs/Salespop';
 import ExitCoupon from './tabs/ExitCoupon';
 import QuickView from './tabs/QuickView';
 import Buyme from './tabs/Buyme';
+import Upsell from './tabs/Upsell';
+import CrossSell from './tabs/CrossSell';
 import PushNotifications from './tabs/PushNotifications';
 import CurrencyConverter from './tabs/CurrencyConverter';
 import ImageReviews from './tabs/ImageReviews'
@@ -83,6 +85,14 @@ class Settings extends Component {
         id: 'ExitCoupon',
         content: 'ExitCoupon',
         panelID: 'ExitCoupon'
+      },{
+        id: 'Upsell',
+        content: 'Upsell',
+        panelID: 'Upsell'
+      },{
+        id: 'CrossSell',
+        content: 'CrossSell',
+        panelID: 'CrossSell'
       }
     ];
 
@@ -128,6 +138,16 @@ class Settings extends Component {
       (
         <Tabs.Panel id="ExitCoupon">
           <ExitCoupon/>
+        </Tabs.Panel>
+      ),
+      (
+        <Tabs.Panel id="Upsell">
+          <Upsell/>
+        </Tabs.Panel>
+      ),
+      (
+        <Tabs.Panel id="CrossSell">
+          <CrossSell/>
         </Tabs.Panel>
       )
     ];

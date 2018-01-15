@@ -37,6 +37,8 @@ class ExitCoupon extends Component {
             secondline: "Coupon Code:",
             couponcode: "Giveme10",
             text: "",
+            displayOn: "cartandproduct",
+            shopValue: "Cartnoempty",
             color: color,
             colorText: this.displayColor(color),
             bg_color: bg_color,
@@ -110,65 +112,67 @@ class ExitCoupon extends Component {
                         </FormLayout.Group>
 
                         <FormLayout.Group >
-                       
-						<TextField
-						  label="First Line"
-						  type="text"
-						  value={this.state.firstline}
-						  readOnly={false}
-						  onChange={(e) => this.onPropertyChange("firstline", e) }
+                         
+  						<TextField
+  						  label="First Line"
+  						  type="text"
+  						  value={this.state.firstline}
+  						  readOnly={false}
+  						  onChange={(e) => this.onPropertyChange("firstline", e) }
 
-						/>
-						<TextField
-						  label="Second Line"
-						  type="text"
-						  value={this.state.secondline}
-						  readOnly={false}
-						  onChange={(e) => this.onPropertyChange("secondline", e) }
+  						/>
+  						<TextField
+  						  label="Second Line"
+  						  type="text"
+  						  value={this.state.secondline}
+  						  readOnly={false}
+  						  onChange={(e) => this.onPropertyChange("secondline", e) }
 
-						/>
-						<TextField
-						  label="Coupon code"
-						  type="text"
-						  value={this.state.couponcode}
-						  readOnly={false}
-						  onChange={(e) => this.onPropertyChange("couponcode", e) }
+  						/>
+  						<TextField
+  						  label="Coupon code"
+  						  type="text"
+  						  value={this.state.couponcode}
+  						  readOnly={false}
+  						  onChange={(e) => this.onPropertyChange("couponcode", e) }
 
-						/>
-						<ChoiceList
-						  title="Shopping Cart value: (cart value condition for the popup to display)"
-						  choices={[
-						    {
-						      label: 'Any value (regardless of cart is empty or not)',
-						      value: 'Any',
-						    },
-						    {
-						      label: 'Cart not empty',
-						      value: 'Cartnoempty',
-						    },
-						  ]}
-						  selected={['Cartnoempty']}
-						/>
-						<ChoiceList
-						  title="Display on: "
-						  choices={[
-						    {
-						      label: 'All pages',
-						      value: 'Allpages',
-						    },
-						    {
-						      label: 'Cart and product Only (recommended)',
-						      value: 'cartandproduct',
-						    }
-						  ]}
-						  selected={['cartandproduct']}
-						/>
-						
+  						/>
+  						<ChoiceList
+  						  title="Shopping Cart value: (cart value condition for the popup to display)"
+  						  choices={[
+  						    {
+  						      label: 'Any value (regardless of cart is empty or not)',
+  						      value: 'Any',
+  						    },
+  						    {
+  						      label: 'Cart not empty',
+  						      value: 'Cartnoempty',
+  						    },
+  						  ]}
+                onChange={(e) => this.onPropertyChange("shopValue", e) }
+  						  selected={this.state.shopValue}
+  						/>
+  						<ChoiceList
+  						  title="Display on: "
+  						  choices={[
+  						    {
+  						      label: 'All pages',
+  						      value: 'Allpages',
+  						    },
+  						    {
+  						      label: 'Cart and product Only (recommended)',
+  						      value: 'cartandproduct',
+  						    }
+  						  ]}
+                onChange={(e) => this.onPropertyChange("displayOn", e) }
+  						  selected={this.state.displayOn}
+  						/>
+  						
 
-                        </FormLayout.Group> 
-                    </FormLayout>
-                </Card>
-            </Layout.Section>
+                          </FormLayout.Group> 
+                      </FormLayout>
+                  </Card>
+              </Layout.Section>
 
 
 
@@ -213,14 +217,12 @@ class ExitCoupon extends Component {
 							  activator={ 
 							  	<button className="button" style={{
 				                backgroundColor:hsbToHex(this.state.bg_color),
-				      			 
 							  	 }} 
 							  	 onClick={(e) => this.onPropertyChange("showCouponBgColor", true)}
 							  	 ></button>
-
-							  			}
+                          }
 							  sectioned
-							>
+						  	>
 
 							  <FormLayout>
 

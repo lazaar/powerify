@@ -118,36 +118,38 @@ class Scarcity extends Component {
                         </FormLayout.Group>
 
                         <FormLayout.Group condensed>
-                        <TextField
-						  label="Days"
-						  type="number"
-	                 	  value={this.state.days}
-						  readOnly={false}
-						/>
-						<TextField
-						  label="Hours"
-						  type="number"
-						  value={this.state.hours}
-						  readOnly={false}
-						  onChange={(e) => this.onPropertyChange("hours", e) }
+                              <TextField
+                  						  label="Days"
+                  						  type="number"
+                  	            value={this.state.days}
+                  						  readOnly={false}
+                                onChange={(e) => this.onPropertyChange("days", e) }
 
-						/>
-						<TextField
-						  label="Minutes"
-						  type="number"
-						  value={this.state.minutes}
-						  readOnly={false}
-						  onChange={(e) => this.onPropertyChange("minutes", e) }
+                  						/>
+                  						<TextField
+                  						  label="Hours"
+                  						  type="number"
+                  						  value={this.state.hours}
+                  						  readOnly={false}
+                  						  onChange={(e) => this.onPropertyChange("hours", e) }
 
-						/>
-						<TextField
-						  label="Seconds"
-						  type="number"
-						  value={this.state.seconds}
-						  readOnly={false}
-						  onChange={(e) => this.onPropertyChange("seconds", e) }
+                  						/>
+                  						<TextField
+                  						  label="Minutes"
+                  						  type="number"
+                  						  value={this.state.minutes}
+                  						  readOnly={false}
+                  						  onChange={(e) => this.onPropertyChange("minutes", e) }
 
-						/>
+                  						/>
+                  						<TextField
+                  						  label="Seconds"
+                  						  type="number"
+                  						  value={this.state.seconds}
+                  						  readOnly={false}
+                  						  onChange={(e) => this.onPropertyChange("seconds", e) }
+
+                  						/>
 
 
                         </FormLayout.Group> 
@@ -262,13 +264,13 @@ class Scarcity extends Component {
                 							/>
                 							<Select
                 							  label="Text Align"
-                							  value={this.state.fontsize}
+                							  value={this.state.textalign}
                 							  options={[
                 							    'left',
                 							    'center',
                 							    'right',
                 							  ]}
-                					          onChange={(e) => this.onPropertyChange("textalign", e) }
+                					     onChange={(e) => this.onPropertyChange("textalign", e) }
 
                 							  placeholder="Select"
                 							/>
@@ -279,9 +281,7 @@ class Scarcity extends Component {
                 							    'normal',
                 							    'bold',
                 							  ]}
-                				              onChange={(e) => this.onPropertyChange("fontweight", e) }
-
-                							  placeholder="Select"
+                				         onChange={(e) => this.onPropertyChange("fontweight", e) }
                 							/>
 
                         </FormLayout.Group>
