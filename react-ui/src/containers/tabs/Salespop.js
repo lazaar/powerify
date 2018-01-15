@@ -53,6 +53,7 @@ class Salespop extends Component {
                     <FormLayout>
                         <FormLayout.Group>
                             <Checkbox 
+                      checked = {this.state.randomOrder}
 				              label="Display notifications in random order" 
 				              value = {this.state.randomOrder}
 				              onChange={(e) => this.onPropertyChange("randomOrder", e) }

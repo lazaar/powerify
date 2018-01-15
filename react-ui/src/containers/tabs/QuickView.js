@@ -135,7 +135,8 @@ class QuickView extends Component {
 							/>
 
 							<Checkbox label="Enable Quick View" 
-							  value={this.state.enable}
+							  checked={this.state.enable}
+
 							  onChange={(e) => this.onPropertyChange("enable",e)}
 
 							/>

@@ -10,18 +10,20 @@ class CrossSell extends Component {
         
         this.state = {
             Language: "English",
-            enableDate:false,
+            showProdName:true,
+            showProdPrice:true,
+            showAtoCButton: false,
             font: "Chewy",
             fontweight: "bold",
             textabovetimer: "Hurry! Sales Ends In",
-            fontsize: 20,
+            verticalPadding: 20,
             Publishing: "Automatically",
             code: "center",
             discount: 0,
             discounttype: "",
             after: "Purchase",
             text: "Customers Who Bought This Item Also Bought",
-            emtiming: "3 days",
+            recommandAlgo: "Manual : Define manually",
             logourl: "",
             emailsubject: "",
             emailtext: "",
@@ -53,13 +55,13 @@ class CrossSell extends Component {
 
                             <Select
                               label="Recommandation Algorithm"
-                              value={this.state.emtiming}
+                              value={this.state.recommandAlgo}
                               options={[
                                 'Manual : Define manually',
                                 'use collection: recommand other product from same collection',
                                 'Randomly: recommand random products that a user might like'
                                      ]}
-                              onChange={(e) => this.onPropertyChange("emtiming", e) } />
+                              onChange={(e) => this.onPropertyChange("recommandAlgo", e) } />
                               <button> trigger product </button>
                               <button> "Also bought" products  </button>
                              <Checkbox
@@ -82,15 +84,26 @@ class CrossSell extends Component {
                         <TextField
                             label="Vertical padding"
                             type="number"
-                            value={this.state.text}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.verticalPadding}
+                            onChange={(e) => this.onPropertyChange("verticalPadding", e) }
                         />
                         </FormLayout.Group>
                         <FormLayout.Group>
 
-                        <Checkbox  label="Show product name"/>
-                        <Checkbox  label="Show product price"/>
-                        <Checkbox  label="Show add to cart button"/>
+                        <Checkbox  label="Show product name"
+                        checked={this.state.showProdName}
+                        onChange={(e) => this.onPropertyChange("showProdName", e) }
+                        />
+
+                        <Checkbox  label="Show product price"
+                        checked={this.state.showProdPrice}
+                        onChange={(e) => this.onPropertyChange("showProdPrice", e) }
+                        />
+
+                        <Checkbox  label="Show add to cart button"
+                        checked={this.state.showAtoCButton}
+                        onChange={(e) => this.onPropertyChange("showAtoCButton", e) }
+                        />
 
                         </FormLayout.Group>
                     </FormLayout>

@@ -27,7 +27,7 @@ class Scarcity extends Component {
             minutes: 44,
             seconds: 8,
             textalign: "center",
-            countdown: "Flipper",
+            scarcityStyle: "Flipper",
             text: "",
             color: color,
             colorText: this.displayColor(color),
@@ -166,7 +166,7 @@ class Scarcity extends Component {
                         <Select
                               label="Style"
                               placeholder="Select"
-                              value={this.state.countdown}
+                              value={this.state.scarcityStyle}
                               options={[
                                 {
                                   label: 'Simple Timer',
@@ -179,7 +179,7 @@ class Scarcity extends Component {
                                   value: 'Flipper',
                                 }
                               ]}
-                              onChange={(e) => this.onPropertyChange("font", e) }
+                              onChange={(e) => this.onPropertyChange("scarcityStyle", e) }
                             />
                             
                         </FormLayout.Group>

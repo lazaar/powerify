@@ -129,6 +129,7 @@ class ImageReviews extends Component {
                                 'Percentage (%)',
                                 'Fixed'
                               ]}
+                              value = {this.state.discounttype}
                             onChange={(e) => this.onPropertyChange("discounttype", e) }
                             />
 

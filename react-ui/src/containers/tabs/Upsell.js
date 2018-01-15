@@ -28,7 +28,7 @@ class Upsell extends Component {
             after: "Purchase",
             text: "",
             emtiming: "3 days",
-            logourl: "",
+            customizeColor: "",
             emailsubject: "",
             emailtext: "",
             upsell: true,
@@ -125,22 +125,26 @@ class Upsell extends Component {
                             onChange={(e) => this.onPropertyChange("minCartValue", e) }
                           />
                            <Checkbox label="Hide products that are out of stock" 
-                           value={this.state.hideOutOfStock}
+                           checked={this.state.hideOutOfStock}
                             onChange={(e) => this.onPropertyChange("hideOutOfStock", e) }
                           
                            />
                            <Checkbox label="Hide items that are already in the customer's cart"
-                           value={this.state.hideAlreadyInCart}
+                           checked={this.state.hideAlreadyInCart}
                             onChange={(e) => this.onPropertyChange("hideAlreadyInCart", e) }
                             />
                           <TextField
                             label="Choose your Text button color "
                             type="number"
-                            value={this.state.discount}
+                            checked={this.state.discount}
                             onChange={(e) => this.onPropertyChange("discount", e) }
                           />
 				                   
-                           <Checkbox label="Customize Colors" />
+                           <Checkbox label="Customize Colors" 
+                              checked = {this.state.customizeColor}
+                              onChange={(e) => this.onPropertyChange("customizeColor", e) }
+
+                           />
 
                            <Popover
                             active={this.state.showcolor}

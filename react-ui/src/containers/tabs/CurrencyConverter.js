@@ -32,6 +32,7 @@ class CurrencyConverter extends Component {
             emailtext: "",
             upsell: true,
             colpic: false,
+            decimals: "Remove",
         };
 
     }
@@ -67,17 +68,17 @@ class CurrencyConverter extends Component {
                         	
 	                         <Checkbox 
 				              label="Enable App" 
-				              value = {this.state.isEnable}
+                              checked = {this.state.isEnable}
 				              onChange={(e) => this.onPropertyChange("isEnable", e) }
 				              />
 				              <Checkbox 
 				              label="Auto Switch" 
-				              value = {this.state.autoSwitch}
+				              checked = {this.state.autoSwitch}
 				              onChange={(e) => this.onPropertyChange("autoSwitch", e) }
 				              />
 				              <Checkbox 
 				              label="Hide converted label" 
-				              value = {this.state.hideConvLabel}
+				              checked = {this.state.hideConvLabel}
 				              onChange={(e) => this.onPropertyChange("hideConvLabel", e) }
 				              />
                             	   
@@ -173,7 +174,7 @@ class CurrencyConverter extends Component {
 		                <FormLayout.Group>
 		               	    <Checkbox 
 				              label="Checkout currency notification" 
-				              value = {this.state.checkoutNotification}
+				              checked = {this.state.checkoutNotification}
 				              onChange={(e) => this.onPropertyChange("checkoutNotification", e) }
 				             />
                           	<TextField

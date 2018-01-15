@@ -17,8 +17,10 @@ class PushNotifications extends Component {
             fontsize: 20,
             hourTitle: "callToAction",
             hourDescription: "center",
+            hourCallToAction: "",
             threeHourTitle: "",
             threeHourDescription: "",
+            threeHourCallToAction: "",
             after: "Purchase",
             text: "",
             emtiming: "3 days",
@@ -50,7 +52,7 @@ class PushNotifications extends Component {
                         <FormLayout.Group>
                             <Select
 								    label="Prompt Delay"
-		                            value={this.state.emtiming}
+		                            value={this.state.promptDelay}
 		                            options={[
 		                                'Instant',
 		                                '5 seconds',
@@ -118,8 +120,8 @@ class PushNotifications extends Component {
                           	<TextField
                             label="Call to Action"
                             type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.hourCallToAction}
+                            onChange={(e) => this.onPropertyChange("hourCallToAction", e) }
                           	/>	
                         </FormLayout.Group>
                       </FormLayout>  
@@ -147,8 +149,8 @@ class PushNotifications extends Component {
                           	<TextField
                             label="Call to Action"
                             type="text"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
+                            value={this.state.threeHourCallToAction}
+                            onChange={(e) => this.onPropertyChange("threeHourCallToAction", e) }
                           	/>
 			            </FormLayout.Group>
 
