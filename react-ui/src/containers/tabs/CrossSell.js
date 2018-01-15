@@ -9,27 +9,13 @@ class CrossSell extends Component {
        
         
         this.state = {
-            Language: "English",
             showProdName:true,
             showProdPrice:true,
             showAtoCButton: false,
-            font: "Chewy",
-            fontweight: "bold",
-            textabovetimer: "Hurry! Sales Ends In",
             verticalPadding: 20,
-            Publishing: "Automatically",
-            code: "center",
-            discount: 0,
-            discounttype: "",
-            after: "Purchase",
             text: "Customers Who Bought This Item Also Bought",
             recommandAlgo: "Manual : Define manually",
-            logourl: "",
-            emailsubject: "",
-            emailtext: "",
-            upsell: true,
-            colpic: false,
-        };
+            };
 
     }
     onPropertyChange = (property, value, callback) => {

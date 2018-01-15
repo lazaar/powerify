@@ -101,12 +101,10 @@ class UpperBar extends Component {
                     <FormLayout>
                         <FormLayout.Group>
                             <Checkbox
-                                value={this.state.enable}
                                 checked={this.state.enable}
                                 onChange={(e) => this.onPropertyChange("enable", e) }
                                 label="Show Upper Bar"/>
                             <Checkbox
-                                value={this.state.enableDate}
                                 checked={this.state.enableDate}
                                 onChange={(e) => this.onPropertyChange("enableDate", e) }
                                 label="Enable date limit"/>

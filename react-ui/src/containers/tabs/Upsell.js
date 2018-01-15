@@ -13,8 +13,6 @@ class Upsell extends Component {
        
         
         this.state = {
-            Language: "English",
-            enableDate:false,
             bundleType: "standardUpsell",
             offerHeadline: "bold",
             discountCoupon: "TAKE10",
@@ -25,14 +23,7 @@ class Upsell extends Component {
             hideAlreadyInCart: false,
             discount: 0,
             discounttype: "",
-            after: "Purchase",
-            text: "",
-            emtiming: "3 days",
-            customizeColor: "",
-            emailsubject: "",
-            emailtext: "",
-            upsell: true,
-            colpic: false,
+            customizeColor: false,
             showcolor: false,
         };
 

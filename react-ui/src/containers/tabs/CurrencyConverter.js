@@ -9,7 +9,6 @@ class CurrencyConverter extends Component {
        
         
         this.state = {
-            Language: "English",
             isEnable:false,
             autoSwitch: true,
             hideConvLabel: true,
@@ -18,20 +17,7 @@ class CurrencyConverter extends Component {
             theme: "Flag",
             message: "Chewy",
             checkoutNotification: true,
-            textabovetimer: "Hurry! Sales Ends In",
-            fontsize: 20,
-            Publishing: "Automatically",
-            code: "center",
             discount: 0,
-            discounttype: "",
-            after: "Purchase",
-            text: "",
-            emtiming: "3 days",
-            logourl: "",
-            emailsubject: "",
-            emailtext: "",
-            upsell: true,
-            colpic: false,
             decimals: "Remove",
         };
 
@@ -137,7 +123,6 @@ class CurrencyConverter extends Component {
                         	
                         	<Checkbox 
 				              label="Display Currency Code" 
-				              value = {this.state.isCurrencyCode}
                               checked = {this.state.isCurrencyCode}
 				              onChange={(e) => this.onPropertyChange("isCurrencyCode", e) }
 				              />

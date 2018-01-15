@@ -26,10 +26,7 @@ class Salespop extends Component {
             maxPerPage: 0,
             notificationMessage: " someone in San Francisco, USA purchased",
             showPreviewImage: true,
-            text: "",
-            emtiming: "3 days",
-            logourl: "",
-            upsell: true,
+            shape: "Classic",
             shadow: false,
         };
 
@@ -55,60 +52,50 @@ class Salespop extends Component {
                             <Checkbox 
                       checked = {this.state.randomOrder}
 				              label="Display notifications in random order" 
-				              value = {this.state.randomOrder}
 				              onChange={(e) => this.onPropertyChange("randomOrder", e) }
 				              />
 				              <Checkbox 
 				              label="Loop notifications " 
-				              value = {this.state.loopNotif}
                       checked = {this.state.loopNotif}
 				              onChange={(e) => this.onPropertyChange("loopNotif", e) }
 				              />
 				              <Checkbox 
 				              label="Hide on mobile" 
-				              value = {this.state.hideMobile}
                       checked = {this.state.hideMobile}
 				              onChange={(e) => this.onPropertyChange("hideMobile", e) }
 				              />
 				              <Checkbox 
 				              label="Hide on desktop" 
-				              value = {this.state.hideDesktop}
                       checked = {this.state.hideDesktop}
 				              onChange={(e) => this.onPropertyChange("hideDesktop", e) }
 				              />
 				              <Checkbox 
 				              label="Allow users to close notifications" 
-				              value = {this.state.usersNotifications}
                       checked = {this.state.usersNotifications}
 				              onChange={(e) => this.onPropertyChange("usersNotifications", e) }
 				              />
 				              <Checkbox 
 				              label="Randomize delay between notifications " 
-				              value = {this.state.randomDelay}
                       checked = {this.state.randomDelay}
 				              onChange={(e) => this.onPropertyChange("randomDelay", e) }
 				              />
 				              <Checkbox 
 				              label="Open notification links in a new tab" 
-				              value = {this.state.openNotifsNewTab}
                       checked = {this.state.openNotifsNewTab}
 				              onChange={(e) => this.onPropertyChange("openNotifsNewTab", e) }
 				              />
 				              <Checkbox 
 				              label="Enable entire notification to be a clickable link" 
-				              value = {this.state.clickableNotifs}
                       checked = {this.state.clickableNotifs}
 				              onChange={(e) => this.onPropertyChange("clickableNotifs", e) }
 				              />
 				              <Checkbox 
 				              label="Max notifications per user session" 
-				              value = {this.state.maxNotifsPerUser}
                       checked = {this.state.maxNotifsPerUser}
 				              onChange={(e) => this.onPropertyChange("maxNotifsPerUser", e) }
 				              />
 				              <Checkbox 
 				              label="Live visitors tracking" 
-				              value = {this.state.visitorTracking}
                       checked = {this.state.visitorTracking}
 				              onChange={(e) => this.onPropertyChange("visitorTracking", e) }
 				              />
@@ -202,21 +189,20 @@ class Salespop extends Component {
                           />	
 		                  			<Select
 		                              label="Shape"
-		                              value={this.state.emtiming}
+		                              value={this.state.shape}
 		                              options={[
 		                                'Classic',
 		                                'Curved',
 		                                'Pill',
 		                                'Split',
 		                                     ]}
-		                              onChange={(e) => this.onPropertyChange("emtiming", e) }
+		                              onChange={(e) => this.onPropertyChange("shape", e) }
 
 		                                />
 		                     </FormLayout.Group>
 		                     <FormLayout.Group>
 		                   <Checkbox 
 						              label="Show Preview Image" 
-						              value = {this.state.showPreviewImage}
                           checked = {this.state.showPreviewImage}
 						              onChange={(e) => this.onPropertyChange("showPreviewImage", e) }
 						              />
@@ -226,7 +212,6 @@ class Salespop extends Component {
 			                        
 			              <Checkbox 
 			              label="shadow" 
-			              value = {this.state.shadow}
                     checked = {this.state.shadow}
 			              onChange={(e) => this.onPropertyChange("shadow", e) }
 			              />

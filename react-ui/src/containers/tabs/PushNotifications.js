@@ -9,12 +9,9 @@ class PushNotifications extends Component {
        
         
         this.state = {
-            Language: "English",
-            enableDate:false,
             promptDelay: "Chewy",
             twentyTitle: "bold",
             twentyDescription: "Hurry! Sales Ends In",
-            fontsize: 20,
             hourTitle: "callToAction",
             hourDescription: "center",
             hourCallToAction: "",
@@ -22,13 +19,6 @@ class PushNotifications extends Component {
             threeHourDescription: "",
             threeHourCallToAction: "",
             after: "Purchase",
-            text: "",
-            emtiming: "3 days",
-            logourl: "",
-            emailsubject: "",
-            emailtext: "",
-            upsell: true,
-            colpic: false,
         };
 
     }

@@ -9,17 +9,11 @@ class ImageReviews extends Component {
         
         this.state = {
             Language: "English",
-            enableDate:false,
-            font: "Chewy",
-            fontweight: "bold",
-            textabovetimer: "Hurry! Sales Ends In",
-            fontsize: 20,
             Publishing: "Automatically",
             code: "center",
             discount: 0,
             discounttype: "",
             after: "Purchase",
-            text: "",
             emtiming: "3 days",
             logourl: "",
             emailsubject: "",
@@ -144,7 +138,8 @@ class ImageReviews extends Component {
                             label="Code"
                             type="text"
                             placeholder = "Coupon code here "
-                            readOnly={false}
+                            value={this.state.code}
+
                             onChange={(e) => this.onPropertyChange("code", e) }
                             helpText = "Note: you must first create the discount on Shopify, and then enter its details"
                           />
@@ -193,14 +188,14 @@ class ImageReviews extends Component {
                             label="Logo URL (max width 400px)"
                             type="text"
                             placeholder = "Full url, png/jpg image"
-                            readOnly={false}
+                            value = {this.state.logourl}
                             onChange={(e) => this.onPropertyChange("logourl", e) }
                          />             
               <TextField
                             label="Email subject"
                             type="text"
                             placeholder = "[Name], tell us what you think!"
-                            readOnly={false}
+                            value={this.state.emailsubject}
                             onChange={(e) => this.onPropertyChange("emailsubject", e) }
                             helpText="Use [Name] as a placeholder for the user's first name"
                          /> 
@@ -209,12 +204,13 @@ class ImageReviews extends Component {
                             type="text"
                             placeholder = "We would be grateful if you shared how things look and feel. Your review helps us and the community that supports us, and it only takes a few seconds."
                             onChange={(e) => this.onPropertyChange("emailtext", e) }
+                            value = {this.state.emailtext}
                             helpText="Use [Name] as a placeholder for the user's first name"
                             multiline
                          /> 
               <Checkbox 
               label="Smart Upsell" 
-              value = {this.state.upsell}
+              checked = {this.state.upsell}
               onChange={(e) => this.onPropertyChange("upsell", e) }
               />
 

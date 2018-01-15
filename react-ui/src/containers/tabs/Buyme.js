@@ -9,24 +9,12 @@ class Buyme extends Component {
        
         
         this.state = {
-            Language: "English",
-            enableDate:false,
             backgroundTheme: "Dark Theme",
             position: "Show at top",
             Size: "Medium",
-            fontsize: 20,
-            Publishing: "Automatically",
-            code: "center",
             discount: 0,
             discounttype: "",
-            after: "Purchase",
-            text: "",
-            emtiming: "3 days",
-            logourl: "",
-            emailsubject: "",
-            emailtext: "",
-            upsell: true,
-            colpic: false,
+            
         };
 
     }

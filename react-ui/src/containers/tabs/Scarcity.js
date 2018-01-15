@@ -16,8 +16,6 @@ class Scarcity extends Component {
             saturation: 0
         };
         this.state = {
-            enable: true,
-            enableDate:false,
             font: "Chewy",
             fontweight: "bold",
             textabovetimer: "Hurry! Sales Ends In",

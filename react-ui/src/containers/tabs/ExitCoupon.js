@@ -27,16 +27,11 @@ class ExitCoupon extends Component {
         };
 
         this.state = {
-            enable: true,
-            enableDate:false,
             font: "Raleway",
             fontweight: "bold",
-            fontsize: 20,
             firstline: "Get 10% off your purchase Today",
-            textalign: "center",
             secondline: "Coupon Code:",
             couponcode: "Giveme10",
-            text: "",
             displayOn: "cartandproduct",
             shopValue: "Cartnoempty",
             color: color,

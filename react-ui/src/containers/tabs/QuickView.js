@@ -18,16 +18,11 @@ class QuickView extends Component {
 
         this.state = {
             enable: true,
-            enableDate:false,
             redirect: "Cart",
-            font: "Raleway",
-            fontweight: "bold",
-            fontsize: 20,
             imgWidth: 345,
             popWidth: 800,
             popHeight: 500,
             maxWords: 30,
-            text: "",
             QVBtnColor: color,
             QVBtnColorText: this.displayColor(color),
             QVBtnTxtColor: QVBtnTxtColor,
