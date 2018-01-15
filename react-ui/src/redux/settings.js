@@ -14,6 +14,9 @@ export const fetchSettings =  (dispatch) =>
                 data.finishLoading = true;
                 dispatch(addSettings(data));
             }
+            else{
+                dispatch(addSettings({finishLoading:true}));
+            }
         }).catch(error => {
             console.log("Error getting Settings", error);
             const data = {finishLoading : true, error:error};

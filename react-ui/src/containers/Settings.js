@@ -1,6 +1,6 @@
 // @flow
 import React, {Component} from 'react';
-import { Tabs, Page } from '@shopify/polaris';
+import { Tabs, Page,Spinner } from '@shopify/polaris';
 import UpperBar from './tabs/UpperBar';
 import Scarcity from './tabs/Scarcity';
 import Salespop from './tabs/Salespop';
@@ -167,7 +167,8 @@ class Settings extends Component {
           tabs={tabs}
           onSelect={this.handleTabChange}
         />
-        { tabPanels[selectedTab]}
+        {!this.props.settings.finishLoading && (<Spinner size="large" />)}
+        {this.props.settings.finishLoading && tabPanels[selectedTab]}
       </Page>
     );
   }

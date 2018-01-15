@@ -5,6 +5,8 @@ import logger from 'winston';
 
 module.exports = function(app){
 
+    var features = require('../services/updateFeatures');
+
     app.get('/v1/api/settings', function(req, res){
         const { shopify } = req;
         console.log("get Settings");
@@ -19,9 +21,7 @@ module.exports = function(app){
                     return true;
                 }
             });
-            console.log(settings);
             if(settings.value){
-                console.log("get", settings);
                 res.status(200).json(settings);
             }
             else{
@@ -52,6 +52,7 @@ module.exports = function(app){
                 shopify.metafield.update(alreadyExist, {
                     value: JSON.stringify(req.body)
                 }).then((e) => {
+                    features.init(JSON.stringify(req.body));
                     logger.info("Metafieald Updated");
                     res.status(200).send(e);
                 });
@@ -64,6 +65,7 @@ module.exports = function(app){
                     value: JSON.stringify(req.body),
                     value_type: 'string'
                 }).then((e) => {
+                    features.init(JSON.stringify(req.body));
                     logger.info("Metafieald Created",e);
                     res.status(200).json(JSON.parse(e.value));
                 }).catch((e)=>{
