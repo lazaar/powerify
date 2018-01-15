@@ -1,5 +1,6 @@
 // @flow
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import {Layout, Card, FormLayout, TextField, Select} from '@shopify/polaris';
 
 class PushNotifications extends Component {
@@ -7,7 +8,10 @@ class PushNotifications extends Component {
         super(props);
         
        
-        
+        if(this.props.settings.pushnotifications){
+            this.state = this.props.settings.pushnotifications;
+        }
+        else{
         this.state = {
             promptDelay: "Chewy",
             twentyTitle: "bold",
@@ -20,12 +24,14 @@ class PushNotifications extends Component {
             threeHourCallToAction: "",
             after: "Purchase",
         };
-
+        }
     }
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
-        }));
+        }), function () {
+            this.props.onSettingsChange("pushnotifications", this.state);
+        });
         if (typeof callback === "function") {
             callback();
         }
@@ -150,4 +156,11 @@ class PushNotifications extends Component {
     }
 }
 
-export default PushNotifications;
+const mapStateToProps = (state) => {
+    const {settings} = state;
+    return{
+        settings: settings
+    }
+};
+
+export default connect(mapStateToProps, null)(PushNotifications);

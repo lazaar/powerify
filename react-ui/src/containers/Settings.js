@@ -102,52 +102,52 @@ class Settings extends Component {
         </Tabs.Panel>),
       (
         <Tabs.Panel id="QuickView">
-          <QuickView/>
+          <QuickView onSettingsChange={this.handleSettings}/>
         </Tabs.Panel>
       ),
       (
         <Tabs.Panel id="Scarcity">
-          <Scarcity/>
+          <Scarcity onSettingsChange={this.handleSettings}/>
         </Tabs.Panel>
       ),
       (
         <Tabs.Panel id="ImageReviews">
-          <ImageReviews/>
+          <ImageReviews onSettingsChange={this.handleSettings}/>
         </Tabs.Panel>
       ),
       (
         <Tabs.Panel id="Salespop">
-          <Salespop/>
+          <Salespop onSettingsChange={this.handleSettings}/>
         </Tabs.Panel>
       ),
       (
         <Tabs.Panel id="Buyme">
-          <Buyme/>
+          <Buyme onSettingsChange={this.handleSettings}/>
         </Tabs.Panel>
       ),
       (
         <Tabs.Panel id="PushNotifications">
-          <PushNotifications/>
+          <PushNotifications onSettingsChange={this.handleSettings}/>
         </Tabs.Panel>
       ),
       (
         <Tabs.Panel id="CurrencyConverter">
-          <CurrencyConverter/>
+          <CurrencyConverter onSettingsChange={this.handleSettings}/>
         </Tabs.Panel>
       ),
       (
         <Tabs.Panel id="ExitCoupon">
-          <ExitCoupon/>
+          <ExitCoupon onSettingsChange={this.handleSettings}/>
         </Tabs.Panel>
       ),
       (
         <Tabs.Panel id="Upsell">
-          <Upsell/>
+          <Upsell onSettingsChange={this.handleSettings}/>
         </Tabs.Panel>
       ),
       (
         <Tabs.Panel id="CrossSell">
-          <CrossSell/>
+          <CrossSell onSettingsChange={this.handleSettings}/>
         </Tabs.Panel>
       )
     ];

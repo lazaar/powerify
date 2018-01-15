@@ -1,5 +1,6 @@
 // @flow
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import {Layout, ColorPicker, Popover, rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField,  TextContainer, Heading} from '@shopify/polaris';
 
 class Scarcity extends Component {
@@ -15,6 +16,11 @@ class Scarcity extends Component {
             brightness: 0,
             saturation: 0
         };
+
+        if(this.props.settings.scarcity){
+            this.state = this.props.settings.scarcity;
+        }
+        else{
         this.state = {
             font: "Chewy",
             fontweight: "bold",
@@ -33,13 +39,15 @@ class Scarcity extends Component {
             bg_colorText: this.displayColor(bg_color),
             showbg_color: false,
         };
-
+      }
     }
 
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
-        }));
+        }), function () {
+            this.props.onSettingsChange("scarcity", this.state);
+        });
         if (typeof callback === "function") {
             callback();
         }
@@ -290,4 +298,11 @@ class Scarcity extends Component {
     }
 }
 
-export default Scarcity;
+const mapStateToProps = (state) => {
+    const {settings} = state;
+    return{
+        settings: settings
+    }
+};
+
+export default connect(mapStateToProps, null)(Scarcity);

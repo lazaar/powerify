@@ -1,12 +1,16 @@
 // @flow
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import {Layout,  Select, Card, FormLayout, TextField,  TextContainer, Heading, ChoiceList, Checkbox} from '@shopify/polaris';
 
 class ImageReviews extends Component {
     constructor(props) {
         super(props);
         
-        
+        if(this.props.settings.imagereviews){
+            this.state = this.props.settings.imagereviews;
+        }
+        else{
         this.state = {
             Language: "English",
             Publishing: "Automatically",
@@ -20,13 +24,15 @@ class ImageReviews extends Component {
             emailtext: "",
             upsell: true,
         };
-
+      }
     }
 
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
-        }));
+        }), function () {
+            this.props.onSettingsChange("imagereviews", this.state);
+        });
         if (typeof callback === "function") {
             callback();
         }
@@ -223,4 +229,11 @@ class ImageReviews extends Component {
     }
 }
 
-export default ImageReviews;
+const mapStateToProps = (state) => {
+    const {settings} = state;
+    return{
+        settings: settings
+    }
+};
+
+export default connect(mapStateToProps, null)(ImageReviews);

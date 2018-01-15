@@ -1,5 +1,6 @@
 // @flow
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import {Layout, ColorPicker , hsbToHex , rgbToHsb, Checkbox, Select, Card, FormLayout, TextField,Heading, ChoiceList, Popover} from '@shopify/polaris';
 
 class QuickView extends Component {
@@ -15,7 +16,11 @@ class QuickView extends Component {
             brightness: 0.57,
             saturation: 1
         };
-
+        
+        if(this.props.settings.quickview){
+            this.state = this.props.settings.quickview;
+        }
+        else{
         this.state = {
             enable: true,
             redirect: "Cart",
@@ -39,13 +44,17 @@ class QuickView extends Component {
             showQVBtnColor: false,
             showAToCBtnColor: false,
         };
+    	}	
 
     }
     
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
-        }));
+        }), function () {
+            this.props.onSettingsChange("quickview", this.state);
+        });
+
         if (typeof callback === "function") {
             callback();
         }
@@ -341,4 +350,11 @@ class QuickView extends Component {
     }
 }
 
-export default QuickView;
+const mapStateToProps = (state) => {
+    const {settings} = state;
+    return{
+        settings: settings
+    }
+};
+
+export default connect(mapStateToProps, null) (QuickView);

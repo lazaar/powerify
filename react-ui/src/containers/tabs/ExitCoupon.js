@@ -1,5 +1,6 @@
 // @flow
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import {Layout, ColorPicker, rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField, ChoiceList, Popover} from '@shopify/polaris';
 
 class ExitCoupon extends Component {
@@ -26,6 +27,10 @@ class ExitCoupon extends Component {
             saturation: 1
         };
 
+        if(this.props.settings.exitcoupon){
+            this.state = this.props.settings.exitcoupon;
+        }
+        else{
         this.state = {
             font: "Raleway",
             fontweight: "bold",
@@ -48,13 +53,15 @@ class ExitCoupon extends Component {
             showsecondLineColor: false,
 
         };
-
+      }
     }
     
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
-        }));
+        }), function () {
+            this.props.onSettingsChange("exitcoupon", this.state);
+        });
         if (typeof callback === "function") {
             callback();
         }
@@ -367,5 +374,11 @@ class ExitCoupon extends Component {
         </Layout>);
     }
 }
+const mapStateToProps = (state) => {
+    const {settings} = state;
+    return{
+        settings: settings
+    }
+};
 
-export default ExitCoupon;
+export default connect(mapStateToProps, null)(ExitCoupon);

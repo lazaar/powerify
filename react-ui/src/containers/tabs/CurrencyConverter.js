@@ -1,5 +1,6 @@
 // @flow
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import {Layout, Card, FormLayout, TextField, Select, Checkbox} from '@shopify/polaris';
 
 class CurrencyConverter extends Component {
@@ -7,7 +8,10 @@ class CurrencyConverter extends Component {
         super(props);
         
        
-        
+        if(this.props.settings.currencyconverter){
+            this.state = this.props.settings.currencyconverter;
+        }
+        else{
         this.state = {
             isEnable:false,
             autoSwitch: true,
@@ -20,12 +24,15 @@ class CurrencyConverter extends Component {
             discount: 0,
             decimals: "Remove",
         };
-
+         }
     }
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
-        }));
+        }), function () {
+            this.props.onSettingsChange("currencyconverter", this.state);
+        });
+
         if (typeof callback === "function") {
             callback();
         }
@@ -182,5 +189,11 @@ class CurrencyConverter extends Component {
         </Layout>);
     }
 }
+const mapStateToProps = (state) => {
+    const {settings} = state;
+    return{
+        settings: settings
+    }
+};
 
-export default CurrencyConverter;
+export default connect(mapStateToProps, null)(CurrencyConverter);

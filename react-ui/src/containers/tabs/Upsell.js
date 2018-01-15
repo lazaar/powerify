@@ -1,5 +1,6 @@
 // @flow
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import {Layout, hsbToHex, Checkbox, Popover, ColorPicker, Select, Card, FormLayout, ChoiceList, TextField,} from '@shopify/polaris';
 
 class Upsell extends Component {
@@ -11,7 +12,10 @@ class Upsell extends Component {
             saturation: 0
         };
        
-        
+        if(this.props.settings.upsell){
+            this.state = this.props.settings.upsell;
+        }
+        else{
         this.state = {
             bundleType: "standardUpsell",
             offerHeadline: "bold",
@@ -26,12 +30,15 @@ class Upsell extends Component {
             customizeColor: false,
             showcolor: false,
         };
+        }
 
     }
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
-        }));
+        }), function () {
+            this.props.onSettingsChange("upsell", this.state);
+        });
         if (typeof callback === "function") {
             callback();
         }
@@ -168,4 +175,12 @@ class Upsell extends Component {
     }
 }
 
-export default Upsell;
+const mapStateToProps = (state) => {
+    const {settings} = state;
+    return{
+        settings: settings
+    }
+};
+
+export default connect(mapStateToProps, null)(Upsell);
+

@@ -1,5 +1,6 @@
 // @flow
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import {Layout,  Select, Card, FormLayout, TextField,  TextContainer, Heading, Checkbox} from '@shopify/polaris';
 
 class Salespop extends Component {
@@ -7,7 +8,10 @@ class Salespop extends Component {
         super(props);
         
        
-        
+        if(this.props.settings.salespop){
+            this.state = this.props.settings.salespop;
+        }
+        else{
         this.state = {
             Language: "English",
             randomOrder:false,
@@ -29,12 +33,14 @@ class Salespop extends Component {
             shape: "Classic",
             shadow: false,
         };
-
+      }
     }
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
-        }));
+        }), function () {
+            this.props.onSettingsChange("salespop", this.state);
+        });
         if (typeof callback === "function") {
             callback();
         }
@@ -223,4 +229,11 @@ class Salespop extends Component {
     }
 }
 
-export default Salespop;
+const mapStateToProps = (state) => {
+    const {settings} = state;
+    return{
+        settings: settings
+    }
+};
+
+export default connect(mapStateToProps, null)(Salespop);

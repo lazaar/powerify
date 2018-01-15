@@ -1,4 +1,5 @@
 // @flow
+import { connect } from 'react-redux';
 import React, {Component} from 'react';
 import {Layout,  Select, Card, FormLayout, TextField, Checkbox,} from '@shopify/polaris';
 
@@ -7,7 +8,10 @@ class CrossSell extends Component {
         super(props);
         
        
-        
+        if(this.props.settings.crosssell){
+            this.state = this.props.settings.crosssell;
+        }
+        else{
         this.state = {
             showProdName:true,
             showProdPrice:true,
@@ -16,12 +20,14 @@ class CrossSell extends Component {
             text: "Customers Who Bought This Item Also Bought",
             recommandAlgo: "Manual : Define manually",
             };
-
+        }
     }
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
-        }));
+        }), function () {
+            this.props.onSettingsChange("crosssell", this.state);
+        });
         if (typeof callback === "function") {
             callback();
         }
@@ -99,4 +105,11 @@ class CrossSell extends Component {
     }
 }
 
-export default CrossSell;
+const mapStateToProps = (state) => {
+    const {settings} = state;
+    return{
+        settings: settings
+    }
+};
+
+export default connect(mapStateToProps, null)(CrossSell);

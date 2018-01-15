@@ -1,4 +1,5 @@
 // @flow
+import { connect } from 'react-redux';
 import React, {Component} from 'react';
 import {Layout,  Select, Card, FormLayout, TextField,} from '@shopify/polaris';
 
@@ -7,7 +8,10 @@ class Buyme extends Component {
         super(props);
         
        
-        
+        if(this.props.settings.buyme){
+            this.state = this.props.settings.buyme;
+        }
+        else{
         this.state = {
             backgroundTheme: "Dark Theme",
             position: "Show at top",
@@ -16,12 +20,14 @@ class Buyme extends Component {
             discounttype: "",
             
         };
-
+        }
     }
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
-        }));
+        }), function () {
+            this.props.onSettingsChange("buyme", this.state);
+        });
         if (typeof callback === "function") {
             callback();
         }
@@ -87,4 +93,11 @@ class Buyme extends Component {
     }
 }
 
-export default Buyme;
+const mapStateToProps = (state) => {
+    const {settings} = state;
+    return{
+        settings: settings
+    }
+};
+
+export default connect(mapStateToProps, null)(Buyme);
