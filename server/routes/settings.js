@@ -6,6 +6,7 @@ import logger from 'winston';
 module.exports = function(app){
 
     var features = require('../services/updateFeatures');
+    var shopMetafields = require('../services/shopMetafields');
 
     app.get('/v1/api/settings', function(req, res){
         const { shopify } = req;
@@ -33,52 +34,17 @@ module.exports = function(app){
     });
 
     app.post('/v1/api/settings', function(req, res){
-        console.log("post", req.body);
         const { shopify } = req;
 
-        shopify.metafield.list().then(metafields => {
-            let alreadyExist = -1;
-            metafields.every(function(metafield) {
-                if (metafield.namespace === "powerify" && metafield.key === "settings"){
-                    alreadyExist = metafield.id;
-                    return false;
-                }
-                else{
-                    return true;
-                }
-            });
-            if (alreadyExist !== -1){
-                logger.info("Update Metafieald", JSON.stringify(req.body));
-                shopify.metafield.update(alreadyExist, {
-                    value: JSON.stringify(req.body)
-                }).then((e) => {
-                    features.init(JSON.stringify(req.body));
-                    logger.info("Metafieald Updated");
-                    res.status(200).send(e);
-                });
-            }
-            else{
-                logger.info("Create Metafieald");
-                shopify.metafield.create({
-                    namespace: 'powerify',
-                    key: 'settings',
-                    value: JSON.stringify(req.body),
-                    value_type: 'string'
-                }).then((e) => {
-                    features.init(JSON.stringify(req.body));
-                    logger.info("Metafieald Created",e);
-                    res.status(200).json(JSON.parse(e.value));
-                }).catch((e)=>{
-                    logger.error("Metafieald not Created");
-                    res.status(500).send(e);
-                });
-            }
+        shopMetafields.save(shopify,"settings",JSON.stringify(req.body)).then((e) => {
+            features.init(JSON.stringify(req.body), shopify);
+            logger.info("Metafieald saved");
+            res.status(200).json(JSON.parse(e.value));
+        }).catch((e)=>{
+            logger.error("Metafieald not saved");
+            res.status(500).send(e);
         });
-
-
-
-
-
+        
     });
 
 };
