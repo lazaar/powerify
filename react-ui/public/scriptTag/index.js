@@ -21,6 +21,7 @@
 			self.inAdmin = $("#admin_bar_iframe").length > 0;
 			self.inMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 			self.initBarTop();
+			self.initBuyMe();
 
 			$.ajax({
 				type: "get",
@@ -53,6 +54,15 @@
 					$('body').addClass("inAdmin");
 				}
 				$('html').animate({paddingTop: this.inAdmin ? '80px' : '40px'},500);
+			}
+		},
+
+		initBuyMe : function(){
+			var buyme =$(".powerify_add_to_card");
+			if(buyme.length > 0){
+
+				//$('html').css('padding-top',inAdmin === "" ? '40px' : '80px');
+				buyme.animate({height: '70px'},300);
 			}
 		},
 

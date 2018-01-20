@@ -39,7 +39,6 @@ module.exports = function(app){
         shopMetafields.save(shopify,"settings",JSON.stringify(req.body)).then((e) => {
             features.init(JSON.stringify(req.body), shopify);
             logger.info("Metafieald saved");
-            logger.info(JSON.stringify(req.body));
             res.status(200).json(JSON.parse(e.value));
         }).catch((e)=>{
             logger.error("Metafieald not saved");

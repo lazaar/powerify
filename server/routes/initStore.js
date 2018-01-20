@@ -63,7 +63,7 @@ function initThemeEntry(shopify, theme){
         theme_id:theme.id
     }).then((e) => {
         var value = e.value;
-        if(value.indexOf("{{ shop.metafields.powerify.upperBar  }}") === -1){
+        if(value.indexOf("{% include 'powerify-init-body' %}") === -1){
             value = value.replace("</body>", "{% include 'powerify-init-body' %}</body>")
                 .replace("</head>", "{% include 'powerify-init-head' %}</head>");
             shopify.asset.update(theme.id, {
@@ -73,17 +73,6 @@ function initThemeEntry(shopify, theme){
                 logger.info("Modifying theme.liquid");
             }).catch((e) => {
                 logger.error("Error on Modifying theme.liquid",e);
-            });
-        }
-        if(value.indexOf("{{ shop.metafields.powerify.buyme  }}") === -1){
-            value = value.replace("</body>", "{{ shop.metafields.powerify.buyme  }}</body>");
-            shopify.asset.update(theme.id, {
-                key: 'layout/theme.liquid',
-                value:  value
-            }).then(() => {
-                logger.info("Add BuyMe to Template Succes");
-            }).catch((e) => {
-                logger.error("Error on adding buy Me to Template",e);
             });
         }
     });
