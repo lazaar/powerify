@@ -64,14 +64,15 @@ function initThemeEntry(shopify, theme){
     }).then((e) => {
         var value = e.value;
         if(value.indexOf("{{ shop.metafields.powerify.upperBar  }}") === -1){
-            value = value.replace("</body>", "{{ shop.metafields.powerify.upperBar  }}</body>");
+            value = value.replace("</body>", "{% include 'powerify-init-body' %}</body>")
+                .replace("</head>", "{% include 'powerify-init-head' %}</head>");
             shopify.asset.update(theme.id, {
                 key: 'layout/theme.liquid',
                 value:  value
             }).then(() => {
-                logger.info("Add Upper Bar to Template Succes");
+                logger.info("Modifying theme.liquid");
             }).catch((e) => {
-                logger.error("Error on adding Upper Bar to Template",e);
+                logger.error("Error on Modifying theme.liquid",e);
             });
         }
         if(value.indexOf("{{ shop.metafields.powerify.buyme  }}") === -1){
@@ -85,6 +86,30 @@ function initThemeEntry(shopify, theme){
                 logger.error("Error on adding buy Me to Template",e);
             });
         }
+    });
+
+    shopify.asset.create(theme.id,{ key: 'templates/index.powerify.settings.liquid' ,src:APP_URL+"/addToTheme/index.powerify.settings.liquid"}).then((e) => {
+        logger.info("Create new view for settings",e);
+    }).catch((e) => {
+        logger.info("erro on creating new view for settings", e);
+    });
+
+    shopify.asset.create(theme.id,{ key: 'snippets/powerify-init-head.liquid' ,src:APP_URL+"/addToTheme/powerify-init-head.liquid"}).then((e) => {
+        logger.info("Create init Snippets",e);
+    }).catch((e) => {
+        logger.info("Error on Creating init Snippets", e);
+    });
+
+    shopify.asset.create(theme.id,{ key: 'snippets/powerify-init-body.liquid' ,src:APP_URL+"/addToTheme/powerify-init-body.liquid"}).then((e) => {
+        logger.info("Create init Snippets",e);
+    }).catch((e) => {
+        logger.info("Error on Creating init Snippets", e);
+    });
+
+    shopify.asset.create(theme.id,{ key: 'assets/powerify.css' ,src:APP_URL+"/addToTheme/powerify.css"}).then((e) => {
+        logger.info("Create Css File",e);
+    }).catch((e) => {
+        logger.info("Error on Creating Css File", e);
     });
 }
 
