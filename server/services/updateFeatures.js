@@ -20,6 +20,22 @@ const features = {
 };
 
 const tabs = {};
+tabs.buyme = {
+    init: function(tabSettings, shopify) {
+
+        let buyme = "";
+        
+        buyme = htmlConstants.buyme.replace("{{mycolor}}", 'white')
+        
+        logger.info("Init buyme", buyme);
+        shopMetafields.save(shopify,"buyme",buyme ).then(() => {
+            logger.info("buyme saved");
+        }).catch((e)=>{
+            logger.error("buyme not saved",e);
+        });
+    }
+
+};
 tabs.upperBar = {
     init: function(tabSettings, shopify) {
         let upperbar = "";

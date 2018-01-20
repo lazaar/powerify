@@ -74,6 +74,17 @@ function initThemeEntry(shopify, theme){
                 logger.error("Error on adding Upper Bar to Template",e);
             });
         }
+        if(value.indexOf("{{ shop.metafields.powerify.buyme  }}") === -1){
+            value = value.replace("</body>", "{{ shop.metafields.powerify.buyme  }}</body>");
+            shopify.asset.update(theme.id, {
+                key: 'layout/theme.liquid',
+                value:  value
+            }).then(() => {
+                logger.info("Add BuyMe to Template Succes");
+            }).catch((e) => {
+                logger.error("Error on adding buy Me to Template",e);
+            });
+        }
     });
 }
 
