@@ -9,6 +9,7 @@ const CURRENT_WORKING_DIR = process.cwd();
 const PATHS = {
   app: path.resolve(CURRENT_WORKING_DIR),
   assets: path.resolve(CURRENT_WORKING_DIR, 'public', 'assets'),
+  scriptTag: path.resolve(CURRENT_WORKING_DIR, 'react-ui','public', 'scriptTag'),
   compiled: path.resolve(CURRENT_WORKING_DIR, 'compiled'),
   public: '/assets/',
   modules: path.resolve(CURRENT_WORKING_DIR, 'node_modules'),
@@ -76,4 +77,14 @@ const config = {
   plugins,
 };
 
-module.exports = config;
+const scriptTag = {
+  context: PATHS.app,
+  entry: 'server/scriptTag/index.js',
+  output: {
+    path: PATHS.scriptTag,
+    filename: 'index.js'
+  },
+  resolve
+};
+
+module.exports = [scriptTag, config];
