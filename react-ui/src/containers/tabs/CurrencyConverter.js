@@ -30,7 +30,7 @@ class CurrencyConverter extends Component {
         this.setState(()=>({
             [property]: value
         }), function () {
-            this.props.onSettingsChange("currencyconverter", this.state);
+            this.props.onSettingsChange("currencyconverter", property, value);
         });
 
         if (typeof callback === "function") {

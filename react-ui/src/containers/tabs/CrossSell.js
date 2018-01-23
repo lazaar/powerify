@@ -26,7 +26,7 @@ class CrossSell extends Component {
         this.setState(()=>({
             [property]: value
         }), function () {
-            this.props.onSettingsChange("crosssell", this.state);
+            this.props.onSettingsChange("crosssell", property, value);
         });
         if (typeof callback === "function") {
             callback();

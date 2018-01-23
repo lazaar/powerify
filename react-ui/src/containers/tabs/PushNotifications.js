@@ -30,7 +30,7 @@ class PushNotifications extends Component {
         this.setState(()=>({
             [property]: value
         }), function () {
-            this.props.onSettingsChange("pushnotifications", this.state);
+            this.props.onSettingsChange("pushnotifications", property, value);
         });
         if (typeof callback === "function") {
             callback();

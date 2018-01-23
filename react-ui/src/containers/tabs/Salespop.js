@@ -32,7 +32,7 @@ class Salespop extends Component {
         this.setState(()=>({
             [property]: value
         }), function () {
-            this.props.onSettingsChange("salespop", this.state);
+            this.props.onSettingsChange("salespop",property, value);
         });
         if (typeof callback === "function") {
             callback();

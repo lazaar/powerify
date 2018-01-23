@@ -30,11 +30,8 @@ class Settings extends Component {
       loadSettings();
   }
 
-    handleSettings = (name, settings, ...notSaved) => {
-        notSaved.forEach(function(element) {
-            delete settings[element];
-        });
-        this.props.settings[name]= settings;
+    handleSettings = (tab, name, settings) => {
+        this.props.settings[tab][name] = settings;
     };
 
     saveState = (name) => {

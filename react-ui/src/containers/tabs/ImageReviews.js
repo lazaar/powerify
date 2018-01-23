@@ -31,7 +31,7 @@ class ImageReviews extends Component {
         this.setState(()=>({
             [property]: value
         }), function () {
-            this.props.onSettingsChange("imagereviews", this.state);
+            this.props.onSettingsChange("imagereviews", property, value);
         });
         if (typeof callback === "function") {
             callback();

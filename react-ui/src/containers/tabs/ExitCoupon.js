@@ -60,7 +60,7 @@ class ExitCoupon extends Component {
         this.setState(()=>({
             [property]: value
         }), function () {
-            this.props.onSettingsChange("exitcoupon", this.state);
+            this.props.onSettingsChange("exitcoupon", property, value);
         });
         if (typeof callback === "function") {
             callback();

@@ -26,7 +26,7 @@ class Buyme extends Component {
         this.setState(()=>({
             [property]: value
         }), function () {
-            this.props.onSettingsChange("buyme", this.state);
+            this.props.onSettingsChange("buyme", property, value);
         });
         if (typeof callback === "function") {
             callback();
