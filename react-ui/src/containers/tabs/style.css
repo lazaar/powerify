@@ -184,3 +184,39 @@
     float: left;
     width: 70%;
 }
+
+.powerify_sales-pop{
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background: red;
+    max-height: 80px;
+    padding: 15px;
+    max-width: 80%;
+    width: 325px;
+    margin: auto;
+}
+.powerify_sales-pop.powerify_sales-pop-error{
+    background-color: #f2dede;
+    color: #a94442;
+    border-color: #ebccd1;
+}
+.powerify_sales-pop.powerify_sales-pop-info{
+    background-color: #d9edf7;
+    color: #31708f;
+    border-color: #bce8f1;
+}
+.powerify_sales-pop.powerify_sales-pop-success{
+    background-color: #dff0d8;
+    color: #3c763d;
+    border-color: #d6e9c6;
+}
+.powerify_sales-pop.powerify_sales-pop-warning{
+    background-color: #fcf8e3;
+    color: #8a6d3b;
+    border-color: #faebcc;
+}
+.powerify_sales-pop.powerify_sales-pop-alerte{
+    background-color: #fcf8e3;
+    color: #8a6d3b;
+    border-color: #faebcc;
+}

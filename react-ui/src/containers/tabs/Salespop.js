@@ -1,7 +1,7 @@
 // @flow
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {Layout,  Select, Card, FormLayout, TextField,  TextContainer, Heading, Checkbox} from '@shopify/polaris';
+import {Layout, ChoiceList,TextField, Select, Card, FormLayout, Checkbox} from '@shopify/polaris';
 
 class Salespop extends Component {
     constructor(props) {
@@ -12,27 +12,20 @@ class Salespop extends Component {
             this.state = this.props.settings.salespop;
         }
         else{
-        this.state = {
-            Language: "English",
-            randomOrder:false,
-            loopNotif: false,
-            hideMobile: false,
-            hideDesktop: false,
-            usersNotifications:false,
-            randomDelay: false,
-            openNotifsNewTab: false,
-            clickableNotifs: true,
-            maxNotifsPerUser:false,
-            visitorTracking: false,
-            initialDelay: 20,
-            displayTime: 13,
-            position: "center",
-            maxPerPage: 0,
-            notificationMessage: " someone in San Francisco, USA purchased",
-            showPreviewImage: true,
-            shape: "Classic",
-            shadow: false,
-        };
+            this.state = {
+                enableDesktop:true,
+                enableMobile:true,
+                locations:"San Francisco; New York; Paris; London; Pekin",
+                excludeProducts:[],
+                showOnProduct:['false'],
+                showCurrentProduct:['true'],
+                timeout:5,
+                color:'info',
+                position:'bottomLeft',
+                minTime:6,
+                maxTime:10,
+                textTemplate : 'Someone in {{location}} just bought {{product}}'
+            };
       }
     }
     onPropertyChange = (property, value, callback) => {
@@ -49,182 +42,156 @@ class Salespop extends Component {
 
     render() {
         return (<Layout sectioned>
-            <Layout.AnnotatedSection
-                title="Design"
-                description="">
-                <Card sectioned>
+            <Layout.Section
+
+            >
+                <Card sectioned
+                      title="Display Sales Pop"
+                >
                     <FormLayout>
-                        <FormLayout.Group>
-                            <Checkbox 
-                      checked = {this.state.randomOrder}
-				              label="Display notifications in random order" 
-				              onChange={(e) => this.onPropertyChange("randomOrder", e) }
-				              />
-				              <Checkbox 
-				              label="Loop notifications " 
-                      checked = {this.state.loopNotif}
-				              onChange={(e) => this.onPropertyChange("loopNotif", e) }
-				              />
-				              <Checkbox 
-				              label="Hide on mobile" 
-                      checked = {this.state.hideMobile}
-				              onChange={(e) => this.onPropertyChange("hideMobile", e) }
-				              />
-				              <Checkbox 
-				              label="Hide on desktop" 
-                      checked = {this.state.hideDesktop}
-				              onChange={(e) => this.onPropertyChange("hideDesktop", e) }
-				              />
-				              <Checkbox 
-				              label="Allow users to close notifications" 
-                      checked = {this.state.usersNotifications}
-				              onChange={(e) => this.onPropertyChange("usersNotifications", e) }
-				              />
-				              <Checkbox 
-				              label="Randomize delay between notifications " 
-                      checked = {this.state.randomDelay}
-				              onChange={(e) => this.onPropertyChange("randomDelay", e) }
-				              />
-				              <Checkbox 
-				              label="Open notification links in a new tab" 
-                      checked = {this.state.openNotifsNewTab}
-				              onChange={(e) => this.onPropertyChange("openNotifsNewTab", e) }
-				              />
-				              <Checkbox 
-				              label="Enable entire notification to be a clickable link" 
-                      checked = {this.state.clickableNotifs}
-				              onChange={(e) => this.onPropertyChange("clickableNotifs", e) }
-				              />
-				              <Checkbox 
-				              label="Max notifications per user session" 
-                      checked = {this.state.maxNotifsPerUser}
-				              onChange={(e) => this.onPropertyChange("maxNotifsPerUser", e) }
-				              />
-				              <Checkbox 
-				              label="Live visitors tracking" 
-                      checked = {this.state.visitorTracking}
-				              onChange={(e) => this.onPropertyChange("visitorTracking", e) }
-				              />
-				            
+
+                        <FormLayout.Group >
+                            <Checkbox label="Enable Sales Pop on Desktop"
+                                      checked={this.state.enableDesktop}
+                                      onChange={(e) => this.onPropertyChange("enableDesktop",e)}
+
+                            />
+                            <Checkbox label="Enable Sales Pop on Mobile"
+                                      checked={this.state.enableMobile}
+                                      onChange={(e) => this.onPropertyChange("enableMobile",e)}
+
+                            />
+                            <Select
+                                label="Sales Pop position : "
+                                placeholder="Select"
+                                value={this.state.position}
+                                options={[
+                                 {
+                                  label: 'Top Left',
+                                  value: 'topLeft'
+                                },{
+                                  label: 'Top Center',
+                                  value: 'topCenter'
+                                },{
+                                  label: 'Top Right',
+                                  value: 'topRight'
+                                },{
+                                  label: 'Bottom Left',
+                                  value: 'bottomLeft'
+                                },{
+                                  label: 'Bottom Center',
+                                  value: 'bottomCenter'
+                                },{
+                                  label: 'Bottom Right',
+                                  value: 'bottomRight'
+                                }
+                              ]}
+                                onChange={(e) => this.onPropertyChange("position", e) }
+                            />
+                            <ChoiceList
+                                title="Show only on product page"
+                                choices={[
+							    {
+							      label: 'yes',
+							      value: 'true'
+							    },
+							    {
+							      label: 'No',
+							      value: 'false'
+							    }
+							  ]}
+                                selected={this.state.showOnProduct}
+                                onChange={(e) => this.onPropertyChange("showOnProduct",e)}
+                            />
+
+                            <ChoiceList
+                                title="In product page, show only the current product"
+                                choices={[
+							    {
+							      label: 'yes',
+							      value: 'true'
+							    },
+							    {
+							      label: 'No',
+							      value: 'false'
+							    }
+							  ]}
+                                selected={this.state.showCurrentProduct}
+                                onChange={(e) => this.onPropertyChange("showCurrentProduct",e)}
+                            />
+
+
                         </FormLayout.Group>
                     </FormLayout>
                 </Card>
-            </Layout.AnnotatedSection>
-            <Layout.AnnotatedSection
-                title="Behavior"
-                description="">
-                <Card sectioned>
+
+                <Card sectioned
+                      title="Content of Sales Pop"
+                >
                     <FormLayout>
-                        
+                        <div className={["powerify_sales-pop-"+this.state.color, "powerify_sales-pop"].join(' ')}>
+                            {this.state.textTemplate}
+                        </div>
+                        <TextField
+                            label="Text"
+                            type="text"
+                            helpText="Use {{location}} for location and {{product}} for Product title"
+                            value={this.state.textTemplate}
+                            onChange={(e) => this.onPropertyChange("textTemplate", e) }
+                        />
                         <FormLayout.Group >
-                           <TextContainer>
-                          <Heading> Note: you must first create the discount on Shopify, and then enter its details. </Heading>
-                          </TextContainer>
-                          </FormLayout.Group >
-                          <FormLayout.Group >
-   
-                          <TextField
-                            label="Initial Delay"
-                            type="number"
-                            value={this.state.initialDelay}
-                            onChange={(e) => this.onPropertyChange("initialDelay", e) }
-                          />
-                          <TextField
-                            label="Max per page"
-                            type="number"
-                            value={this.state.maxPerPage}
-                            onChange={(e) => this.onPropertyChange("maxPerPage", e) }
-                          />
-                          <TextField
-                            label="Display time"
-                            type="number"
-                            value={this.state.displayTime}
-                            onChange={(e) => this.onPropertyChange("displayTime", e) }
-                          />
-                          <Select
-                              label="Position"
-                              value={this.state.position}
-                              options={[
-                                'Bottom left',
-                                'Bottom right',
-                                'top left',
-                                'top right',
-                                'top center',
-                                'Bottom center',
-                                     ]}
-                              onChange={(e) => this.onPropertyChange("position", e) }
-                            />
-                           <Select
-                              label="Mobile Position"
-                              value={this.state.mobilePosition}
-                              options={[
-                                'Bottom',
-                                'top',
-                                
-                                     ]}
-                              onChange={(e) => this.onPropertyChange("mobilePosition", e) }
-                            />
                             <Select
-                              label="Language"
-                              value={this.state.Language}
-                              options={[
-                                'English',
-                                'Spanish',
-                                'French',
-                                'Arabic',
-                                'Italian',
-                                'German',
-                                     ]}
-                              onChange={(e) => this.onPropertyChange("Language", e) }
+                                label="Color : "
+                                placeholder="Select"
+                                value={this.state.color}
+                                options={[
+                                 {
+                                  label: 'Blue',
+                                  value: 'info'
+                                },{
+                                  label: 'Green',
+                                  value: 'success'
+                                },{
+                                  label: 'Red',
+                                  value: 'error'
+                                },{
+                                  label: 'Yellow',
+                                  value: 'warning'
+                                }
+                              ]}
+                                onChange={(e) => this.onPropertyChange("color", e) }
+                            />
+                            <TextField
+                                label="Display Time (seconds)"
+                                type="number"
+                                helpText="0 for sticky notifications"
+                                value={this.state.timeout}
+                                onChange={(e) => this.onPropertyChange("timeout", e) }
+                            />
+                            <TextField
+                                label="Minimum Time between notifications (seconds)"
+                                type="number"
+                                value={this.state.minTime}
+                                onChange={(e) => this.onPropertyChange("minTime", e) }
+                            />
+                            <TextField
+                                label="Maximum Time between notifications (seconds)"
+                                type="number"
+                                value={this.state.maxTime}
+                                onChange={(e) => this.onPropertyChange("maxTime", e) }
                             />
                         </FormLayout.Group>
-                      </FormLayout>  
-                </Card>
-            </Layout.AnnotatedSection>
-            <Layout.AnnotatedSection
-                  title="Theme"
-                description="">
-                <Card sectioned>
-
-		                <FormLayout.Group>
-		                <TextField
-                            label="Notification message: "
+                        <TextField
+                            label="Locations"
                             type="text"
-                            value={this.state.notificationMessage}
-                            onChange={(e) => this.onPropertyChange("notificationMessage", e) }
-                          />	
-		                  			<Select
-		                              label="Shape"
-		                              value={this.state.shape}
-		                              options={[
-		                                'Classic',
-		                                'Curved',
-		                                'Pill',
-		                                'Split',
-		                                     ]}
-		                              onChange={(e) => this.onPropertyChange("shape", e) }
-
-		                                />
-		                     </FormLayout.Group>
-		                     <FormLayout.Group>
-		                   <Checkbox 
-						              label="Show Preview Image" 
-                          checked = {this.state.showPreviewImage}
-						              onChange={(e) => this.onPropertyChange("showPreviewImage", e) }
-						              />
-		            	</FormLayout.Group>
-			            <FormLayout.Group>
-
-			                        
-			              <Checkbox 
-			              label="shadow" 
-                    checked = {this.state.shadow}
-			              onChange={(e) => this.onPropertyChange("shadow", e) }
-			              />
-			            </FormLayout.Group>
-
-             	</Card>
-             </Layout.AnnotatedSection>
+                            helpText='Separated by ";"'
+                            multiline={5}
+                            value={this.state.locations}
+                            onChange={(e) => this.onPropertyChange("locations", e) }
+                        />
+                    </FormLayout>
+                </Card>
+            </Layout.Section>
         </Layout>);
     }
 }

@@ -415,10 +415,18 @@
 .show {
   opacity: 0.9;
 }
-
 .transition {    
   -webkit-transition: all 1s ease-in-out;
 	-moz-transition: all 1s ease-in-out;
 	-o-transition: all 1s ease-in-out;
 	transition: all 1s ease-in-out;
+}
+.noty_layout .noty_body img{
+	width: 70px;
+	vertical-align: top;
+}
+.noty_layout .noty_body .powerify-noty-content{
+	display: inline-block;
+	width: calc(100% - 70px);
+	padding: 0 10px;
 }

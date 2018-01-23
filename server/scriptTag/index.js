@@ -4,10 +4,13 @@
 
 import * as htmlTemplate from './htmlTemplate';
 import utilities from './utilities'
+import salesPop from './features/salespop'
+
 
 const shopify = {
     inAdmin:false,
     inMobile:false,
+    isProductPage:false,
     settings:{},
     moneyFormat:'',
     init : function(){
@@ -26,6 +29,7 @@ const shopify = {
 
         self.inAdmin = $("#admin_bar_iframe").length > 0;
         self.inMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        self.isProductPage = window.location.pathname.indexOf("/products/") !== -1;
         self.initBarTop();
         self.initBuyMe();
 
@@ -35,9 +39,11 @@ const shopify = {
             url: "/index?view=powerify.settings",
             success: function(result){
                 self.settings = JSON.parse(result.settings);
-                console.log(self.settings);
                 self.moneyFormat = result.moneyFormat;
                 self.loadScript();
+                if(self.settings.salespop && (self.settings.salespop.enableDesktop && !self.inMobile) || (self.settings.salespop.enableMobile && self.inMobile)){
+                    salesPop.init(self.isProductPage, self.settings.salespop);
+                }
             },
             error: function(e) {
                 console.log("error Gettings Settings",e);
@@ -47,7 +53,7 @@ const shopify = {
     },
 
     loadScript: function(){
-        if(!this.inMobile && this.settings.quickview.enable) {
+        if(!this.inMobile && this.settings.quickview && this.settings.quickview.enable) {
             utilities.loadScript("https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js",this.initQuickView);
         }
     },
