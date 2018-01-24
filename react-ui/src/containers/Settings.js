@@ -31,6 +31,9 @@ class Settings extends Component {
   }
 
     handleSettings = (tab, name, settings) => {
+        if(!this.props.settings[tab]){
+            this.props.settings[tab] ={};
+        }
         this.props.settings[tab][name] = settings;
     };
 
