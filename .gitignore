@@ -13,3 +13,5 @@ coverage
 # Docker
 Dockerfile
 docker-compose.yml
+
+react-ui/public/scriptTag/index.js
