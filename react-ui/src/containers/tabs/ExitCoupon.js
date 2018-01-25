@@ -7,7 +7,7 @@ class ExitCoupon extends Component {
     constructor(props) {
         super(props);
 
-        if(false){
+        if(this.props.settings.exitCoupon){
             this.state = this.props.settings.exitCoupon;
         }
         else{
