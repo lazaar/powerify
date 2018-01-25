@@ -127,7 +127,7 @@ const shopify = {
     },
 
     loadScript: function(){
-        if(!this.inMobile && this.settings.quickview && this.settings.quickview.enable) {
+        if(true) {
             __WEBPACK_IMPORTED_MODULE_1__utilities__["a" /* default */].loadScript("https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js",this.initQuickView);
         }
     },
@@ -145,11 +145,8 @@ const shopify = {
 
     initBuyMe : function(){
         var buyme =$(".powerify_add_to_card");
-        if(buyme.length > 0){
+        $(window).scroll(function() {if (window.location.href.indexOf('/products/') > -1 && $(window).scrollTop() > 400 ){ $('.buybuy').addClass('show');} else {$('.buybuy').removeClass('show');};});
 
-            //$('html').css('padding-top',inAdmin === "" ? '40px' : '80px');
-            buyme.animate({height: '70px'},300);
-        }
     },
 
     initQuickView : function(){

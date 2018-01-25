@@ -25,7 +25,7 @@ tabs.buyme = {
 
         let buyme = "";
         
-        buyme = htmlConstants.buyme.replace("{{mycolor}}", 'white')
+        buyme = htmlConstants.buyme.replace("{{callToAction}}", tabSettings.callToAction).replace("{{position}}", tabSettings.position).replace("{{Size}}", tabSettings.Size)
         
         logger.info("Init buyme", buyme);
         shopMetafields.save(shopify,"buyme",buyme ).then(() => {
