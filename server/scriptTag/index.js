@@ -5,12 +5,14 @@
 import * as htmlTemplate from './htmlTemplate';
 import utilities from './utilities'
 import salesPop from './features/salespop'
+import exitCoupon from './features/exitCoupon'
 
 
 const shopify = {
     inAdmin:false,
     inMobile:false,
     isProductPage:false,
+    isCartPage:false,
     settings:{},
     moneyFormat:'',
     init : function(){
@@ -30,6 +32,8 @@ const shopify = {
         self.inAdmin = $("#admin_bar_iframe").length > 0;
         self.inMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         self.isProductPage = window.location.pathname.indexOf("/products/") !== -1;
+        self.isCartPage = window.location.pathname.indexOf("/cart") !== -1;
+
         self.initBarTop();
         self.initBuyMe();
 
@@ -41,7 +45,7 @@ const shopify = {
                 self.settings = JSON.parse(result.settings);
                 self.moneyFormat = result.moneyFormat;
                 self.loadScript();
-                if(self.settings.salespop && (self.settings.salespop.enableDesktop && !self.inMobile) || (self.settings.salespop.enableMobile && self.inMobile)){
+                if(self.settings.salespop && ((self.settings.salespop.enableDesktop && !self.inMobile) || (self.settings.salespop.enableMobile && self.inMobile))){
                     salesPop.init(self.isProductPage, self.settings.salespop);
                 }
             },
@@ -53,8 +57,15 @@ const shopify = {
     },
 
     loadScript: function(){
-        if(true) {
-            utilities.loadScript("https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js",this.initQuickView);
+        if(!shopify.inMobile) {
+            utilities.loadScript("https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js",function () {
+                if(shopify.settings.quickview && shopify.settings.quickview.enable){
+                    shopify.initQuickView();
+                }
+                if(shopify.settings.exitCoupon && shopify.settings.exitCoupon.enableDesktop){
+                    exitCoupon.init(shopify.isProductPage, shopify.isCartPage, shopify.settings.exitCoupon);
+                }
+            });
         }
     },
 
