@@ -69,7 +69,7 @@ class Buyme extends Component {
         this.setState(()=>({
             [property]: value
         }), function () {
-            this.props.onSettingsChange("buyme", property, value);
+            this.props.onSettingsChange("buyme", value, property);
         });
         if (typeof callback === "function") {
             callback();

@@ -46,7 +46,7 @@ class Scarcity extends Component {
         this.setState(()=>({
             [property]: value
         }), function () {
-            this.props.onSettingsChange("scarcity", property, value);
+            this.props.onSettingsChange("scarcity", value, property);
         });
         if (typeof callback === "function") {
             callback();

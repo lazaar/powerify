@@ -52,7 +52,7 @@ class QuickView extends Component {
         this.setState(()=>({
             [property]: value
         }), function () {
-            this.props.onSettingsChange("quickview", property, value);
+            this.props.onSettingsChange("quickview", value, property);
         });
 
         if (typeof callback === "function") {

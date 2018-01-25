@@ -37,7 +37,7 @@ class Upsell extends Component {
         this.setState(()=>({
             [property]: value
         }), function () {
-            this.props.onSettingsChange("upsell", property, value);
+            this.props.onSettingsChange("upsell", value, property);
         });
         if (typeof callback === "function") {
             callback();

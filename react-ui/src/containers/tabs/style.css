@@ -220,3 +220,25 @@
     color: #8a6d3b;
     border-color: #faebcc;
 }
+
+.powerify-color-overlay{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+.powerify-button-color{
+    border-radius: 5px;
+    height: 36px;
+    width: 40px;
+    border: 1px solid #555555;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+    position: relative;
+    left: -20px;
+    top: 3px;
+}

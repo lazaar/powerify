@@ -54,4 +54,26 @@ tabs.upperBar = {
     }
 };
 
+tabs.exitCoupon = {
+    init: function(tabSettings, shopify) {
+        let exitCoupon = "";
+        if(tabSettings.enableDesktop){
+            exitCoupon = htmlConstants.exitCoupons.replace("{{firstColor}}", tabSettings.firstColorText)
+                .replace("{{backgroundColor}}",tabSettings.backgroundColorText )
+                .replace("{{firstline}}",tabSettings.firstline )
+                .replace("{{secondline}}",tabSettings.secondline )
+                .replace("{{secondColor}}",tabSettings.secondColorText )
+                .replace("{{couponColor}}",tabSettings.couponColorText )
+                .replace("{{couponcode}}",tabSettings.couponcode )
+                .replace("{{font}}",tabSettings.font );
+        }
+        logger.info("Init Exit Coupon", exitCoupon);
+        shopMetafields.save(shopify,"exitCoupon",exitCoupon ).then(() => {
+            logger.info("exitCoupon saved");
+        }).catch((e)=>{
+            logger.error("exitCoupon not saved",e);
+        });
+    }
+};
+
 module.exports = features;

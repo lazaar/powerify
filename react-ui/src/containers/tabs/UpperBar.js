@@ -47,7 +47,7 @@ class UpperBar extends Component {
         this.setState(()=>({
             [property]: value
         }), function () {
-            this.props.onSettingsChange("upperBar", property, value);
+            this.props.onSettingsChange("upperBar", value, property);
         });
 
         if (typeof callback === "function") {

@@ -30,11 +30,16 @@ class Settings extends Component {
       loadSettings();
   }
 
-    handleSettings = (tab, name, settings) => {
-        if(!this.props.settings[tab]){
-            this.props.settings[tab] ={};
+    handleSettings = (tab, settings, name) => {
+        if(name != null){
+            if(!this.props.settings[tab]){
+                this.props.settings[tab] ={};
+            }
+            this.props.settings[tab][name] = settings;
         }
-        this.props.settings[tab][name] = settings;
+        else{
+            this.props.settings[tab] = settings;
+        }
     };
 
     saveState = (name) => {
@@ -192,6 +197,7 @@ const mapDispatchToProps = dispatch => {
             fetchSettings(dispatch);
         },
         saveSettings: (settings, callback) => {
+            delete settings.error;
             callback("progress");
             saveSettings(settings).then(()=>{callback("done")}).catch(()=>{callback("error")});
         }
