@@ -6,21 +6,10 @@ import {Layout, ColorPicker , hsbToHex , rgbToHsb, Checkbox, Select, Card, FormL
 class QuickView extends Component {
     constructor(props) {
         super(props);
-        let color = {
-            hue: 120,
-            brightness: 1,
-            saturation: 0
-        }
-        let QVBtnTxtColor = {
-            hue: 181,
-            brightness: 0.57,
-            saturation: 1
-        };
+      
         
-        if(this.props.settings.quickview){
-            this.state = this.props.settings.quickview;
-        }
-        else{
+        
+        
         this.state = {
             enable: true,
             redirect: "Cart",
@@ -28,16 +17,11 @@ class QuickView extends Component {
             popWidth: 800,
             popHeight: 500,
             maxWords: 30,
-            QVBtnColor: color,
-            QVBtnColorText: this.displayColor(color),
-            QVBtnTxtColor: QVBtnTxtColor,
-            QVBtnTxtColorText: this.displayColor(color),
-            PriceColor: color,
-            PriceColorText: this.displayColor(color),
-            AToCBtnColor: color,
-            AToCBtnColorText: this.displayColor(color),
-            ProductNameColor: color,
-            ProductNameColorText: this.displayColor(color),
+            QVBtnColorText: "#ffffff",
+            QVBtnTxtColorText: "#ffffff",
+            PriceColorText: "#ffffff",
+            AToCBtnColorText: "#ffffff",
+            ProductNameColorText: "#ffffff",
             showPriceColor: false,
             showQVBtnTxtColor: false,
             showmecouponTextColor: false,
@@ -46,8 +30,15 @@ class QuickView extends Component {
         };
          this.props.onSettingsChange("quickview", this.state);
 
-    	}	
-
+    		
+    }
+    componentDidMount(){ 
+    	
+        this.blurInputColor("QVBtnColorText","QVBtnColor");
+        this.blurInputColor("QVBtnTxtColorText","QVBtnTxtColor");
+        this.blurInputColor("PriceColorText","PriceColor");
+        this.blurInputColor("AToCBtnColorText","AToCBtnColor");
+        this.blurInputColor("ProductNameColorText","ProductNameColor");
     }
     
     onPropertyChange = (property, value, callback) => {
@@ -301,7 +292,7 @@ class QuickView extends Component {
 							<TextField label="Product Name Color" 
   										value={this.state.ProductNameColorText}
 										onChange={(e) => this.onPropertyChange("ProductNameColorText", e) }
-                                		onBlur={() => this.blurInputColor("ProductNameColorText", "ProductNameColor") }  							/>
+                                		onBlur={() => this.blurInputColor("ProductNameColorText", "ProductNameColor") }  />
 							<Popover
 							  active={this.state.showProductNameColor}
 							  activator={ 

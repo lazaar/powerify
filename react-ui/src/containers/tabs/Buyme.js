@@ -6,16 +6,7 @@ import {Layout, ColorPicker, rgbToHsb, hsbToHex, Popover, Select, Card, FormLayo
 class Buyme extends Component {
     constructor(props) {
         super(props);
-         let color = {
-            hue: 120,
-            brightness: 1,
-            saturation: 0
-        };
-        let bg_color = {
-            hue: 0,
-            brightness: 0,
-            saturation: 0
-        };
+        
        
         if(this.props.settings.buyme){
             this.state = this.props.settings.buyme;
@@ -28,10 +19,8 @@ class Buyme extends Component {
             Size: "Medium",
             callToAction: "Buy Now",
             enable: true,
-            color: color,
-            colorText: this.displayColor(color),
-            bg_color: bg_color,
-            bg_colorText: this.displayColor(bg_color),
+            colorText: "#ffffff",
+            bg_colorText: "#ffffff",
             showme: false,
             showmetoo: false,
             
@@ -39,6 +28,11 @@ class Buyme extends Component {
          this.props.onSettingsChange("buyme", this.state);
 
         }
+    }
+
+    componentDidMount(){
+        this.blurInputColor("colorText","color");
+        this.blurInputColor("bg_colorText","bg_color");
     }
      
      onPropertyChange = (property, value, callback) => {

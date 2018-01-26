@@ -11,16 +11,7 @@ import {Layout, ColorPicker, rgbToHsb,hsbToHex,   Select, Card, FormLayout, Text
 class UpperBar extends Component {
     constructor(props) {
         super(props);
-        let color = {
-            hue: 120,
-            brightness: 1,
-            saturation: 0
-        };
-        let bg_color = {
-            hue: 0,
-            brightness: 0,
-            saturation: 0
-        };
+       
 
         if(this.props.settings.upperBar){
             this.state = this.props.settings.upperBar;
@@ -32,17 +23,18 @@ class UpperBar extends Component {
                 font: "Chewy",
                 selectedDate: moment(),
                 text: "Free shipping / happy customer",
-                color: color,
-                colorText: this.displayColor(color),
-                bg_color: bg_color,
-                bg_colorText: this.displayColor(bg_color),
+                colorText: "#000000",
+                bg_colorText: "#ffffff",
                 showme: false,
                 showmetoo: false,
             };
             this.props.onSettingsChange("upperBar", this.state);
         }
     }
-
+    componentDidMount(){
+        this.blurInputColor("colorText","color");
+        this.blurInputColor("bg_colorText","bg_color");
+    }
     
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
