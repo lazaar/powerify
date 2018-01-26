@@ -1,6 +1,6 @@
 
 export const upperBar = "<div class=\"powerify_upper_bar\" style=\"height:40px; color:{{color}};font-family:{{font}}; background-color:{{backgroundColor}};\">{{text}}</div>";
-export const buyme = "<div id='buybuy' class='buybuy powerify_add_to_card transition' style=\" {{position}}: 0; height : {{Size}}; \" >  <button type=\"submit\" name=\"add\" onclick=\"myFunction()\"  class=\"sticky-button\" >  <span > {{callToAction}} </span></button>  </div>   <script>function myFunction() {document.getElementById(\"AddToCart-product-template\").click();} </script>";
+export const buyme = "<div id='buybuy' class='buybuy powerify_add_to_card transition' style=\" {{position}}: 0; height : {{Size}}; \" >  <button type=\"submit\" name=\"add\" onclick=\"myFunction()\"  class=\"sticky-button\" style=\"backgroundColor: {{bg_colorText}}; color: {{colorText}}\" >  <span > {{callToAction}} </span></button>  </div>   <script>function myFunction() {document.getElementById(\"AddToCart-product-template\").click();} </script>";
 
 export const exitCoupons = '<div style="display:none"><div id="powerify-coupon-on-exit" style="color: {{firstColor}}; background-color: {{backgroundColor}}; font-family: {{font}};">'
                                 +'<div class="powerify-coupon-wrapper">'

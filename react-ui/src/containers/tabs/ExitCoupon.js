@@ -192,10 +192,10 @@ class ExitCoupon extends Component {
                             <Popover
                                 active={this.state.showBgColorPopup}
                                 activator={
-							  	<button
-							  	    className="powerify-button-color"
-							  	    style={{backgroundColor:this.state.backgroundColorText}}
-							  	    onClick={() => this.setState({showBgColorPopup:true})}> </button>
+          							  	<button
+          							  	    className="powerify-button-color"
+          							  	    style={{backgroundColor:this.state.backgroundColorText}}
+          							  	    onClick={() => this.setState({showBgColorPopup:true})}> </button>
                                 }
                                 sectioned>
                                 <div className = "powerify-color-overlay" onClick={() => this.setState({showBgColorPopup:false})}> </div>

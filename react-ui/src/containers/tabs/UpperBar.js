@@ -39,6 +39,7 @@ class UpperBar extends Component {
                 showme: false,
                 showmetoo: false,
             };
+            this.props.onSettingsChange("upperBar", this.state);
         }
     }
 
@@ -55,22 +56,23 @@ class UpperBar extends Component {
         }
     };
 
-    handleClose = () => {
-    this.setState({ showme: false })
-    };
-
-    handleCloseToo = () => {
-    this.setState({ showmetoo: false })
+    handleClose = (property) => {
+        this.setState({ [property]: false })
     };
 
     displayColor = (hsbColor) => {
         let color = hsbToHex(hsbColor);
         return color;
     };
+    
+    hexToRgb = (hex) => {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : null;
+    };
 
     blurInputColor = (property, changeProperty) => {
-        const colors = this.state[property].split(",");
-        if (colors.length === 3) {
+        const colors = this.hexToRgb(this.state[property]);
+        if (colors !== null && colors.length === 3) {
             const color = {
                 red: colors[0],
                 green: colors[1],
@@ -178,48 +180,57 @@ class UpperBar extends Component {
                     <FormLayout>
                         <div className="powerify_upper_bar"
                             style={{
-                              color:hsbToHex(this.state.color),
-                              backgroundColor:hsbToHex(this.state.bg_color),
+                              color:this.state.colorText,
+                              backgroundColor:this.state.bg_colorText,
                               fontFamily: this.state.font
                             }}
                         >
                             {this.state.text} 
                         </div>
+
                         <FormLayout.Group condensed>
+                            <TextField label="Coupon background color"
+                                       value={this.state.colorText}
+                                       onChange={(e) => this.onPropertyChange("colorText", e) }
+                                       onBlur={() => this.blurInputColor("colorText", "color") }
+                            />
                             <Popover
-                              active={this.state.showme}
-                              activator={ 
-                                <button className="button" style={{
-                                backgroundColor:hsbToHex(this.state.color),
-                                 
-                                 }} 
-                                 onClick={(e) => this.onPropertyChange("showme", true)}
-                                 ></button>
-
-                                        }
-                              sectioned
-                            >
-
-                              <FormLayout>
-
-                                <div style={ cover } onClick={ this.handleClose }/>
+                                active={this.state.showme}
+                                activator={
+                               <button
+                              className="powerify-button-color"
+                              style={{backgroundColor:this.state.colorText}}
+                              onClick={() => this.setState({showme:true})}> </button>
+                                }
+                                sectioned>
+                                <div className = "powerify-color-overlay" onClick={() => this.setState({showme:false})}> </div>
                                 <ColorPicker
-                                color={this.state.color}
-                                onChange={(e) => this.onPropertyChange("color", e, () => this.onPropertyChange("colorText", this.displayColor(e)))}
-                                onBlur={(e) => this.onPropertyChange("showme", false)}
-                                />
-                                
-                              </FormLayout>
+                                    color={this.state.color}
+                                    onChange={(e) => {
+                                        this.setState({color:e});
+                                        this.onPropertyChange("colorText",this.displayColor(e));
+                                     }}
+                                    onBlur={(e) => this.setState({showme:false})}/>
                             </Popover>
+                             
 
+
+                            <TextField 
+                                
+                                label="Background Color"
+                                value={this.state.bg_colorText}
+                                onChange={(e) => this.onPropertyChange("bg_colorText", e) }
+                                onBlur={() => this.blurInputColor("bg_colorText", "bg_color") }
+                            />
                             <Popover
                               active={this.state.showmetoo}
                               activator={ 
-                                <button className="button" style={{
-                                backgroundColor:hsbToHex(this.state.bg_color),
+                                <button className="powerify-button-color" style={{
+                                backgroundColor:this.state.bg_colorText,
                                  
-                                 }} 
-                                 onClick={(e) => this.onPropertyChange("showmetoo", true)}
+                                 }}
+                               onClick={() => this.setState({showmetoo:true})} 
+
                                  ></button>
 
                                         }
@@ -228,21 +239,16 @@ class UpperBar extends Component {
 
                               <FormLayout>
 
-                                <div style={ cover } onClick={ this.handleCloseToo }/>
+                                <div style={ cover } onClick={() => this.setState({showmetoo:false})}/>
                                 <ColorPicker
                                 color={this.state.bg_color}
                                 onChange={(e) => this.onPropertyChange("bg_color", e, () => this.onPropertyChange("bg_colorText", this.displayColor(e)))}
-                                onBlur={(e) => this.onPropertyChange("showmetoo", false)}
+                                onBlur={(e) => this.setState({showmetoo:false})}
                                 />
                                 
                               </FormLayout>
                             </Popover>
-                            <TextField 
-                                
-                                type="text"
-                                value={this.state.colorText}
-
-                            />
+                            
                         </FormLayout.Group>
                     </FormLayout>
                 </Card>

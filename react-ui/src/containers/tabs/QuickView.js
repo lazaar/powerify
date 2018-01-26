@@ -44,6 +44,8 @@ class QuickView extends Component {
             showQVBtnColor: false,
             showAToCBtnColor: false,
         };
+         this.props.onSettingsChange("quickview", this.state);
+
     	}	
 
     }
@@ -71,9 +73,14 @@ class QuickView extends Component {
         return color;
     };
 
+    hexToRgb = (hex) => {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : null;
+    };
+
     blurInputColor = (property, changeProperty) => {
-        const colors = this.state[property].split(",");
-        if (colors.length === 3) {
+        const colors = this.hexToRgb(this.state[property]);
+        if (colors !== null && colors.length === 3) {
             const color = {
                 red: colors[0],
                 green: colors[1],
@@ -84,7 +91,6 @@ class QuickView extends Component {
             }));
         }
     };
-
 
 
     render() {
@@ -200,19 +206,20 @@ class QuickView extends Component {
             	<Card 
             		title="Colors"
             		sectioned>
-            			<FormLayout>
+            			<FormLayout.Group condensed>
             			<TextField label="Quick View Button Text Color" 
   										value={this.state.QVBtnTxtColorText}
-  								    	onClick={(e) => this.onPropertyChange("showQVBtnTxtColor", true)}
+  								    	onChange={(e) => this.onPropertyChange("QVBtnTxtColorText", e) }
+                                		onBlur={() => this.blurInputColor("QVBtnTxtColorText", "QVBtnTxtColor") }
   							/>
             			<Popover
 							  active={this.state.showQVBtnTxtColor}
 							  activator={ 
-							  	<button className="button" style={{
-				                backgroundColor:hsbToHex(this.state.QVBtnTxtColor),
+							  	<button className="powerify-button-color" style={{
+				                backgroundColor:this.state.QVBtnTxtColorText,
 				      			 
 							  	 }} 
-							  	 onClick={(e) => this.onPropertyChange("showQVBtnTxtColor", true)}
+							  	 onClick={() => this.setState({showQVBtnTxtColor:true})}
 							  	 ></button>
 
 							  			}
@@ -221,7 +228,7 @@ class QuickView extends Component {
 
 							  <FormLayout>
 
-							  	<div style={ cover } onClick={(e) =>  this.handleClose("showQVBtnTxtColor") }/>
+							  	<div style={ cover }   onClick={() => this.setState({showQVBtnTxtColor:false}) }/>
 							    <ColorPicker
                                 color={this.state.QVBtnTxtColor}
                                 onChange={(e) => this.onPropertyChange("QVBtnTxtColor", e, () => this.onPropertyChange("QVBtnTxtColorText", this.displayColor(e)))}
@@ -230,18 +237,20 @@ class QuickView extends Component {
 							    
 							  </FormLayout>
 							</Popover>
+
 							<TextField label="Quick View Button Color" 
   										value={this.state.QVBtnColorText}
-  								    	onClick={(e) => this.onPropertyChange("showQVBtnColor", true)}
+  								    	onChange={(e) => this.onPropertyChange("QVBtnColorText", e) }
+                                		onBlur={() => this.blurInputColor("QVBtnColorText", "QVBtnColor") }
   							/>
 							<Popover
 							  active={this.state.showQVBtnColor}
 							  activator={ 
-							  	<button className="button" style={{
-				                backgroundColor:hsbToHex(this.state.QVBtnColor),
+							  	<button className="powerify-button-color" style={{
+				                backgroundColor:this.state.QVBtnColorText,
 				      			 
 							  	 }} 
-							  	 onClick={(e) => this.onPropertyChange("showQVBtnColor", true)}
+							  	 onClick={() => this.setState({showQVBtnColor:true})}
 							  	 ></button>
 
 							  			}
@@ -249,7 +258,7 @@ class QuickView extends Component {
 
 							  <FormLayout>
 
-							  	<div style={ cover } onClick={(e) =>  this.handleClose("showQVBtnColor") }/>
+							  	<div style={ cover }  onClick={() => this.setState({showQVBtnColor:false})} />
 							    <ColorPicker
                                 color={this.state.QVBtnColor}
                                 onChange={(e) => this.onPropertyChange("QVBtnColor", e, () => this.onPropertyChange("QVBtnColorText", this.displayColor(e)))}
@@ -258,18 +267,21 @@ class QuickView extends Component {
 							    
 							  </FormLayout>
 							</Popover>
+							</FormLayout.Group>
+							<FormLayout.Group condensed>
 							<TextField label="Add to Cart Button Color" 
   										value={this.state.AToCBtnColorText}
-  								    	onClick={(e) => this.onPropertyChange("showAToCBtnColor", true)}
-  							/>
+										onChange={(e) => this.onPropertyChange("AToCBtnColorText", e) }
+                                		onBlur={() => this.blurInputColor("AToCBtnColorText", "AToCBtnColor") }
+                                		/>
 							<Popover
 							  active={this.state.showAToCBtnColor}
 							  activator={ 
-							  	<button className="button" style={{
-				                backgroundColor:hsbToHex(this.state.AToCBtnColor),
+							  	<button className="powerify-button-color" style={{
+				                backgroundColor:this.state.AToCBtnColorText,
 				      			 
 							  	 }} 
-							  	 onClick={(e) => this.onPropertyChange("showAToCBtnColor", true)}
+							  	 onClick={() => this.setState({showAToCBtnColor:true})}
 							  	 ></button>
 
 							  			}
@@ -277,7 +289,7 @@ class QuickView extends Component {
 
 							  <FormLayout>
 
-							  	<div style={ cover } onClick={(e) =>  this.handleClose("showAToCBtnColor") }/>
+							  	<div style={ cover }  onClick={() => this.setState({showAToCBtnColor:false})}/>
 							    <ColorPicker
                                 color={this.state.AToCBtnColor}
                                 onChange={(e) => this.onPropertyChange("AToCBtnColor", e, () => this.onPropertyChange("AToCBtnColorText", this.displayColor(e)))}
@@ -288,16 +300,16 @@ class QuickView extends Component {
 							</Popover>
 							<TextField label="Product Name Color" 
   										value={this.state.ProductNameColorText}
-  								    	onClick={(e) => this.onPropertyChange("showProductNameColor", true)}
-  							/>
+										onChange={(e) => this.onPropertyChange("ProductNameColorText", e) }
+                                		onBlur={() => this.blurInputColor("ProductNameColorText", "ProductNameColor") }  							/>
 							<Popover
 							  active={this.state.showProductNameColor}
 							  activator={ 
-							  	<button className="button" style={{
-				                backgroundColor:hsbToHex(this.state.ProductNameColor),
+							  	<button className="powerify-button-color" style={{
+				                backgroundColor:this.state.ProductNameColorText,
 				      			 
 							  	 }} 
-							  	 onClick={(e) => this.onPropertyChange("showProductNameColor", true)}
+							  	 onClick={() => this.setState({showProductNameColor:true})}
 							  	 ></button>
 
 							  			}
@@ -305,7 +317,7 @@ class QuickView extends Component {
 
 							  <FormLayout>
 
-							  	<div style={ cover } onClick={(e) =>  this.handleClose("showProductNameColor") }/>
+							  	<div style={ cover } onClick={() => this.setState({showProductNameColor:false})}/>
 							    <ColorPicker
                                 color={this.state.ProductNameColor}
                                 onChange={(e) => this.onPropertyChange("ProductNameColor", e, () => this.onPropertyChange("ProductNameColorText", this.displayColor(e)))}
@@ -314,18 +326,22 @@ class QuickView extends Component {
 							    
 							  </FormLayout>
 							</Popover>
+							</FormLayout.Group>
+
+							<FormLayout.Group condensed>
 							<TextField label="Price Color" 
   										value={this.state.PriceColorText}
-  								    	onClick={(e) => this.onPropertyChange("showPriceColor", true)}
+  								    	onChange={(e) => this.onPropertyChange("PriceColorText", e) }
+                                		onBlur={() => this.blurInputColor("PriceColorText", "PriceColor") }
   							/>
 							<Popover
 							  active={this.state.showPriceColor}
 							  activator={ 
-							  	<button className="button" style={{
-				                backgroundColor:hsbToHex(this.state.PriceColor),
+							  	<button className="powerify-button-color" style={{
+				                backgroundColor:this.state.PriceColorText,
 				      			 
 							  	 }} 
-							  	 onClick={(e) => this.onPropertyChange("showPriceColor", true)}
+							  	 onClick={() => this.setState({showPriceColor:true})}
 							  	 ></button>
 
 							  			}
@@ -333,7 +349,7 @@ class QuickView extends Component {
 
 							  <FormLayout>
 
-							  	<div style={ cover } onClick={(e) =>  this.handleClose("showPriceColor") }/>
+							  	<div style={ cover } onClick={() => this.setState({showPriceColor:false})}/>
 							    <ColorPicker
                                 color={this.state.PriceColor}
                                 onChange={(e) => this.onPropertyChange("PriceColor", e, () => this.onPropertyChange("PriceColorText", this.displayColor(e)))}
@@ -342,8 +358,7 @@ class QuickView extends Component {
 							    
 							  </FormLayout>
 							</Popover>
-
-            			</FormLayout>
+            			</FormLayout.Group>
             	</Card>
             </Layout.Section>
         </Layout>);

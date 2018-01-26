@@ -36,24 +36,36 @@ class Buyme extends Component {
             showmetoo: false,
             
         };
+         this.props.onSettingsChange("buyme", this.state);
+
         }
     }
-      handleClose = () => {
-    this.setState({ showme: false })
+     
+     onPropertyChange = (property, value, callback) => {
+        this.setState(()=>({
+            [property]: value
+        }), function () {
+            this.props.onSettingsChange("buyme", value, property);
+        });
+
+        if (typeof callback === "function") {
+            callback();
+        }
+    };
+    
+     handleClose = (property) => {
+        this.setState({ [property]: false })
     };
 
-    handleCloseToo = () => {
-    this.setState({ showmetoo: false })
-    };
-
+    
     displayColor = (hsbColor) => {
         let color = hsbToHex(hsbColor);
         return color;
     };
 
     blurInputColor = (property, changeProperty) => {
-        const colors = this.state[property].split(",");
-        if (colors.length === 3) {
+        const colors = this.hexToRgb(this.state[property]);
+        if (colors !== null && colors.length === 3) {
             const color = {
                 red: colors[0],
                 green: colors[1],
@@ -65,15 +77,9 @@ class Buyme extends Component {
         }
     };
 
-    onPropertyChange = (property, value, callback) => {
-        this.setState(()=>({
-            [property]: value
-        }), function () {
-            this.props.onSettingsChange("buyme", value, property);
-        });
-        if (typeof callback === "function") {
-            callback();
-        }
+    hexToRgb = (hex) => {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : null;
     };
 
 
@@ -137,56 +143,69 @@ class Buyme extends Component {
                                      ]}
                               onChange={(e) => this.onPropertyChange("Size", e) }
                             />
-                            <Popover
-                              active={this.state.showme}
-                              activator={ 
-                                <button className="button" style={{
-                                backgroundColor:hsbToHex(this.state.color),
+                            <TextField label="Chose Call to Action color" 
+                               value={this.state.colorText}
+                               onChange={(e) => this.onPropertyChange("colorText", e) }
+                               onBlur={() => this.blurInputColor("colorText", "color") }
+                            />
+                          <Popover
+                            active={this.state.showme}
+                            activator={ 
+                              <button className="powerify-button-color" style={{
+                                    backgroundColor:this.state.colorText,
                                  
-                                 }} 
-                                 onClick={(e) => this.onPropertyChange("showme", true)}
-                                 ></button>
+                               }}
+                               onClick={() => this.setState({showme:true})} 
+                               ></button>
 
-                                        }
-                              sectioned
-                            >
+                                  }
+                            sectioned
+                          >
 
-                              <FormLayout>
+                            <FormLayout>
 
-                                <div style={ cover } onClick={ this.handleClose }/>
-                                <ColorPicker
-                                color={this.state.color}
-                                onChange={(e) => this.onPropertyChange("color", e, () => this.onPropertyChange("colorText", this.displayColor(e)))}
-                                onBlur={(e) => this.onPropertyChange("showme", false)}
-                                />
-                                
-                              </FormLayout>
-                            </Popover>
+                              <div style={ cover } onClick={() => this.setState({showme:false})} />
+                              <ColorPicker
+                                            color={this.state.color}
+                                            onChange={(e) => this.onPropertyChange("color", e, () => this.onPropertyChange("colorText", this.displayColor(e)))}
+                                            onBlur={(e) => this.onPropertyChange("showme", false)}
+                                          />
+                              
+                            </FormLayout>
+                          </Popover>
 
-                            <Popover
-                              active={this.state.showmetoo}
-                              activator={ 
-                                <button className="button" style={{
-                                backgroundColor:hsbToHex(this.state.bg_color),
+                            
+                              <TextField label="Chose button color" 
+                               value={this.state.bg_colorText}
+                               onChange={(e) => this.onPropertyChange("bg_colorText", e) }
+                               onBlur={() => this.blurInputColor("bg_colorText", "bg_color") }
+                            />
+                              <Popover
+                            active={this.state.showmetoo}
+                            activator={ 
+                              <button className="powerify-button-color" style={{
+                                    backgroundColor:this.state.bg_colorText,
                                  
-                                 }} 
-                                 onClick={(e) => this.onPropertyChange("showmetoo", true)}
-                                 ></button>
-                                        }
-                              sectioned
-                            >
+                               }} 
+                               onClick={() => this.setState({showmetoo:true})} 
+                               ></button>
 
-                              <FormLayout>
+                                  }
+                            sectioned
+                          >
 
-                                <div style={ cover } onClick={ this.handleCloseToo }/>
-                                <ColorPicker
-                                color={this.state.bg_color}
-                                onChange={(e) => this.onPropertyChange("bg_color", e, () => this.onPropertyChange("bg_colorText", this.displayColor(e)))}
-                                onBlur={(e) => this.onPropertyChange("showmetoo", false)}
-                                />
-                                
-                              </FormLayout>
-                            </Popover>
+                            <FormLayout>
+
+                              <div style={ cover } onClick={() => this.setState({showmetoo:false})} />
+                              <ColorPicker
+                                            color={this.state.bg_color}
+                                            onChange={(e) => this.onPropertyChange("bg_color", e, () => this.onPropertyChange("bg_colorText", this.displayColor(e)))}
+                                            onBlur={(e) => this.onPropertyChange("showmetoo", false)}
+                                          />
+                              
+                            </FormLayout>
+                          </Popover>
+
 
 				            
                         </FormLayout.Group>
