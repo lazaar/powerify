@@ -7,6 +7,7 @@ import express from 'express';
 import ShopifyToken from 'shopify-token';
 import ShopifyApi from 'shopify-api-node';
 import logger from 'winston';
+import url from 'url';
 
 import {
   ACTIVATE_CHARGE_ROUTE,
@@ -323,6 +324,21 @@ export default () => {
     (req, res) => {
       res.redirect('/');
     }
+  );
+
+
+  router.get(
+      '/product',
+      checkForValidSession,
+      checkActiveRecurringApplicationCharge,
+      (req, res) => {
+        res.redirect(url.format({
+          pathname:"/",
+          query: {
+            "productId": req.query.id
+          }
+        }));
+      }
   );
 
   return router;

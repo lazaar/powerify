@@ -45,7 +45,21 @@ export class ProductsPageComponent extends Component<Props, OwnState> {
   state = {
     resourcePickerOpen: false
   };
-
+  constructor(props) {
+    super(props);
+    var objURL = {};
+    var url = this.props.location.search;
+    url.replace(
+        new RegExp( "([^?=&]+)(=([^&]*))?", "g" ),
+        function( $0, $1, $2, $3 ){
+          objURL[ $1 ] = $3;
+        }
+    );
+    console.log(objURL);
+    if(objURL.productId){
+      this.handleGoToState('product');
+    }
+  }
   componentDidMount() {
     const { fetchProducts } = this.props;
 
