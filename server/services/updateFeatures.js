@@ -44,6 +44,7 @@ tabs.upperBar = {
     init: function(tabSettings, shopify) {
         let upperbar = "";
         if(tabSettings.enable){
+            tabSettings.text = tabSettings.text.replace("{country}", "<b class=\"countryplace\"></b>").replace("{flag}", "<i id=\"flagy\" class=\"flag\" > </i>");
             upperbar = htmlConstants.upperBar.replace("{{text}}", tabSettings.text)
                 .replace("{{color}}",tabSettings.colorText )
                 .replace("{{backgroundColor}}",tabSettings.bg_colorText )

@@ -8,7 +8,7 @@ class Buyme extends Component {
         super(props);
         
        
-        if(this.props.settings.buyme){
+        if(false){
             this.state = this.props.settings.buyme;
         }
         else{
@@ -16,7 +16,7 @@ class Buyme extends Component {
 
             backgroundTheme: "Dark Theme",
             position: "top",
-            Size: "Medium",
+            Size: "50px",
             callToAction: "Buy Now",
             enable: true,
             colorText: "#ffffff",
@@ -183,10 +183,9 @@ class Buyme extends Component {
                                }} 
                                onClick={() => this.setState({showmetoo:true})} 
                                ></button>
-
                                   }
                             sectioned
-                          >
+                               >
 
                             <FormLayout>
 
@@ -199,7 +198,7 @@ class Buyme extends Component {
                               
                             </FormLayout>
                           </Popover>
-
+                          <button style={{ width: 250, height: this.state.Size, backgroundColor: this.state.bg_colorText, fontSize: 20, color: this.state.colorText}}> {this.state.callToAction} </button>
 
 				            
                         </FormLayout.Group>

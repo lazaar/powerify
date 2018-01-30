@@ -71,6 +71,8 @@ const shopify = {
 
     initBarTop : function(){
         var upperBar =$(".powerify_upper_bar");
+     //   utilities.loadScript("https://cors-anywhere.herokuapp.com/http://www.geoplugin.net/javascript.gp",$( '.countryplace' ).append( 'hello plus : '));
+        
         if(upperBar.length > 0){
             upperBar.animate({height: '40px'},300);
             if(this.inAdmin){
@@ -78,11 +80,28 @@ const shopify = {
             }
             $('html').animate({paddingTop: this.inAdmin ? '80px' : '40px'},500);
         }
+       
+        jQuery.ajax( {
+
+          url: '//freegeoip.net/json/',
+          type: 'POST',
+          dataType: 'jsonp',
+          success: function(location) {
+            // If the visitor is browsing from Canada.
+            console.log('nice riwa');
+            $( '.countryplace' ).append('' + location.country_name)
+            $('#flagy').attr('class', 'flag  ' + location.country_code.toLowerCase());
+          }
+        } );
+
+
     },
 
     initBuyMe : function(){
         var buyme =$(".powerify_add_to_card");
+
         $(window).scroll(function() {if (window.location.href.indexOf('/products/') > -1 && $(window).scrollTop() > 400 ){ $('.buybuy').addClass('show');} else {$('.buybuy').removeClass('show');};});
+        
 
     },
 

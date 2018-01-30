@@ -8,7 +8,7 @@ class Salespop extends Component {
         super(props);
         
        
-        if(this.props.settings.salespop){
+        if(false){
             this.state = this.props.settings.salespop;
         }
         else{
@@ -26,6 +26,7 @@ class Salespop extends Component {
                 maxTime:10,
                 textTemplate : 'Someone in {{location}} just bought {{product}}'
             };
+            this.props.onSettingsChange("salespop", this.state);
       }
     }
     onPropertyChange = (property, value, callback) => {

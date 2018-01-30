@@ -124,7 +124,8 @@ class UpperBar extends Component {
                         <TextField
                             label="Text"
                             value={this.state.text}
-                            onChange={(e) => this.onPropertyChange("text", e) }
+                            onChange={(e) => this.onPropertyChange("text", e)}
+                            helpText=" use {country} to insert the visitor's country, and {flag} to use his flag "
                         />
                             <Select
                               label="Font"
