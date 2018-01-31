@@ -21,12 +21,10 @@ class UpperBar extends Component {
                 enable: true,
                 enableDate:false,
                 font: "Chewy",
-                selectedDate: moment(),
+                selectedDateText: moment().format("YYYY/MM/DD HH:mm"),
                 text: "Free shipping / happy customer",
                 colorText: "#000000",
-                bg_colorText: "#ffffff",
-                showme: false,
-                showmetoo: false,
+                bg_colorText: "#ffffff"
             };
             this.props.onSettingsChange("upperBar", this.state);
         }
@@ -34,6 +32,7 @@ class UpperBar extends Component {
     componentDidMount(){
         this.blurInputColor("colorText","color");
         this.blurInputColor("bg_colorText","bg_color");
+        this.setState({selectedDate:moment(this.state.selectedDateText, "YYYY/MM/DD HH:mm")});
     }
     
     onPropertyChange = (property, value, callback) => {
@@ -80,13 +79,6 @@ class UpperBar extends Component {
 
 
     render() {
-        const cover = {
-      position: 'fixed',
-      top: '0px',
-      right: '0px',
-      bottom: '0px',
-      left: '0px',
-        }
         return (<Layout sectioned>
             <Layout.AnnotatedSection
                 title="Display Upper Bar"
@@ -108,10 +100,13 @@ class UpperBar extends Component {
                                 <div>
                                     <TextField
                                         label="Show Upper Bar until "
-                                        value={this.state.selectedDate.format("YYYY/MM/DD HH:mm")}/>
+                                        value={this.state.selectedDateText}/>
                                     < DatePicker
                                     selected={this.state.selectedDate}
-                                    onChange={(e) => this.onPropertyChange("selectedDate", e)}
+                                    onChange={(e) => {
+                                        this.setState({selectedDate:e});
+                                        this.onPropertyChange("selectedDateText",e.format("YYYY/MM/DD HH:mm"));
+                                     }}
                                     showTimeSelect
                                     inline
                                     minDate={moment()}
@@ -134,31 +129,31 @@ class UpperBar extends Component {
                               options={[
                                  {
                                   label: 'Raleway',
-                                  value: 'Raleway',
+                                  value: 'Raleway'
                                 },{
                                   label: 'Chewy',
-                                  value: 'Chewy',
+                                  value: 'Chewy'
                                 },{
                                   label: 'Montserrat',
-                                  value: 'Montserrat',
+                                  value: 'Montserrat'
                                 },{
                                   label: 'Titillium',
-                                  value: 'Titillium',
+                                  value: 'Titillium'
                                 },{
                                   label: 'Pacifico',
-                                  value: 'Pacifico',
+                                  value: 'Pacifico'
                                 },{
                                   label: 'Josefin Sans',
-                                  value: 'Josefin Sans',
+                                  value: 'Josefin Sans'
                                 },{
                                   label: 'Comfortaa',
-                                  value: 'Comfortaa',
+                                  value: 'Comfortaa'
                                 },{
                                   label: 'Lobster',
-                                  value: 'Lobster Two',
+                                  value: 'Lobster Two'
                                 },{
                                   label: 'Quattrocento',
-                                  value: 'Quattrocento Sans',
+                                  value: 'Quattrocento Sans'
                                 }
                               ]}
                               onChange={(e) => this.onPropertyChange("font", e) }
@@ -182,64 +177,58 @@ class UpperBar extends Component {
                         </div>
 
                         <FormLayout.Group condensed>
-                            <TextField label="Coupon background color"
+                            <TextField label="Text Color"
                                        value={this.state.colorText}
                                        onChange={(e) => this.onPropertyChange("colorText", e) }
                                        onBlur={() => this.blurInputColor("colorText", "color") }
                             />
                             <Popover
-                                active={this.state.showme}
+                                active={this.state.textColorPopup}
                                 activator={
-                               <button
-                              className="powerify-button-color"
-                              style={{backgroundColor:this.state.colorText}}
-                              onClick={() => this.setState({showme:true})}> </button>
+                                   <button
+                                      className="powerify-button-color"
+                                      style={{backgroundColor:this.state.colorText}}
+                                      onClick={() => this.setState({textColorPopup:true})}> </button>
                                 }
-                                sectioned>
-                                <div className = "powerify-color-overlay" onClick={() => this.setState({showme:false})}> </div>
+                            sectioned>
+                                <div className="powerify-color-overlay" onClick={() => this.setState({textColorPopup:false})}> </div>
                                 <ColorPicker
                                     color={this.state.color}
                                     onChange={(e) => {
                                         this.setState({color:e});
                                         this.onPropertyChange("colorText",this.displayColor(e));
                                      }}
-                                    onBlur={(e) => this.setState({showme:false})}/>
+                                    onBlur={(e) => this.setState({textColorPopup:false})}/>
                             </Popover>
                              
 
 
-                            <TextField 
-                                
+                            <TextField
                                 label="Background Color"
                                 value={this.state.bg_colorText}
                                 onChange={(e) => this.onPropertyChange("bg_colorText", e) }
                                 onBlur={() => this.blurInputColor("bg_colorText", "bg_color") }
                             />
                             <Popover
-                              active={this.state.showmetoo}
+                              active={this.state.backColorPopup}
                               activator={ 
-                                <button className="powerify-button-color" style={{
-                                backgroundColor:this.state.bg_colorText,
-                                 
-                                 }}
-                               onClick={() => this.setState({showmetoo:true})} 
+                                <button
+                                    className="powerify-button-color"
+                                    style={{backgroundColor:this.state.bg_colorText}}
+                                    onClick={() => this.setState({backColorPopup:true})}
+                                 > </button>
 
-                                 ></button>
-
-                                        }
-                              sectioned
-                            >
-
-                              <FormLayout>
-
-                                <div style={ cover } onClick={() => this.setState({showmetoo:false})}/>
+                              }
+                              sectioned>
+                                <div className = "powerify-color-overlay" onClick={() => this.setState({backColorPopup:false})}> </div>
                                 <ColorPicker
-                                color={this.state.bg_color}
-                                onChange={(e) => this.onPropertyChange("bg_color", e, () => this.onPropertyChange("bg_colorText", this.displayColor(e)))}
-                                onBlur={(e) => this.setState({showmetoo:false})}
+                                    color={this.state.bg_color}
+                                    onChange={(e) => {
+                                        this.setState({bg_color:e});
+                                        this.onPropertyChange("bg_colorText",this.displayColor(e));
+                                     }}
+                                    onBlur={(e) => this.setState({backColorPopup:false})}
                                 />
-                                
-                              </FormLayout>
                             </Popover>
                             
                         </FormLayout.Group>

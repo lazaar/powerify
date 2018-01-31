@@ -4,7 +4,7 @@ export const isDebug = ENV === 'development';
 export const isClient = typeof window !== 'undefined';
 export const isTest = ENV === 'test';
 
-export const SCOPES = 'read_orders,read_products,read_script_tags, write_script_tags,read_themes, write_themes';
+export const SCOPES = 'read_orders,read_products,read_script_tags, write_script_tags,read_themes, write_themes, write_products';
 export const ACTIVATE_CHARGE_ROUTE = '/activate_charge';
 export const APP_NAME = 'Powerify';
 export const APP_URL = 'https://898125e3.ngrok.io';

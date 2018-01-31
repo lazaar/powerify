@@ -6,6 +6,7 @@ import * as htmlTemplate from './htmlTemplate';
 import utilities from './utilities'
 import salesPop from './features/salespop'
 import exitCoupon from './features/exitCoupon'
+import productPage from './product';
 
 
 const shopify = {
@@ -48,6 +49,7 @@ const shopify = {
                 if(self.settings.salespop && ((self.settings.salespop.enableDesktop && !self.inMobile) || (self.settings.salespop.enableMobile && self.inMobile))){
                     salesPop.init(self.isProductPage, self.settings.salespop);
                 }
+                productPage.init(self.settings);
             },
             error: function(e) {
                 console.log("error Gettings Settings",e);

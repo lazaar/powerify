@@ -1,15 +1,68 @@
 // @flow
 import React, {Component} from 'react';
-import { Layout, Page, Card, FormLayout, Select  } from '@shopify/polaris';
+import { Layout, Checkbox, Page, Card, FormLayout, TextField,Spinner } from '@shopify/polaris';
 import { connect } from 'react-redux';
+import axios from 'axios';
+
 class Product extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        selectedTab: 0,
-        saveState : "done"
+    constructor(props) {
+        super(props);
+        this.state = {
+            settings: {
+                disable:false,
+                text: "Hurry Up! Sales Ends In",
+                days: 0,
+                hours: 0,
+                numberStock: 10,
+                minutes: 44,
+                seconds: 8
+            },
+            finishLoading: false
+        };
+    }
+
+    componentDidMount(){
+        axios.get('/v1/api/product?productId='+this.props.match.params.productId).then((e)=> {
+            this.setState({
+                finishLoading: true
+            });
+            if(e.data && e.data.value){
+                this.setState({settings:JSON.parse(e.data.value)});
+            }
+        }).catch(()=> {
+            this.setState({
+                finishLoading: true
+            });
+        });
+    }
+
+    onPropertyChange = (property, value) => {
+        this.setState(()=>({
+            settings: {
+                ...this.state.settings,
+                [property]: value
+            }
+        }));
     };
-  }
+
+    save = () => {
+        this.setState({
+            isSaving: true
+        });
+        axios.post('/v1/api/product',{
+            productId: this.props.match.params.productId,
+            settings: this.state.settings
+        }).then(()=> {
+            this.setState({
+                isSaving: false
+            });
+        }).catch(()=> {
+            this.setState({
+                isSaving: false
+            });
+        });
+
+    };
 
   render() {
 
@@ -17,38 +70,74 @@ class Product extends Component {
         <Page
           title="Settings for Product"
           fullWidth
-          primaryAction={{ content:  this.state.saveState === "progress" ? "Saving ..." : "Save", onAction: () => this.props.saveSettings(this.props.settings,this.saveState), disabled:this.state.saveState === "progress" }}
+          primaryAction={{ content:  this.state.isSaving ? "Saving ...":"Save", onAction: () => this.save(), disabled:this.state.isSaving }}
           secondaryActions={[
             { content: "Go back", onAction: () => this.props.history.goBack() }
           ]}>
+            {!this.state.finishLoading && (<Spinner size="large" />)}
+            {this.state.finishLoading && (
             <Layout sectioned>
                 <Layout.Section>
                     <Card
                         title="Scarify Settings"
                         sectioned>
                         <FormLayout>
-                            <FormLayout.Group >
-                                <Select
-                                    label="Quick View Button Position:"
-                                    options={[
-                                        {
-                                          label: 'Top',
-                                          value: 'Top',
-                                        },
-                                        {
-                                          label: 'Center',
-                                          value: 'Center',
-                                        },
-                                        {
-                                          label: 'Bottom',
-                                          value: 'Bottom',
-                                        }
-                                     ]}/>
+                            <Checkbox
+                                checked={this.state.settings.disable}
+                                onChange={(e) => this.onPropertyChange("disable", e) }
+                                label="Disable Scarcity on this product"/>
+                            <TextField
+                                label="Text"
+                                type="text"
+                                helpText="Use {{stock}} for number in stock"
+                                value={this.state.settings.text}
+                                onChange={(e) => this.onPropertyChange("text", e) }
+                            />
+                            <TextField
+                                label="Number in stock"
+                                type="number"
+                                value={this.state.settings.numberStock}
+                                readOnly={false}
+                                onChange={(e) => this.onPropertyChange("numberStock", e) }
+                            />
+                            <FormLayout.Group condensed>
+                                <TextField
+                                    label="Days"
+                                    type="number"
+                                    value={this.state.settings.days}
+                                    readOnly={false}
+                                    onChange={(e) => this.onPropertyChange("days", e) }
+
+                                />
+                                <TextField
+                                    label="Hours"
+                                    type="number"
+                                    value={this.state.settings.hours}
+                                    readOnly={false}
+                                    onChange={(e) => this.onPropertyChange("hours", e) }
+
+                                />
+                                <TextField
+                                    label="Minutes"
+                                    type="number"
+                                    value={this.state.settings.minutes}
+                                    readOnly={false}
+                                    onChange={(e) => this.onPropertyChange("minutes", e) }
+
+                                />
+                                <TextField
+                                    label="Seconds"
+                                    type="number"
+                                    value={this.state.settings.seconds}
+                                    readOnly={false}
+                                    onChange={(e) => this.onPropertyChange("seconds", e) }
+
+                                />
                             </FormLayout.Group>
                         </FormLayout>
                     </Card>
                 </Layout.Section>
-            </Layout>
+            </Layout>)}
       </Page>
     );
   }

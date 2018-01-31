@@ -1,47 +1,34 @@
 // @flow
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {Layout, ColorPicker, Popover, rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField,  TextContainer, Heading} from '@shopify/polaris';
+import {Layout, ColorPicker, Checkbox, Popover, rgbToHsb,hsbToHex,  Select, Card, FormLayout, TextField, Heading} from '@shopify/polaris';
+
 
 class Scarcity extends Component {
     constructor(props) {
         super(props);
-        let color = {
-            hue: 120,
-            brightness: 1,
-            saturation: 0
-        };
-        let bg_color = {
-            hue: 0,
-            brightness: 0,
-            saturation: 0
-        };
 
         if(this.props.settings.scarcity){
             this.state = this.props.settings.scarcity;
         }
         else{
-        this.state = {
-            font: "Chewy",
-            fontweight: "bold",
-            textabovetimer: "Hurry! Sales Ends In",
-            fontsize: 20,
-            days: 0,
-            hours: 0,
-            minutes: 44,
-            seconds: 8,
-            textalign: "center",
-            scarcityStyle: "Flipper",
-            text: "",
-            color: color,
-            colorText: this.displayColor(color),
-            bg_color: bg_color,
-            bg_colorText: this.displayColor(bg_color),
-            showbg_color: false,
-        };
+            this.state = {
+                enable:true,
+                font: "Chewy",
+                fontweight: "bold",
+                fontsize: 20,
+                textalign: "center",
+                scarcityStyle: "Flipper",
+                colorText: "#FFFFFF"
+            };
+            this.props.onSettingsChange("scarcity", this.state);
       }
     }
 
+    componentDidMount(){
+        this.blurInputColor("colorText","color");
+    }
+    
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
@@ -61,8 +48,8 @@ class Scarcity extends Component {
     };
 
     blurInputColor = (property, changeProperty) => {
-        const colors = this.state[property].split(",");
-        if (colors.length === 3) {
+        const colors = this.hexToRgb(this.state[property]);
+        if (colors !== null && colors.length === 3) {
             const color = {
                 red: colors[0],
                 green: colors[1],
@@ -74,162 +61,67 @@ class Scarcity extends Component {
         }
     };
 
+    hexToRgb = (hex) => {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : null;
+    };
+
 
     render() {
-      const cover = {
-      position: 'fixed',
-      top: '0px',
-      right: '0px',
-      bottom: '0px',
-      left: '0px',
-      }
         return (<Layout sectioned>
-            <Layout.AnnotatedSection
-                title="Display Scarcity Countdown"
-                description="Show/hide the Upper Bar">
-                <Card sectioned>
-                    <FormLayout>
-                        <FormLayout.Group>
-                            
-                          <Select
-                              label="Text above the timer"
-                              placeholder="Select"
-                              value={this.state.textabovetimer}
-                              options={[
-                                {
-                                  label: 'Hurry! Sales Ends In',
-                                  value: 'Hurry! Sales Ends In',
-                                },{
-                                  label: 'Hurry Up! Sales Ends In',
-                                  value: 'Hurry Up! Sales Ends In',
-                                },{
-                                  label: 'Hurry! Offer Ends In',
-                                  value: 'Hurry! Offer Ends In',
-                                },{
-                                  label: '1 Time offer, Ending In',
-                                  value: '1 Time offer, Ending In',
-                                },{
-                                  label: 'X CLAIMED. HURRY, ONLY FEW LEFT IN STOCK',
-                                  value: 'X CLAIMED. HURRY, ONLY FEW LEFT IN STOCK',
-                                },{
-                                  label: 'Hurry! Only X left in stock',
-                                  value: 'Hurry! Only X left in stock',
-                                },{
-                                  label: 'Custom text',
-                                  value: 'CustomText',
-                                }
-                              ]}
-                              onChange={(e) => this.onPropertyChange("textabovetimer", e) }
-                            />
-                        </FormLayout.Group>
-
-                        <FormLayout.Group condensed>
-                              <TextField
-                  						  label="Days"
-                  						  type="number"
-                  	            value={this.state.days}
-                  						  readOnly={false}
-                                onChange={(e) => this.onPropertyChange("days", e) }
-
-                  						/>
-                  						<TextField
-                  						  label="Hours"
-                  						  type="number"
-                  						  value={this.state.hours}
-                  						  readOnly={false}
-                  						  onChange={(e) => this.onPropertyChange("hours", e) }
-
-                  						/>
-                  						<TextField
-                  						  label="Minutes"
-                  						  type="number"
-                  						  value={this.state.minutes}
-                  						  readOnly={false}
-                  						  onChange={(e) => this.onPropertyChange("minutes", e) }
-
-                  						/>
-                  						<TextField
-                  						  label="Seconds"
-                  						  type="number"
-                  						  value={this.state.seconds}
-                  						  readOnly={false}
-                  						  onChange={(e) => this.onPropertyChange("seconds", e) }
-
-                  						/>
-
-
-                        </FormLayout.Group> 
-                    </FormLayout>
-                </Card>
-            </Layout.AnnotatedSection>
             <Layout.AnnotatedSection
                 title="Style Settings"
                 description="Customize the style of the Upper Bar">
                 <Card sectioned>
                     <FormLayout>
-                        
-                        <FormLayout.Group condensed>
-                        <Select
-                              label="Style"
-                              placeholder="Select"
-                              value={this.state.scarcityStyle}
-                              options={[
-                                {
-                                  label: 'Simple Timer',
-                                  value: 'Simple',
-                                },{
-                                  label: 'FlipClock',
-                                  value: 'FlipClock',
-                                },{
-                                  label: 'Flipper',
-                                  value: 'Flipper',
-                                }
-                              ]}
-                              onChange={(e) => this.onPropertyChange("scarcityStyle", e) }
-                            />
-                            
-                        </FormLayout.Group>
+                    <Checkbox
+                        checked={this.state.enable}
+                        onChange={(e) => this.onPropertyChange("enable", e) }
+                        label="Enable Scarcity"/>
+                    <Select
+                          label="Style"
+                          placeholder="Select"
+                          value={this.state.scarcityStyle}
+                          options={[
+                            {
+                              label: 'Simple Timer',
+                              value: 'Simple'
+                            },{
+                              label: 'FlipClock',
+                              value: 'FlipClock'
+                            },{
+                              label: 'Flipper',
+                              value: 'Flipper'
+                            }
+                          ]}
+                          onChange={(e) => this.onPropertyChange("scarcityStyle", e) }
+                        />
+                        <Heading>Text Above Timer</Heading>
                         <FormLayout.Group>
-                        	<TextContainer>
-        		  					<Heading>Text Above Timer</Heading> 
-        		  					</TextContainer>
-                            
-                        </FormLayout.Group>
-
-                        <FormLayout.Group>
-                        	 <TextField label="Second Line Color" 
-                            value={this.state.bg_colorText}
-                            onClick={(e) => this.onPropertyChange("showbg_color", true)}
+                            <TextField label="Text Color"
+                                       value={this.state.colorText}
+                                       onChange={(e) => this.onPropertyChange("colorText", e) }
+                                       onBlur={() => this.blurInputColor("colorText", "color") }
                             />
-
-                          <Popover
-                            active={this.state.showbg_color}
-                            activator={ 
-                              <button className="button" style={{
-                                    backgroundColor:hsbToHex(this.state.bg_color),
-                                 
-                               }} 
-                               onClick={(e) => this.onPropertyChange("showbg_color", true)}
-                               ></button>
-
-                                  }
-                            sectioned
-                          >
-
-                            <FormLayout>
-
-                              <div style={ cover } onClick={(e) => this.handleClose("showbg_color")} />
-                              <ColorPicker
-                                            color={this.state.bg_color}
-                                            onChange={(e) => this.onPropertyChange("bg_color", e, () => this.onPropertyChange("bg_colorText", this.displayColor(e)))}
-                                            onBlur={(e) => this.onPropertyChange("showbg_color", false)}
-                                          />
-                              
-                            </FormLayout>
-                          </Popover>
-                        
-                         </FormLayout.Group>
-                        
+                            <Popover
+                                active={this.state.showColorPopup}
+                                activator={
+                                            <button
+                                                className="powerify-button-color"
+                                                style={{backgroundColor:this.state.colorText}}
+                                                onClick={() => this.setState({showColorPopup:true})}> </button>
+                                    }
+                                sectioned>
+                                <div className = "powerify-color-overlay" onClick={() => this.setState({showColorPopup:false})}> </div>
+                                <ColorPicker
+                                    color={this.state.color}
+                                    onChange={(e) => {
+                                            this.setState({color:e});
+                                            this.onPropertyChange("colorText",this.displayColor(e));
+                                         }}
+                                    onBlur={(e) => this.setState({showColorPopup:false})}/>
+                            </Popover>
+                        </FormLayout.Group>
                          <FormLayout.Group condensed>
 
                             <Select
@@ -239,56 +131,55 @@ class Scarcity extends Component {
                               options={[
                                 {
                                   label: 'Raleway',
-                                  value: 'Raleway',
+                                  value: 'Raleway'
                                 },{
                                   label: 'Montserrat',
-                                  value: 'Montserrat',
+                                  value: 'Montserrat'
                                 },{
                                   label: 'Titillium',
-                                  value: 'Titillium',
+                                  value: 'Titillium'
                                 },{
                                   label: 'Pacifico',
-                                  value: 'Pacifico',
+                                  value: 'Pacifico'
                                 },{
                                   label: 'Orbitron',
-                                  value: 'Orbitron',
+                                  value: 'Orbitron'
                                 },{
                                   label: 'Comfortaa',
-                                  value: 'Comfortaa',
+                                  value: 'Comfortaa'
                                 }
                               ]}
                               onChange={(e) => this.onPropertyChange("font", e) }
                             />
                             <TextField
-                							  label="font size"
-                							  type="number"
-                							  value={this.state.fontsize}
-                							  readOnly={false}
-                							  suffix="px"
-                							  onChange={(e) => this.onPropertyChange("fontsize", e) }
+                              label="font size"
+                              type="number"
+                              value={this.state.fontsize}
+                              readOnly={false}
+                              suffix="px"
+                              onChange={(e) => this.onPropertyChange("fontsize", e) }
 
-                							/>
-                							<Select
-                							  label="Text Align"
-                							  value={this.state.textalign}
-                							  options={[
-                							    'left',
-                							    'center',
-                							    'right',
-                							  ]}
-                					     onChange={(e) => this.onPropertyChange("textalign", e) }
-
-                							  placeholder="Select"
-                							/>
-                							<Select
-                							  label="Font Weight"
-                  							  value={this.state.fontweight}
-                							  options={[
-                							    'normal',
-                							    'bold',
-                							  ]}
-                				         onChange={(e) => this.onPropertyChange("fontweight", e) }
-                							/>
+                            />
+                            <Select
+                              label="Text Align"
+                              value={this.state.textalign}
+                              options={[
+                                'left',
+                                'center',
+                                'right'
+                              ]}
+                                onChange={(e) => this.onPropertyChange("textalign", e) }
+                              placeholder="Select"
+                            />
+                            <Select
+                              label="Font Weight"
+                              value={this.state.fontweight}
+                              options={[
+                                'normal',
+                                'bold'
+                              ]}
+                             onChange={(e) => this.onPropertyChange("fontweight", e) }
+                            />
 
                         </FormLayout.Group>
                     </FormLayout>

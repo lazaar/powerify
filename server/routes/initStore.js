@@ -79,11 +79,17 @@ function initThemeEntry(shopify, theme){
 
     shopify.asset.create(theme.id,{ key: 'templates/index.powerify.settings.liquid' ,src:APP_URL+"/addToTheme/index.powerify.settings.liquid"}).then((e) => {
         logger.info("Create new view for settings",e);
-    }).catch((e) => {
+     }).catch((e) => {
         logger.info("erro on creating new view for settings", e);
-    });
+     });
 
-    shopify.asset.create(theme.id,{ key: 'snippets/powerify-init-head.liquid' ,src:APP_URL+"/addToTheme/powerify-init-head.liquid"}).then((e) => {
+     shopify.asset.create(theme.id,{ key: 'templates/product.powerify.settings.liquid' ,src:APP_URL+"/addToTheme/product.powerify.settings.liquid"}).then((e) => {
+        logger.info("Create new product view for settings",e);
+     }).catch((e) => {
+        logger.info("erro on creating new product view for settings", e);
+     });
+
+     shopify.asset.create(theme.id,{ key: 'snippets/powerify-init-head.liquid' ,src:APP_URL+"/addToTheme/powerify-init-head.liquid"}).then((e) => {
         logger.info("Create init Snippets",e);
     }).catch((e) => {
         logger.info("Error on Creating init Snippets", e);

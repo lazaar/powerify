@@ -12,7 +12,7 @@ const App = () =>
     <Route exact path="/" component={ProductsPage} />
     <Route exact path="/about" component={About} />
       <Route exact path="/settings" component={Settings} />
-      <Route exact path="/product" component={Product} />
+      <Route exact path="/product/:productId" component={Product} />
   </div>;
 
 export default App;

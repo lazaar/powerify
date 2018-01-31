@@ -55,9 +55,8 @@ export class ProductsPageComponent extends Component<Props, OwnState> {
           objURL[ $1 ] = $3;
         }
     );
-    console.log(objURL);
     if(objURL.productId){
-      this.handleGoToState('product');
+      this.handleGoToState('product/'+objURL.productId);
     }
   }
   componentDidMount() {
