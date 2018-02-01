@@ -1558,4 +1558,203 @@ label:active:after {
 
  .vu {
   background-position: -512px -448px;
+/********** scarcity **********/
+.powerify-scarcity-text{
+	margin-bottom: 10px;
+	margin-top: 20px;
+	display: block;
+	width: 100%;
 }
+.flip-clock-wrapper ul li a:hover, .flip-clock-wrapper ul li a:focus{
+	opacity:1;
+}
+#powerify-scarcity-wrapper .flip-clock-wrapper{
+	display: inline-block;
+	width: auto;
+}
+#powerify-scarcity-wrapper{
+	width:100%;
+}
+/* FLipper Style */
+.powerify-scarcity-flipper.flip-clock-wrapper ul{
+	width: 45px;
+	height: 65px;
+	margin: 3px;
+}
+.powerify-scarcity-flipper.flip-clock-wrapper ul li{
+	line-height: 65px;
+}
+.powerify-scarcity-flipper.flip-clock-wrapper ul li a div div.inn{
+	font-size:50px;
+}
+.powerify-scarcity-flipper .flip-clock-divider{
+	height:70px;
+}
+.powerify-scarcity-flipper .flip-clock-dot.top {
+	top: 20px;
+}
+.powerify-scarcity-flipper .flip-clock-dot.bottom {
+	bottom: 20px;
+}
+.powerify-scarcity-flipper .flip-clock-divider.seconds .flip-clock-label {
+	right: -73px;
+}
+.powerify-scarcity-flipper .flip-clock-divider.minutes .flip-clock-label {
+	right: -70px;
+}
+.powerify-scarcity-flipper .flip-clock-divider .flip-clock-label {
+	right: -64px;
+}
+/* Red Style */
+.powerify-scarcity-red.flip-clock-wrapper ul{
+	width: 45px;
+	height: 65px;
+	margin: 3px;
+	border-radius: 8px;
+	-moz-box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.2), inset 2px 4px 0 0 rgba(255, 255, 255, 0.08);
+	-webkit-box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.2), inset 2px 4px 0 0 rgba(255, 255, 255, 0.08);
+	box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.2), inset 2px 4px 0 0 rgba(255, 255, 255, 0.08);
+}
+.powerify-scarcity-red.flip-clock-wrapper ul li{
+	line-height: 65px;
+}
+.powerify-scarcity-red.flip-clock-wrapper ul li a div div.inn{
+	font-size:50px;
+	background: white;
+	text-shadow: none;
+	color: #de4748;
+}
+.powerify-scarcity-red.flip-clock-wrapper ul li a div.up div.inn {
+	background: #f7f7f7;
+}
+.powerify-scarcity-red.flip-clock-wrapper ul.play li.flip-clock-before .up .shadow,
+.powerify-scarcity-red.flip-clock-wrapper ul.play li.flip-clock-active .up .shadow{
+	background: #f7f7f7;
+}
+.powerify-scarcity-red.flip-clock-wrapper ul.play li.flip-clock-before .down .shadow,
+.powerify-scarcity-red.flip-clock-wrapper ul.play li.flip-clock-active .down .shadow{
+	background: #FFFFFF;
+}
+.powerify-scarcity-red .flip-clock-divider{
+	height:70px;
+}
+.powerify-scarcity-red .flip-clock-dot.top {
+	display: none;
+}
+.powerify-scarcity-red .flip-clock-dot.bottom {
+	display: none;
+}
+.powerify-scarcity-red .flip-clock-divider.seconds .flip-clock-label {
+	right: -77px;
+}
+.powerify-scarcity-red .flip-clock-divider.minutes .flip-clock-label {
+	right: -74px;
+}
+.powerify-scarcity-red .flip-clock-divider .flip-clock-label {
+	right: -70px;
+	font-size: 13px;
+}
+
+/* Simple Style */
+.powerify-scarcity-simple.flip-clock-wrapper ul{
+	width: 30px;
+	height: 50px;
+	margin: 0;
+	box-shadow: none;
+}
+.powerify-scarcity-simple.flip-clock-wrapper ul li{
+	line-height: 50px;
+}
+.powerify-scarcity-simple.flip-clock-wrapper ul li a div div.inn{
+	font-size: 50px;
+	background: white;
+	text-shadow: none;
+	color: black;
+}
+.powerify-scarcity-simple .flip-clock-divider{
+	height: 50px;
+	width: 40px;
+}
+.powerify-scarcity-simple .flip-clock-dot.top {
+	display: none;
+}
+.powerify-scarcity-simple .flip-clock-dot.bottom {
+	display: none;
+}
+.powerify-scarcity-simple .flip-clock-divider.seconds .flip-clock-label {
+	right: -60px;
+}
+.powerify-scarcity-simple .flip-clock-divider.minutes .flip-clock-label {
+	right: -58px;
+}
+.powerify-scarcity-simple .flip-clock-divider .flip-clock-label {
+	right: -51px;
+	font-size: 16px;
+	bottom: -1.5em;
+	top:inherit;
+}
+/* Card Style */
+.powerify-scarcity-card.flip-clock-wrapper ul{
+	width: 20px;
+	height: 50px;
+	margin: 0;
+	box-shadow: none;
+
+}
+.powerify-scarcity-card.flip-clock-wrapper ul::after{
+	content: "";
+	background: #313131;
+	width: 10px;
+	position: absolute;
+	height: 100%;
+	right: -10px;
+}
+.powerify-scarcity-card.flip-clock-wrapper ul::before{
+	content: "";
+	background: #313131;
+	width: 10px;
+	position: absolute;
+	height: 100%;
+	left: -10px;
+}
+.powerify-scarcity-card .flip-clock-divider + ul {
+	padding: 0 ;
+}
+.powerify-scarcity-card.flip-clock-wrapper ul li{
+	line-height: 50px;
+}
+.powerify-scarcity-card.flip-clock-wrapper ul li a div div.inn{
+	font-size: 30px;
+	background: #313131;
+	text-shadow: none;
+	color: white;
+	border-radius: 0;
+}
+.powerify-scarcity-card .flip-clock-divider{
+	height: 50px;
+	width: 40px;
+}
+.powerify-scarcity-card .flip-clock-dot.top {
+	display:none;
+}
+.powerify-scarcity-card .flip-clock-dot.bottom {
+	display: none;
+}
+.powerify-scarcity-card .flip-clock-divider.seconds .flip-clock-label {
+	right: -53px;
+}
+.powerify-scarcity-card .flip-clock-divider.minutes .flip-clock-label {
+	right: -49px;
+}
+.powerify-scarcity-card .flip-clock-divider .flip-clock-label {
+	right: -40px;
+	font-size: 16px;
+	bottom: -1.5em;
+	top:inherit;
+	z-index: 1;
+}
+.powerify-scarcity-card.flip-clock-wrapper ul li a div.down,
+.powerify-scarcity-card.flip-clock-wrapper ul li a div.up{
+	border-radius:0px
+}
+/********** scarcity **********/

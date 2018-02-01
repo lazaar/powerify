@@ -14,7 +14,7 @@ class Scarcity extends Component {
         else{
             this.state = {
                 enable:true,
-                font: "Chewy",
+                font: "default",
                 fontweight: "bold",
                 fontsize: 20,
                 textalign: "center",
@@ -85,13 +85,16 @@ class Scarcity extends Component {
                           options={[
                             {
                               label: 'Simple Timer',
-                              value: 'Simple'
+                              value: 'simple'
                             },{
-                              label: 'FlipClock',
-                              value: 'FlipClock'
+                              label: 'Red Flipper',
+                              value: 'red'
                             },{
                               label: 'Flipper',
-                              value: 'Flipper'
+                              value: 'flipper'
+                            },{
+                              label: 'Card Timer',
+                              value: 'card'
                             }
                           ]}
                           onChange={(e) => this.onPropertyChange("scarcityStyle", e) }
@@ -130,6 +133,9 @@ class Scarcity extends Component {
                               value={this.state.font}
                               options={[
                                 {
+                                  label: 'Default',
+                                  value: 'default'
+                                },{
                                   label: 'Raleway',
                                   value: 'Raleway'
                                 },{
