@@ -76,7 +76,7 @@ function initThemeEntry(shopify, theme){
             });
         }
     });
-
+    /*
     shopify.asset.create(theme.id,{ key: 'templates/index.powerify.settings.liquid' ,src:APP_URL+"/addToTheme/index.powerify.settings.liquid"}).then((e) => {
         logger.info("Create new view for settings",e);
      }).catch((e) => {
@@ -105,7 +105,7 @@ function initThemeEntry(shopify, theme){
         logger.info("Create Css File",e);
     }).catch((e) => {
         logger.info("Error on Creating Css File", e);
-    });
+    });*/
 }
 
 
