@@ -8,12 +8,12 @@ class CurrencyConverter extends Component {
         super(props);
         
        
-        if(this.props.settings.currencyconverter){
+        if(false){
             this.state = this.props.settings.currencyconverter;
         }
         else{
         this.state = {
-            isEnable:false,
+            isEnable:true,
             autoSwitch: true,
             hideConvLabel: true,
             isCurrencyCode: true,
@@ -24,8 +24,10 @@ class CurrencyConverter extends Component {
             discount: 0,
             decimals: "Remove",
         };
+        this.props.onSettingsChange("currencyconverter", this.state);
          }
     }
+    
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
@@ -52,10 +54,11 @@ class CurrencyConverter extends Component {
 				   
 
 			</Card>
-            <Layout.AnnotatedSection
-                title="Select Currencies"
-                description="Select the currencies that will appear in the Currency Switcher on your website.">
-                <Card sectioned>
+   
+                <Card 
+                    title="Select Currencies"
+                sectioned>
+                    <p> Select the currencies that will appear in the Currency Switcher on your website. </p>
                     <FormLayout>
                         <FormLayout.Group>
                         	
@@ -78,10 +81,7 @@ class CurrencyConverter extends Component {
                         </FormLayout.Group>
                     </FormLayout>
                 </Card>
-            </Layout.AnnotatedSection>
-            <Layout.AnnotatedSection
-                title="Sent 20 min. after cart abandonment"
-                description="">
+           
                 <Card sectioned>
                     <FormLayout>
                         <FormLayout.Group>
@@ -101,6 +101,7 @@ class CurrencyConverter extends Component {
                             onChange={(e) => this.onPropertyChange("discount", e) }
                             multiline
                           	/>
+
                           	<TextField
                             label="Text Color"
                             type="text"
@@ -119,11 +120,10 @@ class CurrencyConverter extends Component {
                         </FormLayout.Group>
                     </FormLayout>
                 </Card>
-            </Layout.AnnotatedSection>
-            <Layout.AnnotatedSection
+                
+                <Card 
                 title="Price Configuration"
-                description="">
-                <Card sectioned>
+                sectioned>
                     <FormLayout>
                        
                         <FormLayout.Group>
@@ -157,11 +157,10 @@ class CurrencyConverter extends Component {
                         </FormLayout.Group>
                       </FormLayout>  
                 </Card>
-            </Layout.AnnotatedSection>
-            <Layout.AnnotatedSection
-                  title="Extra Features"
-                description="">
-                <Card sectioned>
+           
+                <Card 
+                    title="Extra Features"
+                    sectioned>
 
 		                <FormLayout.Group>
 		               	    <Checkbox 
@@ -185,7 +184,6 @@ class CurrencyConverter extends Component {
 			            </FormLayout.Group>
 
              	</Card>
-             </Layout.AnnotatedSection>
         </Layout>);
     }
 }

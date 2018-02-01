@@ -3,6 +3,7 @@
  */
 
 import * as htmlTemplate from './htmlTemplate';
+import publicIP from 'react-native-public-ip';
 import utilities from './utilities'
 import salesPop from './features/salespop'
 import exitCoupon from './features/exitCoupon'
@@ -16,6 +17,11 @@ const shopify = {
     isCartPage:false,
     settings:{},
     moneyFormat:'',
+    convertionRates:{},
+    storeCurrency:'',
+    visitorCountry:'',
+    visitorCountryCode:'',
+    visitorCurrency:'',
     init : function(){
         if(!window.jQuery)
         {
@@ -28,16 +34,16 @@ const shopify = {
     },
 
     initFeatures : function(){
+
         var self = this;
 
         self.inAdmin = $("#admin_bar_iframe").length > 0;
         self.inMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         self.isProductPage = window.location.pathname.indexOf("/products/") !== -1;
         self.isCartPage = window.location.pathname.indexOf("/cart") !== -1;
+        self.convertionRates = { USD : 1.5 , MAD : 2 , EUR :  3 };
 
-        self.initBarTop();
         self.initBuyMe();
-
         $.ajax({
             type: "get",
             dataType: "json",
@@ -45,6 +51,9 @@ const shopify = {
             success: function(result){
                 self.settings = JSON.parse(result.settings);
                 self.moneyFormat = result.moneyFormat;
+                self.storeCurrency = result.currency;
+                console.log('shopify show off : '+ shopify.storeCurrency); 
+
                 self.loadScript();
                 if(self.settings.salespop && ((self.settings.salespop.enableDesktop && !self.inMobile) || (self.settings.salespop.enableMobile && self.inMobile))){
                     salesPop.init(self.isProductPage, self.settings.salespop);
@@ -55,6 +64,45 @@ const shopify = {
                 console.log("error Gettings Settings",e);
             }
         });
+        publicIP().then(ip => {
+        console.log(ip);
+        var theIpUrl = '';
+        theIpUrl = '//usercountry.com/v1.0/json/'+ip+'?token=c7de9d0d1498a09c96e81368b70bf9493f4abcb92ba3c642/';
+
+        $.ajax(
+               {
+                 url: theIpUrl, 
+                 success: function(result){
+                    console.log(result)
+                    self.visitorCountry = result.country.name;
+                    self.visitorCountryCode = result.country['alpha-2'].toLowerCase() ;
+                    self.visitorCurrency = result.currency.code;
+                    console.log('visitor currency: ' + shopify.visitorCurrency);
+                    console.log('hello : ' +shopify.visitorCountry);
+                    self.initBarTop();
+                    if(shopify.visitorCurrency === shopify.storeCurrency ) {console.log('should not convert : same currency');} else if (shopify.convertionRates[shopify.visitorCurrency] === undefined || shopify.convertionRates[shopify.storeCurrency] === undefined) {console.log('should not convert : Unknown currency'); } else {console.log('should convert');} 
+                    
+                     $.ajax(
+                           {
+                             url: 'https://api.fixer.io/latest?base=USD',
+                            
+                             success: function(result){
+                                self.convertionRates = result.rates;
+                                self.convertionRates['USD'] = 1.0 ;
+                                self.convertionRates['MAD'] = 1.2 ;
+                                console.log('switched');
+                                console.log(shopify.convertionRates);
+                                self.initCurrencyConverter();
+                                
+                             }
+                         }
+                        );
+                 }
+               }
+            );
+
+        });
+
 
     },
 
@@ -73,8 +121,8 @@ const shopify = {
 
     initBarTop : function(){
         var upperBar =$(".powerify_upper_bar");
-     //   utilities.loadScript("https://cors-anywhere.herokuapp.com/http://www.geoplugin.net/javascript.gp",$( '.countryplace' ).append( 'hello plus : '));
-        
+
+                
         if(upperBar.length > 0){
             upperBar.animate({height: '40px'},300);
             if(this.inAdmin){
@@ -82,20 +130,19 @@ const shopify = {
             }
             $('html').animate({paddingTop: this.inAdmin ? '80px' : '40px'},500);
         }
-       
-        jQuery.ajax( {
+        $( '.countryplace' ).append('' + shopify.visitorCountry);
+        $('#flagy').attr('class', 'flag  ' + shopify.visitorCountryCode);
+        console.log('upper bar popping out')
 
-          url: '//freegeoip.net/json/',
-          type: 'POST',
-          dataType: 'jsonp',
-          success: function(location) {
-            // If the visitor is browsing from Canada.
-            console.log('nice riwa');
-            $( '.countryplace' ).append('' + location.country_name)
-            $('#flagy').attr('class', 'flag  ' + location.country_code.toLowerCase());
-          }
-        } );
-
+    },
+    initCurrencyConverter : function(){
+        
+        var initialPrice = parseFloat($("#ProductPrice-product-template").attr("content"));
+        console.log('hello initial price: '+initialPrice);
+        console.log('convertion for '+ shopify.visitorCurrency +' rate applied : ' + shopify.convertionRates[shopify.visitorCurrency] );
+        let convertedPrice = (shopify.convertionRates[shopify.visitorCurrency]*initialPrice / shopify.convertionRates[shopify.storeCurrency]).toFixed(2);
+        console.log(convertedPrice);
+        $("#ProductPrice-product-template").text(''+convertedPrice +' '+ shopify.visitorCurrency );
 
     },
 
