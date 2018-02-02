@@ -12,8 +12,9 @@ const productPage = {
             type: "get",
             url: window.location.pathname+"?view=powerify.settings",
             success: function(result){
-                productPage.productSettings = JSON.parse(result).settings;
-                scarcity.init(productPage.settings.scarcity, productPage.productSettings);
+                result = JSON.parse(result);
+                productPage.productSettings = result.settings;
+                scarcity.init(productPage.settings.scarcity, productPage.productSettings, result.productId);
             },
             error: function(e) {
                 console.log("error Gettings Settings",e);

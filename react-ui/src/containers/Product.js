@@ -14,6 +14,8 @@ class Product extends Component {
                 days: 0,
                 hours: 0,
                 numberStock: 10,
+                keepStock: 3,
+                decrementStock: true,
                 minutes: 44,
                 seconds: 8
             },
@@ -89,17 +91,29 @@ class Product extends Component {
                             <TextField
                                 label="Text"
                                 type="text"
-                                helpText="Use {{stock}} for number in stock"
+                                helpText="Use {{stock}} for quantity in stock"
                                 value={this.state.settings.text}
                                 onChange={(e) => this.onPropertyChange("text", e) }
                             />
                             <TextField
-                                label="Number in stock"
+                                label="Left in stock"
                                 type="number"
                                 value={this.state.settings.numberStock}
-                                readOnly={false}
                                 onChange={(e) => this.onPropertyChange("numberStock", e) }
                             />
+                            <FormLayout.Group condensed>
+                                <Checkbox
+                                    checked={this.state.settings.decrementStock}
+                                    onChange={(e) => this.onPropertyChange("decrementStock", e) }
+                                    label="Decrement the quantity on stock"/>
+                                <TextField
+                                    label="Keep in stock"
+                                    type="number"
+                                    helpText="Stop on this number when decrementing the quantity in stock"
+                                    value={this.state.settings.keepStock}
+                                    onChange={(e) => this.onPropertyChange("keepStock", e) }
+                                />
+                            </FormLayout.Group>
                             <FormLayout.Group condensed>
                                 <TextField
                                     label="Days"
