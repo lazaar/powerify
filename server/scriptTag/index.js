@@ -22,6 +22,7 @@ const shopify = {
     visitorCountry:'',
     visitorCountryCode:'',
     visitorCurrency:'',
+    visitorCurrencySymbol:'',
     init : function(){
         if(!window.jQuery)
         {
@@ -68,7 +69,6 @@ const shopify = {
         console.log(ip);
         var theIpUrl = '';
         theIpUrl = '//usercountry.com/v1.0/json/'+ip+'?token=c7de9d0d1498a09c96e81368b70bf9493f4abcb92ba3c642/';
-
         $.ajax(
                {
                  url: theIpUrl, 
@@ -76,12 +76,15 @@ const shopify = {
                     console.log(result)
                     self.visitorCountry = result.country.name;
                     self.visitorCountryCode = result.country['alpha-2'].toLowerCase() ;
+                    self.initBarTop();
                     self.visitorCurrency = result.currency.code;
+                    self.visitorCurrencySymbol = result.currency.symbol;
+
                     console.log('visitor currency: ' + shopify.visitorCurrency);
                     console.log('hello : ' +shopify.visitorCountry);
-                    self.initBarTop();
-                    if(shopify.visitorCurrency === shopify.storeCurrency ) {console.log('should not convert : same currency');} else if (shopify.convertionRates[shopify.visitorCurrency] === undefined || shopify.convertionRates[shopify.storeCurrency] === undefined) {console.log('should not convert : Unknown currency'); } else {console.log('should convert');} 
-                    
+                    if(shopify.visitorCurrency === shopify.storeCurrency ) {
+                        console.log('should not convert : same currency');
+                    } else {
                      $.ajax(
                            {
                              url: 'https://api.fixer.io/latest?base=USD',
@@ -92,11 +95,11 @@ const shopify = {
                                 self.convertionRates['MAD'] = 1.2 ;
                                 console.log('switched');
                                 console.log(shopify.convertionRates);
-                                self.initCurrencyConverter();
-                                
-                             }
+                             if (shopify.convertionRates[shopify.visitorCurrency] === undefined || shopify.convertionRates[shopify.storeCurrency] === undefined) {console.log('should not convert : Unknown currency'); } else {self.initCurrencyConverter();}
+                            }
                          }
                         );
+                    }
                  }
                }
             );
@@ -140,9 +143,21 @@ const shopify = {
         var initialPrice = parseFloat($("#ProductPrice-product-template").attr("content"));
         console.log('hello initial price: '+initialPrice);
         console.log('convertion for '+ shopify.visitorCurrency +' rate applied : ' + shopify.convertionRates[shopify.visitorCurrency] );
-        let convertedPrice = (shopify.convertionRates[shopify.visitorCurrency]*initialPrice / shopify.convertionRates[shopify.storeCurrency]).toFixed(2);
-        console.log(convertedPrice);
-        $("#ProductPrice-product-template").text(''+convertedPrice +' '+ shopify.visitorCurrency );
+        var convertedPrice = (shopify.convertionRates[shopify.visitorCurrency]*initialPrice / shopify.convertionRates[shopify.storeCurrency]).toFixed(2);
+        console.log('hey me before price');
+        if ( shopify.settings.currencyconverter.decimals === 2 ){
+            convertedPrice = Math.trunc(convertedPrice) + (shopify.settings.currencyconverter.roundTo / 100);
+        }else if( shopify.settings.currencyconverter.decimals === 3){
+            console.log('hello');
+        }else{
+            convertedPrice = Math.trunc(convertedPrice) + shopify.settings.currencyconverter.decimals ;
+        }
+        if (shopify.settings.currencyconverter.displayWith === 'symbol') {
+            $("#ProductPrice-product-template").text(''+convertedPrice +' '+ shopify.visitorCurrencySymbol );
+        } else {
+            $("#ProductPrice-product-template").text(''+convertedPrice +' '+ shopify.visitorCurrency );
+        }
+        console.log('hey hyo :'+ shopify.settings.currencyconverter.decimals );
 
     },
 
@@ -150,7 +165,6 @@ const shopify = {
         var buyme =$(".powerify_add_to_card");
 
         $(window).scroll(function() {if (window.location.href.indexOf('/products/') > -1 && $(window).scrollTop() > 400 ){ $('.buybuy').addClass('show');} else {$('.buybuy').removeClass('show');};});
-        
 
     },
 
