@@ -59,7 +59,9 @@ const shopify = {
                 if(self.settings.salespop && ((self.settings.salespop.enableDesktop && !self.inMobile) || (self.settings.salespop.enableMobile && self.inMobile))){
                     salesPop.init(self.isProductPage, self.settings.salespop);
                 }
-                productPage.init(self.settings);
+                if(shopify.isProductPage){
+                    productPage.init(self.settings);
+                }
             },
             error: function(e) {
                 console.log("error Gettings Settings",e);
@@ -174,14 +176,13 @@ const shopify = {
 
         var products = $(SELECTORS_LINK).has(SELECTORS_IMAGE).parent();
         products.addClass("powerify-quickview-wrapper");
-
         if(products.length > 0){
             products.each(function(){
                 //var button = $();
-                var productID = $(this).find(SELECTORS_LINK).attr("href").replace('/products/','');
+                var url = $(this).find(SELECTORS_LINK).attr("href").split("/");
+                var productID = url[url.length -1];
                 $(this).append('<div class="powerify-quickview-button-wrapper" ><a class="powerify-quickview-button" id="'+productID+'" href="#'+productID+'-modal">Quick View</a></div>');
                 $(this).append(htmlTemplate.quickViewModal.replace("{{productID}}", productID));
-
                 $("a#"+productID).fancybox({
                     'hideOnContentClick': true,
                     'beforeLoad': function ( links, element ){
