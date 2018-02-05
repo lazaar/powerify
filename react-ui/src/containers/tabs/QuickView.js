@@ -9,7 +9,10 @@ class QuickView extends Component {
       
         
         
-        
+        if(this.props.settings.quickview){
+            this.state = this.props.settings.quickview;
+        }
+        else{
         this.state = {
             enable: true,
             redirect: "Cart",
@@ -29,7 +32,7 @@ class QuickView extends Component {
             showAToCBtnColor: false,
         };
          this.props.onSettingsChange("quickview", this.state);
-
+     }
     		
     }
     componentDidMount(){ 

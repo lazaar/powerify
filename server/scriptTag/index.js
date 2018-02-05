@@ -196,9 +196,24 @@ const shopify = {
                                     var content = modal.children(".powerify-content-modal");
                                     var html = content.html().replace("{{image}}", result.images[0])
                                         .replace("{{title}}", result.title)
+                                        .replace("{{AToCBtnColorText}}", shopify.settings.quickview.AToCBtnColorText)
+                                        .replace("{{PriceColorText}}", shopify.settings.quickview.PriceColorText)
+                                        .replace("{{ProductNameColorText}}", shopify.settings.quickview.ProductNameColorText)
                                         .replace("{{description}}", result.description);
+                                    console.log('next line should contain the option name');
+
                                     content.html(html);
                                     modal.removeClass("powerify-inLoad");
+                                    if(result.options[0].name !== 'Title'){
+                                        result.options.forEach(function(element){
+                                            console.log(element.name);
+                                            $("#buy-panel").append("<div> <label>"+ element.name+"</label> <select id='select-variant-"+element.name+"'> </select> </div>");
+                                            element.values.forEach(function(variant){
+                                                console.log(variant);
+                                                $("#select-variant-"+element.name).append("<option>"+variant+"</option>");
+                                            });
+                                        });
+                                    };
                                 },
                                 error: function() {
                                     $.fancybox.close();

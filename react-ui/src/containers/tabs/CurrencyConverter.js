@@ -107,7 +107,7 @@ class CurrencyConverter extends Component {
 		                                     ]}
 		                            onChange={(e) => this.onPropertyChange("decimals", e) }
 		                    />
-                            { (this.state.decimals == 2) && (
+                            { (this.state.decimals === 2) && (
                                 <div>
                                   	<TextField
                                     label="Rounding number to"
