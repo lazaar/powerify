@@ -11,7 +11,7 @@ const scarcity = {
     productId:0,
     init: function (settings, productSettings, productId) {
         this.productId = productId;
-        if(!settings.enable || productSettings.disable){
+        if((settings && !settings.enable) || productSettings.disable){
             return;
         }
         var form = $('form[action="/cart/add"]');

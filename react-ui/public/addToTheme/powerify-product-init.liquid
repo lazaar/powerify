@@ -1,0 +1,51 @@
+<div id="powerify-product-wrapper">
+  <div style="clear:both"></div>
+  <div id="powerify-product-review">
+    <div class="powerify-add-review-btn">Add review</div>
+    <form class="powerify-form-review" enctype="multipart/form-data" method="post">
+      <div class="powerify-form-title">Add review</div>
+      <div class="col-50">
+        <label class="powerify-review-label" for="name">Name</label>
+        <input class="powerify-review-input" name="name" type="text" placeholder="Name" required/>
+      </div>
+      <div class="col-50">
+        <label class="powerify-review-label" for="email">Email</label>
+        <input class="powerify-review-input" name="email" type="email" placeholder="Email"/>
+      </div>
+        <label class="powerify-review-label" for="title">Title</label>
+        <input class="powerify-review-input" name="title" type="text" placeholder="Title" required/>
+
+        <label class="powerify-review-label" for="content">Description</label>
+        <textarea name="content" class="powerify-review-input powerify-review-textarea"></textarea>
+
+        <label class="powerify-review-label powerify-inline" for="image">Image</label>
+        <input class="powerify-review-input powerify-review-upload powerify-inline" name="image" type="file"/><br>
+
+        <label class="powerify-review-label powerify-inline">Rating</label>
+      <input  class="powerify-input-stars" name="stars" type="hidden" value="5"/>
+      <div class="powerify-review-stars-form powerify-review-rate-5-form">
+	      <i class="powerify-review-star-form icon-star"></i>
+          <i class="powerify-review-star-form icon-star icon-star-2"></i>
+          <i class="powerify-review-star-form icon-star icon-star-3"></i>
+          <i class="powerify-review-star-form icon-star icon-star-4"></i>
+	      <i class="powerify-review-star-form icon-star icon-star-5"></i>
+      </div>
+        <input  name="shop" type="hidden" value="{{ shop.domain  }}"/>
+      	<input name="productId" type="hidden" value="{{ product.id }}"/>
+      <div class="powerify-submit-message"></div>
+        <input class="powerify-form-review-submit" type="submit" name="submit" value="Submit" />
+    </form>
+	<div class="powerify-reviews">
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+	var wrapper = document.getElementById('powerify-product-wrapper');
+  	var singleProduct = document.getElementsByClassName('product-single')[0];
+
+  singleProduct.parentNode.insertBefore(wrapper, singleProduct.nextSibling);
+})();
+</script>

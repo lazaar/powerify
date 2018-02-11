@@ -58,6 +58,9 @@ export class ProductsPageComponent extends Component<Props, OwnState> {
     if(objURL.productId){
       this.handleGoToState('product/'+objURL.productId);
     }
+    else if(objURL.reviewProductId){
+      this.handleGoToState('review/'+objURL.shop+'/'+objURL.reviewProductId);
+    }
   }
   componentDidMount() {
     const { fetchProducts } = this.props;

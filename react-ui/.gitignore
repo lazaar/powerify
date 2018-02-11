@@ -9,6 +9,8 @@
 # production
 /build
 
+/react-ui/public/imageReview
+
 # misc
 .DS_Store
 .env.local

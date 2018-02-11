@@ -43,3 +43,6 @@ body {
   border-left-color: #ccc;
   right: 1em;
 }
+.Polaris-ResourceList__AttributeOne, .Polaris-ResourceList__AttributeTwo{
+  flex-shrink: unset;
+}

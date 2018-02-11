@@ -5,6 +5,7 @@ import logger from 'winston';
 import shopMetafields from '../services/shopMetafields';
 import productMetafields from '../services/productMetafields';
 import features from '../services/updateFeatures';
+import fs from 'fs';
 
 module.exports = function(app){
 
@@ -63,14 +64,7 @@ module.exports = function(app){
                     return true;
                 }
             });
-            if(settings.value){
-                res.status(200).json(settings);
-            }
-            else{
-                res.status(302).json(settings);
-            }
-
-
+            res.status(settings.value ? 200 : 302).json(settings);
         });
     });
 
@@ -85,6 +79,43 @@ module.exports = function(app){
             res.status(500).send(e);
         });
 
+    });
+
+    app.get('/v1/api/reviews', function(req, res){
+        const { shopify } = req;
+        shopify.metafield.list(
+        {
+            metafield: { owner_resource: 'product', owner_id: req.query.productId }
+        }).then(metafields => {
+            let reviews = {};
+            metafields.every(function(metafield) {
+                if (metafield.namespace === "powerify" && metafield.key === "reviews"){
+                    reviews = metafield;
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            });
+
+            res.status(reviews.value ? 200 : 302).json(reviews);
+        });
+    });
+
+    app.post('/v1/api/reviews', function(req, res){
+        const { shopify } = req;
+        var productId = parseInt(req.body.productId);
+        logger.info(JSON.stringify(req.body.reviews));
+        productMetafields.save(shopify,"reviews",JSON.stringify(req.body.reviews), productId ).then((e) => {
+            logger.info("reviews Metafieald saved");
+            if(req.body.imageToDelete){
+                fs.unlink("react-ui/public/"+req.body.imageToDelete, ()=>{});
+            }
+            res.status(200).json(JSON.parse(e.value));
+        }).catch((e)=>{
+            logger.error("reviews Metafieald not saved",e );
+            res.status(500).send(e);
+        });
     });
 
 };

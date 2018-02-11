@@ -217,6 +217,8 @@ export default () => {
     });
   });
 
+  require('./reviews')(router);
+
   /**
    * This middleware checks if we have a session.
    * If so, it attaches the Shopify API to the request object.
@@ -224,7 +226,7 @@ export default () => {
    * we start the authentication process.
    */
   const authMiddleware = (req, res, next) => {
-    logger.info(`Checking for valid session: ${req.query.shop}`);
+    logger.info(`Checking for valid session: ${req.query}`);
     const { session, query: { shop } } = req;
 
     if (!session.shopify || (shop && session.shopify.shop !== shop)) {
@@ -238,7 +240,6 @@ export default () => {
   };
 
   router.use(authMiddleware);
-
   /*
    * Shopify calls this route when the merchant accepts or declines the charge.
    */
@@ -317,13 +318,14 @@ export default () => {
       });
   };
 
+
   router.get(
-    APP_HOME_ROUTE,
-    checkForValidSession,
-    checkActiveRecurringApplicationCharge,
-    (req, res) => {
-      res.redirect('/');
-    }
+      APP_HOME_ROUTE,
+      checkForValidSession,
+      checkActiveRecurringApplicationCharge,
+      (req, res) => {
+        res.redirect('/');
+      }
   );
 
 
@@ -336,6 +338,21 @@ export default () => {
           pathname:"/",
           query: {
             "productId": req.query.id
+          }
+        }));
+      }
+  );
+
+  router.get(
+      '/review',
+      checkForValidSession,
+      checkActiveRecurringApplicationCharge,
+      (req, res) => {
+        res.redirect(url.format({
+          pathname:"/",
+          query: {
+            "reviewProductId": req.query.id,
+            "shop": req.query.shop
           }
         }));
       }

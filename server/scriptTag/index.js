@@ -8,6 +8,7 @@ import utilities from './utilities'
 import salesPop from './features/salespop'
 import exitCoupon from './features/exitCoupon'
 import productPage from './product';
+import review from './features/st-review';
 
 
 const shopify = {
@@ -44,6 +45,9 @@ const shopify = {
         self.isCartPage = window.location.pathname.indexOf("/cart") !== -1;
         self.convertionRates = { USD : 1.5 , MAD : 2 , EUR :  3 };
 
+        if(self.isProductPage){
+            review.initBeforeSettings();
+        }
         self.initBuyMe();
         $.ajax({
             type: "get",
@@ -75,7 +79,6 @@ const shopify = {
                {
                  url: theIpUrl, 
                  success: function(result){
-                    console.log(result)
                     self.visitorCountry = result.country.name;
                     self.visitorCountryCode = result.country['alpha-2'].toLowerCase() ;
                     self.initBarTop();

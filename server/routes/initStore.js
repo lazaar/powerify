@@ -2,7 +2,6 @@ import logger from 'winston';
 import {
   APP_URL
 } from '../config';
-
 /**
  * Init Store 
  * @param shopify object
@@ -58,6 +57,8 @@ export const initTheme = shopify => {
 
 
 function initThemeEntry(shopify, theme){
+
+    /** Update Theme.liquid **/
     shopify.asset.get(theme.id, {
         asset: { key: 'layout/theme.liquid' },
         theme_id:theme.id
@@ -76,8 +77,28 @@ function initThemeEntry(shopify, theme){
             });
         }
     });
-    /*
-    shopify.asset.create(theme.id,{ key: 'templates/index.powerify.settings.liquid' ,src:APP_URL+"/addToTheme/index.powerify.settings.liquid"}).then((e) => {
+
+    /** Update product-template.liquid **/
+    shopify.asset.get(theme.id, {
+        asset: { key: 'sections/product-template.liquid' },
+        theme_id:theme.id
+    }).then((e) => {
+        var value = e.value;
+        if(value.indexOf("{% include 'powerify-product-init' %}") === -1){
+            value += "{% include 'powerify-product-init' %}";
+
+            shopify.asset.update(theme.id, {
+                key: 'sections/product-template.liquid',
+                value:  value
+            }).then(() => {
+                logger.info("Modifying product-template.liquid");
+            }).catch((e) => {
+                logger.error("Error on Modifying product-template.liquid",e);
+            });
+        }
+    });
+
+    /*shopify.asset.create(theme.id,{ key: 'templates/index.powerify.settings.liquid' ,src:APP_URL+"/addToTheme/index.powerify.settings.liquid"}).then((e) => {
         logger.info("Create new view for settings",e);
      }).catch((e) => {
         logger.info("erro on creating new view for settings", e);
@@ -105,6 +126,12 @@ function initThemeEntry(shopify, theme){
         logger.info("Create Css File",e);
     }).catch((e) => {
         logger.info("Error on Creating Css File", e);
+    });
+
+    shopify.asset.create(theme.id,{ key: 'snippets/powerify-product-init.liquid' ,src:APP_URL+"/addToTheme/powerify-product-init.liquid"}).then((e) => {
+        logger.info("Create product snippets",e);
+    }).catch((e) => {
+        logger.info("error on adding product snippets", e);
     });*/
 }
 

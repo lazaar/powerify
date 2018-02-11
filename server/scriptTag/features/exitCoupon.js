@@ -48,7 +48,6 @@ const exitCoupon = {
                         },
                         beforeClose:function () {
                             isOpen = false;
-                            console.log();
                             if(exitCoupon.settings.onlyFirstTime){
                                 $(document).off('mouseleave');
                                 $(document).off('mouseenter');
