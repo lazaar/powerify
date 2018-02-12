@@ -90,9 +90,6 @@ class ExitCoupon extends Component {
                                 checked={this.state.enableDesktop}
                                 onChange={(e) => this.onPropertyChange("enableDesktop", e) }
                                 label="Enable Exit Coupon"/>
-                                <input type="checkbox" id="switch" />
-
-                                <label htmlFor="switch" className ="label"> test allo </label>
                             <ChoiceList
                                 title="Show the coupon only the first time"
                                 choices={[

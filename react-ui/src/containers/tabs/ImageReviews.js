@@ -1,7 +1,7 @@
 // @flow
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {Layout,  Select, Card, FormLayout, TextField,  TextContainer, Heading, ChoiceList, Checkbox} from '@shopify/polaris';
+import {Layout, ColorPicker,Checkbox, rgbToHsb,hsbToHex, Card, FormLayout, TextField, Popover} from '@shopify/polaris';
 
 class ImageReviews extends Component {
     constructor(props) {
@@ -11,20 +11,19 @@ class ImageReviews extends Component {
             this.state = this.props.settings.imagereviews;
         }
         else{
-        this.state = {
-            Language: "English",
-            Publishing: "Automatically",
-            code: "center",
-            discount: 0,
-            discounttype: "",
-            after: "Purchase",
-            emtiming: "3 days",
-            logourl: "",
-            emailsubject: "",
-            emailtext: "",
-            upsell: true,
-        };
+            this.state = {
+                enable : true,
+                errorMessage:"Error on saving review",
+                successMessage:"Review Added, Thanks !",
+                bgColorText:"#000000",
+                submitColorText:"#FFFFFF"
+            };
+            this.props.onSettingsChange("imagereviews", this.state);
       }
+    }
+    componentDidMount(){
+        this.blurInputColor("bgColorText","bgColor");
+        this.blurInputColor("submitColorText","submitColor");
     }
 
     onPropertyChange = (property, value, callback) => {
@@ -39,192 +38,104 @@ class ImageReviews extends Component {
     };
 
     displayColor = (hsbColor) => {
-      
+        let color = hsbToHex(hsbColor);
+        return color;
     };
 
     blurInputColor = (property, changeProperty) => {
-        
-        
+        const colors = this.hexToRgb(this.state[property]);
+        if (colors !== null && colors.length === 3) {
+            const color = {
+                red: colors[0],
+                green: colors[1],
+                blue: colors[2]
+            };
+            this.setState(()=>({
+                [changeProperty]: rgbToHsb(color)
+            }));
+        }
+    };
+
+    hexToRgb = (hex) => {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : null;
     };
 
 
     render() {
         return (<Layout sectioned>
             <Layout.AnnotatedSection
-                title="Display Scarcity Countdown"
-                description="Show/hide the Upper Bar">
+                title="Image Reviews Settings"
+                description="Show/hide the form">
                 <Card sectioned>
                     <FormLayout>
+                        <Checkbox
+                            checked={this.state.enable}
+                            onChange={(e) => this.onPropertyChange("enable", e) }
+                            label="Enable Image Reviews"/>
                         <FormLayout.Group>
-                            
-                          <Select
-                              label="Language"
-                              placeholder="English"
-                              value={this.state.Language}
-                              options={[
-                                {
-                                  label: 'English',
-                                  value: 'English',
-                                },{
-                                  label: 'Español',
-                                  value: 'Español',
-                                },{
-                                  label: 'Français',
-                                  value: 'Français',
-                                },{
-                                  label: 'Italiano',
-                                  value: 'Italiano',
-                                },{
-                                  label: 'Deutsch',
-                                  value: 'Deutsch',
-                                },{
-                                  label: 'Netherland',
-                                  value: 'Netherland',
-                                },{
-                                  label: 'Portuguese',
-                                  value: 'Portuguese',
-                                },{
-                                  label: 'Custom',
-                                  value: 'Custom',
-                                }
-                              ]}
-                              onChange={(e) => this.onPropertyChange("Language", e) }
+                            <TextField label="Adding review message"
+                                       value={this.state.successMessage}
+                                       onChange={(e) => this.onPropertyChange("successMessage", e) }
                             />
-                            <ChoiceList
-                                title="Publish new reviews"
-                                choices={[
-                                  {
-                                    label: 'Automatically',
-                                    value: 'Automatically',
-                                  },
-                                  {
-                                    label: 'Only after approval',
-                                    value: 'approval',
-                                  },
-                                ]}
-                                selected={this.state.Publishing}
-                                onChange={(e) => this.onPropertyChange("Publishing", e) }
-
-                              />
+                            <TextField label="Adding review error message"
+                                       value={this.state.errorMessage}
+                                       onChange={(e) => this.onPropertyChange("errorMessage", e) }
+                            />
+                        </FormLayout.Group>
+                        <FormLayout.Group>
+                            <TextField label="Button background color"
+                                       value={this.state.bgColorText}
+                                       onChange={(e) => this.onPropertyChange("bgColorText", e) }
+                                       onBlur={() => this.blurInputColor("bgColorText", "bgColor") }
+                            />
+                            <Popover
+                                active={this.state.showBgColorPopup}
+                                activator={
+          							  	<button
+          							  	    className="powerify-button-color"
+          							  	    style={{backgroundColor:this.state.bgColorText}}
+          							  	    onClick={() => this.setState({showBgColorPopup:true})}> </button>
+                                }
+                                sectioned>
+                                <div className = "powerify-color-overlay" onClick={() => this.setState({showBgColorPopup:false})}> </div>
+                                <ColorPicker
+                                    color={this.state.bgColor}
+                                    onChange={(e) => {
+                                        this.setState({bgColor:e});
+                                        this.onPropertyChange("bgColorText",this.displayColor(e));
+                                     }}
+                                    onBlur={(e) => this.setState({showBgColorPopup:false})}/>
+                            </Popover>
+                        </FormLayout.Group>
+                        <FormLayout.Group>
+                            <TextField label="Button text color"
+                                       value={this.state.submitColorText}
+                                       onChange={(e) => this.onPropertyChange("submitColorText", e) }
+                                       onBlur={() => this.blurInputColor("submitColorText", "submitColor") }
+                            />
+                            <Popover
+                                active={this.state.showSubmitColorPopup}
+                                activator={
+          							  	<button
+          							  	    className="powerify-button-color"
+          							  	    style={{backgroundColor:this.state.submitColorText}}
+          							  	    onClick={() => this.setState({showSubmitColorPopup:true})}> </button>
+                                }
+                                sectioned>
+                                <div className = "powerify-color-overlay" onClick={() => this.setState({showSubmitColorPopup:false})}> </div>
+                                <ColorPicker
+                                    color={this.state.submitColor}
+                                    onChange={(e) => {
+                                        this.setState({submitColor:e});
+                                        this.onPropertyChange("submitColorText",this.displayColor(e));
+                                     }}
+                                    onBlur={(e) => this.setState({showSubmitColorPopup:false})}/>
+                            </Popover>
                         </FormLayout.Group>
                     </FormLayout>
                 </Card>
             </Layout.AnnotatedSection>
-            <Layout.AnnotatedSection
-                title="Style Settings"
-                description="Customize the style of the Upper Bar">
-                <Card sectioned>
-                    <FormLayout>
-                        
-                        <FormLayout.Group >
-                           <TextContainer>
-                          <Heading> Note: you must first create the discount on Shopify, and then enter its details. </Heading>
-                          </TextContainer>
-                          </FormLayout.Group >
-                          <FormLayout.Group >
-                          <Select
-                              label="Type of discount"
-                              options={[
-                                'None',
-                                'Percentage (%)',
-                                'Fixed'
-                              ]}
-                              value = {this.state.discounttype}
-                            onChange={(e) => this.onPropertyChange("discounttype", e) }
-                            />
-
-                          <TextField
-                            label="Amount"
-                            type="number"
-                            value={this.state.discount}
-                            onChange={(e) => this.onPropertyChange("discount", e) }
-                          />
-
-                          <TextField
-                            label="Code"
-                            type="text"
-                            placeholder = "Coupon code here "
-                            value={this.state.code}
-
-                            onChange={(e) => this.onPropertyChange("code", e) }
-                            helpText = "Note: you must first create the discount on Shopify, and then enter its details"
-                          />
-                        </FormLayout.Group>
-                      </FormLayout>  
-                </Card>
-            </Layout.AnnotatedSection>
-             <Layout.AnnotatedSection
-                  titre = "Review request email"
-                  description = ""
-             >
-                <Card sectioned>
-
-                <FormLayout.Group condensed>
-                  <Select
-                              label="Email timing"
-                              value={this.state.emtiming}
-                              options={[
-                                '3 days',
-                                '7 days',
-                                '10 days',
-                                '14 days',
-                                '21 days',
-                                '28 days',
-                                '35 days',
-                                '42 days',
-                                '50 days',
-                                '60 days',
-                                '70 days',
-                                     ]}
-                              onChange={(e) => this.onPropertyChange("emtiming", e) }
-
-                                />
-                  <Select
-                              label="after"
-                              value={this.state.after}
-                              options={[
-                                'Purchase',
-                                'Fulfillment', 
-                                     ]}
-                              onChange={(e) => this.onPropertyChange("after", e) }
-                                />
-            </FormLayout.Group>
-            <FormLayout.Group >
-              <TextField
-                            label="Logo URL (max width 400px)"
-                            type="text"
-                            placeholder = "Full url, png/jpg image"
-                            value = {this.state.logourl}
-                            onChange={(e) => this.onPropertyChange("logourl", e) }
-                         />             
-              <TextField
-                            label="Email subject"
-                            type="text"
-                            placeholder = "[Name], tell us what you think!"
-                            value={this.state.emailsubject}
-                            onChange={(e) => this.onPropertyChange("emailsubject", e) }
-                            helpText="Use [Name] as a placeholder for the user's first name"
-                         /> 
-              <TextField
-                            label="Email text"
-                            type="text"
-                            placeholder = "We would be grateful if you shared how things look and feel. Your review helps us and the community that supports us, and it only takes a few seconds."
-                            onChange={(e) => this.onPropertyChange("emailtext", e) }
-                            value = {this.state.emailtext}
-                            helpText="Use [Name] as a placeholder for the user's first name"
-                            multiline
-                         /> 
-              <Checkbox 
-              label="Smart Upsell" 
-              checked = {this.state.upsell}
-              onChange={(e) => this.onPropertyChange("upsell", e) }
-              />
-
-
-            </FormLayout.Group>
-
-              </Card>
-             </Layout.AnnotatedSection>
         </Layout>);
     }
 }

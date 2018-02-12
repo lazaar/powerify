@@ -44,10 +44,7 @@ const shopify = {
         self.isProductPage = window.location.pathname.indexOf("/products/") !== -1;
         self.isCartPage = window.location.pathname.indexOf("/cart") !== -1;
         self.convertionRates = { USD : 1.5 , MAD : 2 , EUR :  3 };
-
-        if(self.isProductPage){
-            review.initBeforeSettings();
-        }
+        
         self.initBuyMe();
         $.ajax({
             type: "get",

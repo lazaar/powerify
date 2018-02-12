@@ -15,3 +15,15 @@ export const reviewItem = '<div class="powerify-review-item {{classes}}">' +
         '</div>' +
         '<div class="powerify-review-date">{{date}}</div>' +
     '</div>';
+export const reviewResume = '<div class="powerify-review-resume-1">' +
+        '<div class="powerify-review-resume-golbalRate">{{globalRate}}</div>' +
+        '<div class="powerify-review-resume-golbalStars">{{globalStars}}</div>' +
+        '<div class="powerify-review-resume-golbalUsers">{{globalUsers}}</div>' +
+    '</div>'+
+    '<div class="powerify-review-resume-2">' +
+        '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i> {{fiveStar}}</div>' +
+        '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty-star"></i> {{fourStar}}</div>' +
+        '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i> {{threeStar}}</div>' +
+        '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i> {{twoStar}}</div>' +
+        '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i> {{oneStar}}</div>' +
+    '</div>';
