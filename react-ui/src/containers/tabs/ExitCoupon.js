@@ -86,7 +86,6 @@ class ExitCoupon extends Component {
                     <FormLayout>
                         <FormLayout.Group >
                             <Checkbox
-                                id = "switch"
                                 checked={this.state.enableDesktop}
                                 onChange={(e) => this.onPropertyChange("enableDesktop", e) }
                                 label="Enable Exit Coupon"/>

@@ -9,9 +9,10 @@ import {
 const scarcity = {
     timeStart:0,
     productId:0,
+    leftInSotck:0,
     init: function (settings, productSettings, productId) {
         this.productId = productId;
-        if((settings && !settings.enable) || productSettings.disable){
+        if((settings && !settings.enable) || productSettings.disableScarcity === undefined || productSettings.disableScarcity){
             return;
         }
         var form = $('form[action="/cart/add"]');
@@ -27,7 +28,8 @@ const scarcity = {
 
         var text = $( "<div class='powerify-scarcity-text'></div>" ).insertBefore(element);
         utilities.loadScript(APP_URL+"/libs/flipclock.js",function () {
-            text.html(productSettings.text.replace("{{stock}}",'<span class="number-stock">'+productSettings.numberStock+"</span>"));
+            scarcity.leftInSotck = scarcity.getLeftInStock(parseInt(productSettings.numberStock), parseInt(productSettings.keepStock));
+            text.html(productSettings.text.replace("{{stock}}",'<span class="number-stock">'+scarcity.leftInSotck +"</span>"));
             if(productSettings.decrementStock && text.find('.number-stock').length > 0){
                 scarcity.initStockNumber(text.find('.number-stock'), productSettings.keepStock, scarcity.getRandomTime());
             }
@@ -84,9 +86,8 @@ const scarcity = {
     },
     initStockNumber:function (element, keepStock, time) {
         setTimeout(function () {
-            var currentNbr = parseInt(element.html());
-            element.html(--currentNbr);
-            if(currentNbr > parseInt(keepStock)){
+            if(scarcity.leftInSotck > parseInt(keepStock)){
+                element.html(--scarcity.leftInSotck);
                 scarcity.initStockNumber(element,keepStock,scarcity.getRandomTime());
             }
         }, time);
@@ -95,6 +96,7 @@ const scarcity = {
         var timers = JSON.parse(localStorage.getItem("powerify-scarcity")) || {};
         var timePassed = Date.now() - scarcity.timeStart;
         timers[scarcity.productId] = timers[scarcity.productId] ? parseInt(timers[scarcity.productId]) + timePassed : timePassed;
+        timers["leftInStock-"+scarcity.productId] = scarcity.leftInSotck;
         localStorage.setItem("powerify-scarcity", JSON.stringify(timers));
     },
     clearTimer:function () {
@@ -104,12 +106,23 @@ const scarcity = {
     },
     getTimer:function () {
         var timers = JSON.parse(localStorage.getItem("powerify-scarcity")) || {};
-        return timers[scarcity.productId] ? parseInt(timers[scarcity.productId]) : 0;
+        return timers[scarcity.productId] ? parseInt(timers[scarcity.productId]) : 0 ;
+    },
+    getLeftInStock:function (numberStock, keepStock) {
+        var timers = JSON.parse(localStorage.getItem("powerify-scarcity")) || {};
+        var leftInStock = timers["leftInStock-"+scarcity.productId] ? timers["leftInStock-"+scarcity.productId] : numberStock;
+        if(numberStock < leftInStock){
+            return numberStock;
+        }
+        if(keepStock > leftInStock){
+            return keepStock;
+        }
+        return leftInStock;
     },
     getRandomTime : function() {
-        return Math.floor(Math.random() * 5001) + 4000;
+        return Math.floor(Math.random() * 6001) + 6000;
     }
-    
+
 };
 
 export default scarcity;

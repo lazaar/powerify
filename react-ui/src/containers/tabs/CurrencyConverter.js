@@ -1,29 +1,26 @@
 // @flow
 import React, {Component} from 'react';
-import { connect } from 'react-redux';
-import {Layout, Card, FormLayout, TextField, Select, Checkbox, ChoiceList} from '@shopify/polaris';
+import {connect} from 'react-redux';
+import {Layout, Card, FormLayout, Select, Checkbox, ChoiceList} from '@shopify/polaris';
 
 class CurrencyConverter extends Component {
     constructor(props) {
         super(props);
-        
-       
-        if(false){
+
+
+        if (this.props.settings.currencyconverter) {
             this.state = this.props.settings.currencyconverter;
         }
-        else{
-        this.state = {
-            isEnable:true,
-            roundTo: 12,
-            theme: "Flag",
-            displayWith: "symbol",
-            checkoutNotification: true,
-            decimals: 3,
-        };
-        this.props.onSettingsChange("currencyconverter", this.state);
-         }
+        else {
+            this.state = {
+                isEnable: true,
+                displayWith: "symbol",
+                decimals: 0
+            };
+            this.props.onSettingsChange("currencyconverter", this.state);
+        }
     }
-    
+
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
@@ -39,96 +36,79 @@ class CurrencyConverter extends Component {
 
     render() {
         return (
-        	
-        	<Layout sectioned>
-   
-                    <Card
+            <Layout sectioned>
+                <Card
                     title="Enable"
                     sectioned>
                     <FormLayout>
                         <FormLayout.Group>
-                        	
-	                         <Checkbox 
-				              label="Enable autoSwitch currency" 
-                              checked = {this.state.isEnable}
-				              onChange={(e) => this.onPropertyChange("isEnable", e) }
-				              />
-                              <Checkbox 
-                              label="Checkout currency notification" 
-                              checked = {this.state.checkoutNotification}
-                              onChange={(e) => this.onPropertyChange("checkoutNotification", e) }
-                             />
-                            	   
+
+                            <Checkbox
+                                label="Enable autoSwitch currency"
+                                checked={this.state.isEnable}
+                                onChange={(e) => this.onPropertyChange("isEnable", e) }
+                            />
+                            <Checkbox
+                                label="Checkout currency notification"
+                                checked={this.state.checkoutNotification}
+                                onChange={(e) => this.onPropertyChange("checkoutNotification", e) }
+                            />
+
                         </FormLayout.Group>
                     </FormLayout>
                 </Card>
-                <Card 
-                title="Price Configuration"
-                sectioned>
+                <Card
+                    title="Price Configuration"
+                    sectioned>
                     <FormLayout>
-                       
+
                         <FormLayout.Group>
-                        	<ChoiceList
-                                  title="Company name"
-                                  choices={[
+                            <ChoiceList
+                                title="Company name"
+                                choices={[
                                     {
                                       label: 'Use currency Cymbol',
-                                      value: 'symbol',
+                                      value: 'symbol'
                                     },{
                                       label: 'Use currency Code',
-                                      value: 'code',
+                                      value: 'code'
                                     }
                                     ]}
-                                    selected={this.state.displayWith}
-                                    onChange={(e) => this.onPropertyChange("displayWith", e) }
-                                    />
-                        	
+                                selected={this.state.displayWith}
+                                onChange={(e) => this.onPropertyChange("displayWith", e) }
+                            />
 
-                           <Select
-								    label="Chose how to display decimals"
-		                            value={this.state.decimals}
-		                            options={[
+
+                            <Select
+                                label="Chose how to display decimals"
+                                value={this.state.decimals}
+                                options={[
                                         {
                                           label: "Don't round",
-                                          value: 3,
+                                          value: 0
                                         },{
                                           label: "Remove decimal part",
-                                          value: 0,
+                                          value: 1
                                         },{
                                           label: "Round to next digit",
-                                          value: 1,
+                                          value: 2
                                         },{
-                                          label: "Round to .99",
-                                          value: 0.99,
-                                        },{
-                                          label: "Custom rounding",
-                                          value: 2,
+                                          label: "Round to next .99",
+                                          value: 3
                                         }
-		                                     ]}
-		                            onChange={(e) => this.onPropertyChange("decimals", e) }
-		                    />
-                            { (this.state.decimals === 2) && (
-                                <div>
-                                  	<TextField
-                                    label="Rounding number to"
-                                    type="number"
-                                    value={this.state.roundTo}
-                                    onChange={(e) => this.onPropertyChange("roundTo", e) }
-                                    
-                                  	/>
-                                </div>
-                            )
-                            }
+		                        ]}
+                                onChange={(e) => this.onPropertyChange("decimals", e) }
+                            />
 
                         </FormLayout.Group>
-                      </FormLayout>  
+                    </FormLayout>
                 </Card>
-        </Layout>);
+            </Layout>);
     }
 }
 const mapStateToProps = (state) => {
     const {settings} = state;
-    return{
+    return {
         settings: settings
     }
 };

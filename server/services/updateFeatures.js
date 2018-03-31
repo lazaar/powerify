@@ -28,6 +28,7 @@ tabs.buyme = {
         buyme = htmlConstants.buyme.replace("{{callToAction}}", tabSettings.callToAction)
                                     .replace("{{position}}", tabSettings.position)
                                     .replace("{{Size}}", tabSettings.Size)
+                                    .replace("{{font}}", tabSettings.font)
                                     .replace("{{bg_colorText}}", tabSettings.bg_colorText)
                                     .replace("{{colorText}}", tabSettings.colorText)
         
@@ -44,10 +45,11 @@ tabs.upperBar = {
     init: function(tabSettings, shopify) {
         let upperbar = "";
         if(tabSettings.enable){
-            tabSettings.text = tabSettings.text.replace("{country}", "<b class=\"countryplace\"></b>").replace("{flag}", "<i id=\"flagy\" class=\"flag\" > </i>");
+            tabSettings.text = tabSettings.text.replace("{country}", "<b class=\"powerify-country\"></b>").replace("{flag}", "<i class=\"powerify-flag\" > </i>");
             upperbar = htmlConstants.upperBar.replace("{{text}}", tabSettings.text)
                 .replace("{{color}}",tabSettings.colorText )
                 .replace("{{backgroundColor}}",tabSettings.bg_colorText )
+                .replace("{{link}}",tabSettings.link ? "href="+tabSettings.link : "" )
                 .replace("{{font}}",tabSettings.font );
         }
         logger.info("Init upperBar", upperbar);
@@ -77,6 +79,29 @@ tabs.exitCoupon = {
             logger.info("exitCoupon saved");
         }).catch((e)=>{
             logger.error("exitCoupon not saved",e);
+        });
+    }
+};
+
+tabs.upsell = {
+    init: function(tabSettings, shopify) {
+        let upsell = "";
+        if(tabSettings.enable){
+            upsell = htmlConstants.upsell.replace("{{title}}", tabSettings.title)
+                .replace("{{subtitle}}", tabSettings.subtitle)
+                .replace("{{titleColor}}", tabSettings.titleColor)
+                .replace("{{titleFontSize}}", tabSettings.titleFontSize)
+                .replace("{{titleFont}}", tabSettings.titleFont)
+                .replace("{{btnColor}}", tabSettings.btnColor)
+                .replace("{{btnFont}}", tabSettings.btnFont)
+                .replace("{{btnBackgroundColor}}", tabSettings.btnBackgroundColor)
+                .replace("{{btnText}}", tabSettings.btnText);
+        }
+        logger.info("Init upsell", upsell);
+        shopMetafields.save(shopify,"upsell",upsell).then(() => {
+            logger.info("upsell saved");
+        }).catch((e)=>{
+            logger.error("upsell not saved",e);
         });
     }
 };

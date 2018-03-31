@@ -8,7 +8,6 @@ import ExitCoupon from './tabs/ExitCoupon';
 import QuickView from './tabs/QuickView';
 import Buyme from './tabs/Buyme';
 import Upsell from './tabs/Upsell';
-import CrossSell from './tabs/CrossSell';
 import PushNotifications from './tabs/PushNotifications';
 import CurrencyConverter from './tabs/CurrencyConverter';
 import ImageReviews from './tabs/ImageReviews'
@@ -62,7 +61,7 @@ class Settings extends Component {
       },
       {
         id: 'QuickView',
-        content: 'QuickView',
+        content: 'Quick View',
         panelID: 'QuickView'
       },
       {
@@ -71,7 +70,7 @@ class Settings extends Component {
         panelID: 'Scarcity'
       },{
         id: 'ImageReviews',
-        content: 'ImageReviews',
+        content: 'Image Reviews',
         panelID: 'ImageReviews'
       },{
         id: 'Salespop',
@@ -79,28 +78,24 @@ class Settings extends Component {
         panelID: 'Salespop'
       },{
         id: 'Buyme',
-        content: 'Buyme',
+        content: 'Buy Me',
         panelID: 'Buyme'
       },{
         id: 'PushNotifications',
-        content: 'PushNotifications',
+        content: 'Notifications',
         panelID: 'PushNotifications'
       },{
         id: 'CurrencyConverter',
-        content: 'CurrencyConverter',
+        content: 'Currency Converter',
         panelID: 'CurrencyConverter'
       },{
         id: 'ExitCoupon',
-        content: 'ExitCoupon',
+        content: 'Exit Coupon',
         panelID: 'ExitCoupon'
       },{
         id: 'Upsell',
         content: 'Upsell',
         panelID: 'Upsell'
-      },{
-        id: 'CrossSell',
-        content: 'CrossSell',
-        panelID: 'CrossSell'
       }
     ];
 
@@ -151,11 +146,6 @@ class Settings extends Component {
       (
         <Tabs.Panel id="Upsell">
           <Upsell onSettingsChange={this.handleSettings}/>
-        </Tabs.Panel>
-      ),
-      (
-        <Tabs.Panel id="CrossSell">
-          <CrossSell onSettingsChange={this.handleSettings}/>
         </Tabs.Panel>
       )
     ];

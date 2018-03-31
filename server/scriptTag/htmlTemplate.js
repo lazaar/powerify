@@ -1,5 +1,26 @@
 
-export const quickViewModal = '<div style="display:none; height: 500px;"><div id="{{productID}}-modal" class="powerify-qv-modal powerify-inLoad" style="height: 500px; width: 90%;"><div class="powerify-loader"></div><div class="powerify-content-modal" style> <div style="width : 44%; float: left; padding: 20px 0px 10px;"> <img src="{{image}}"/> </div> <div style="width: 52%;  float: right; padding : 20px 0px 10px;">  <div id="product-title" style="font-size : 20px; margin-bottom : 12px; font-weight: bold; color: {{ProductNameColorText}};"> {{title}} </div> <div id = "product-price" style="font-size : 23px; margin-bottom : 12px; color: {{PriceColorText}};"> 15$  <del> 19.99$ </del> </div> <div id= "prod-description" style="margin-bottom : 10px; overflow: auto; height: 100px;"> {{description}} </div> <div id="seeMore" style="color : #f45b4f;"> <a href="www.google.com">  View full product details → </a> </div> <div id="buy-panel" style="display: inline-block;"> <label> Quantity </label> <input type="number" min="1" value="1"> <input type="submit" style="background-color : {{AToCBtnColorText}}; color : #fff; font-weight : 700" value="ADD TO CART"> </div> </div> </div></div></div>';
+export const quickViewModal = '<div style="display:none; height: 500px;">' +
+    '<div id="{{productID}}-modal" class="powerify-qv-modal powerify-inLoad">' +
+        '<div class="powerify-loader"></div>' +
+        '<div class="powerify-content-modal">' +
+            '<div class="powerify-qv-content-image">' +
+                '<img src="{{image}}"/> ' +
+            '</div>' +
+            '<div class="powerify-qv-content-product">' +
+                '<div class="powerify-qv-product-title"> {{title}} </div>' +
+                '<div class="powerify-qv-product-price">{{price}}</div>' +
+                '<div class="powerify-qv-product-description"> {{description}} </div>' +
+                '<div class="powerify-qv-seeMore"> <a href="{{link}}"> {{viewDetailPageText}} → </a> </div>' +
+                '<form action="/cart/add" method="post" enctype="multipart/form-data" class="powerify-qv-buy-panel powerify-insidePopup">' +
+                    '{{variations}}' +
+                    '<input type="number" min="1" value="1" name="quantity">' +
+                    '<input type="submit" value="{{addToCartText}}" />' +
+                '</form>' +
+            '</div>' +
+        '</div>' +
+    '</div></div>';
+
+
 export const reviewItem = '<div class="powerify-review-item {{classes}}">' +
         '<div class="powerify-review-name">{{name}}</div>' +
         '<div class="powerify-review-image">{{image}}</div>' +
@@ -16,14 +37,26 @@ export const reviewItem = '<div class="powerify-review-item {{classes}}">' +
         '<div class="powerify-review-date">{{date}}</div>' +
     '</div>';
 export const reviewResume = '<div class="powerify-review-resume-1">' +
-        '<div class="powerify-review-resume-golbalRate">{{globalRate}}</div>' +
-        '<div class="powerify-review-resume-golbalStars">{{globalStars}}</div>' +
-        '<div class="powerify-review-resume-golbalUsers">{{globalUsers}}</div>' +
+            '<div class="powerify-review-resume-golbalRate">{{globalRate}}</div>' +
+            '<div class="powerify-review-resume-golbalStars">{{globalStars}}</div>' +
+            '<div class="powerify-review-resume-golbalUsers">{{globalUsers}}</div>' +
     '</div>'+
     '<div class="powerify-review-resume-2">' +
-        '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i> {{fiveStar}}</div>' +
-        '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty-star"></i> {{fourStar}}</div>' +
-        '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i> {{threeStar}}</div>' +
-        '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i> {{twoStar}}</div>' +
-        '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i> {{oneStar}}</div>' +
+        '<div class="powerify-review-resume-stars-wrapper">' +
+            '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i> {{fiveStar}}</div>' +
+            '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty-star"></i> {{fourStar}}</div>' +
+            '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i> {{threeStar}}</div>' +
+            '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i> {{twoStar}}</div>' +
+            '<div class="powerify-review-resume-stars"><i class="icon-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i><i class="icon-star empty-star"></i> {{oneStar}}</div>' +
+        '</div>' +
+    '</div>';
+export const upSellItem= '<div class="powerify-upsell-product"><a class="powerify-upsell-product-link" href="/products/{{href}}">' +
+    '<img src="{{imageSrc}}" class="powerify-upsell-product-image"/>' +
+    '<div class="powerify-upsell-product-title">{{title}}</div></a>' +
+    '<form action="/cart/add" method="post" enctype="multipart/form-data" class="powerify-insidePopup">' +
+        '<div class="powerify-upsell-product-variations">{{variations}}</div>' +
+        '<div class="powerify-upsell-product-price" style="color:{{priceColor}}; font-size:\'{{priceFontSize}}px\'">{{price}}</div>' +
+        '<div class="powerify-result-message"></div>' +
+        '<button type="submit" class="powerify-upsell-product-addToCart" style="background-color:{{btnBgColor}};color:{{btnColor}}">{{addToCartText}}</button>' +
+    '</form>' +
     '</div>';

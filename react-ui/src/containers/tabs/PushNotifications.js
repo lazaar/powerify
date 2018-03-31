@@ -1,29 +1,25 @@
 // @flow
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {Layout, Card, FormLayout, TextField, Select} from '@shopify/polaris';
+import {Layout, Card, FormLayout, TextField, Checkbox, ChoiceList} from '@shopify/polaris';
 
 class PushNotifications extends Component {
     constructor(props) {
         super(props);
         
        
-        if(this.props.settings.pushnotifications){
+        if(false){
             this.state = this.props.settings.pushnotifications;
         }
         else{
-        this.state = {
-            promptDelay: "Chewy",
-            twentyTitle: "bold",
-            twentyDescription: "Hurry! Sales Ends In",
-            hourTitle: "callToAction",
-            hourDescription: "center",
-            hourCallToAction: "",
-            threeHourTitle: "",
-            threeHourDescription: "",
-            threeHourCallToAction: "",
-            after: "Purchase",
-        };
+            this.state = {
+                enable:true,
+                messages:"Continue shopping in our store; You have {cartCount} products in cart; More than 100 original products waiting for you; Discover {productTitle}",
+                showOnlyHidden:['true'],
+                loop:false,
+                minTime:6,
+                maxTime:10
+            };
         }
     }
     onPropertyChange = (property, value, callback) => {
@@ -46,112 +42,57 @@ class PushNotifications extends Component {
                 <Card sectioned>
                     <FormLayout>
                         <FormLayout.Group>
-                            <Select
-								    label="Prompt Delay"
-		                            value={this.state.promptDelay}
-		                            options={[
-		                                'Instant',
-		                                '5 seconds',
-		                                '10 seconds',
-		                                '15 seconds',
-		                                '30 seconds',
-		                                '1 min'
-		                                     ]}
-		                            onChange={(e) => this.onPropertyChange("promptDelay", e) }
-		                    />			   
+                            <Checkbox label="Enable Notifications"
+                                      checked={this.state.enable}
+                                      onChange={(e) => this.onPropertyChange("enable",e)}
+
+                            />
+                            <ChoiceList
+                                title="Show notification only if window is inactive"
+                                choices={[
+							    {
+							      label: 'yes',
+							      value: 'true'
+							    },
+							    {
+							      label: 'No',
+							      value: 'false'
+							    }
+							  ]}
+                                selected={this.state.showOnlyHidden}
+                                onChange={(e) => this.onPropertyChange("showOnlyHidden",e)}
+                            />
                         </FormLayout.Group>
-                    </FormLayout>
-                </Card>
-            </Layout.AnnotatedSection>
-            <Layout.AnnotatedSection
-                title="Sent 20 min. after cart abandonment"
-                description="">
-                <Card sectioned>
-                    <FormLayout>
+                        <TextField
+                            label="Messages separated by ';'"
+                            type="text"
+                            helpText='Use {cartCount} for number of items in cart, {productTitle} for random product title and {country} for user country'
+                            multiline={5}
+                            value={this.state.messages}
+                            onChange={(e) => this.onPropertyChange("messages", e) }
+                        />
+                        <Checkbox label="Loop message"
+                                  checked={this.state.loop}
+                                  onChange={(e) => this.onPropertyChange("loop",e)}
+
+                        />
                         <FormLayout.Group>
                             <TextField
-                            label="Title"
-                            type="text"
-                            value={this.state.twentyTitle}
-                            onChange={(e) => this.onPropertyChange("twentyTitle", e) }
-                          	/>
-                          	<TextField
-                            label="Description"
-                            type="text"
-                            value={this.state.twentyDescription}
-                            onChange={(e) => this.onPropertyChange("twentyDescription", e) }
-                            multiline
-                          	/>
-                          	<TextField
-                            label="Call to Action"
-                            type="text"
-                            value={this.state.callToAction}
-                            onChange={(e) => this.onPropertyChange("callToAction", e) }
-                          	/>				   
-				             
+                                label="Minimum Time between notifications (minute)"
+                                type="number"
+                                value={this.state.minTime}
+                                onChange={(e) => this.onPropertyChange("minTime", e) }
+                            />
+                            <TextField
+                                label="Maximum Time between notifications (minute)"
+                                type="number"
+                                value={this.state.maxTime}
+                                onChange={(e) => this.onPropertyChange("maxTime", e) }
+                            />
                         </FormLayout.Group>
                     </FormLayout>
                 </Card>
             </Layout.AnnotatedSection>
-            <Layout.AnnotatedSection
-                title="Sent 1 hour after cart abandonment"
-                description="">
-                <Card sectioned>
-                    <FormLayout>
-                        
-                        <FormLayout.Group >
-                           <TextField
-                            label="Title"
-                            type="text"
-                            value={this.state.hourTitle}
-                            onChange={(e) => this.onPropertyChange("hourTitle", e) }
-                          	/>
-                          	<TextField
-                            label="Description"
-                            type="text"
-                            value={this.state.hourDescription}
-                            onChange={(e) => this.onPropertyChange("hourDescription", e) }
-                            multiline
-                          	/>
-                          	<TextField
-                            label="Call to Action"
-                            type="text"
-                            value={this.state.hourCallToAction}
-                            onChange={(e) => this.onPropertyChange("hourCallToAction", e) }
-                          	/>	
-                        </FormLayout.Group>
-                      </FormLayout>  
-                </Card>
-            </Layout.AnnotatedSection>
-            <Layout.AnnotatedSection
-                  title="Sent 24 hour after cart abandonment"
-                description="">
-                <Card sectioned>
-
-		                <FormLayout.Group>
-		               	    <TextField
-                            label="Title"
-                            type="text"
-                            value={this.state.threeHourTitle}
-                            onChange={(e) => this.onPropertyChange("threeHourTitle", e) }
-                          	/>
-                          	<TextField
-                            label="Description"
-                            type="text"
-                            value={this.state.threeHourDescription}
-                            onChange={(e) => this.onPropertyChange("threeHourDescription", e) }
-                            multiline
-                          	/>
-                          	<TextField
-                            label="Call to Action"
-                            type="text"
-                            value={this.state.threeHourCallToAction}
-                            onChange={(e) => this.onPropertyChange("threeHourCallToAction", e) }
-                          	/>
-			            </FormLayout.Group>
-
-             	</Card>
-             </Layout.AnnotatedSection>
         </Layout>);
     }
 }

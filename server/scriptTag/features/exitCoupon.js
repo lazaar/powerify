@@ -28,7 +28,7 @@ const exitCoupon = {
                 error: function(e) {
                     console.log("error Gettings Cart",e);
                 }
-            }); 
+            });
         }
         else{
             exitCoupon.addEvent();

@@ -1,15 +1,17 @@
 // @flow
 import React, {Component} from 'react';
-import { Layout, Checkbox, Page, Card, FormLayout, TextField,Spinner } from '@shopify/polaris';
+import { Layout, Checkbox, Thumbnail, ResourceList, Page, Card, FormLayout, TextField,Spinner } from '@shopify/polaris';
+import { ResourcePicker } from '@shopify/polaris/embedded';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import _ from 'lodash';
 
 class Product extends Component {
     constructor(props) {
         super(props);
         this.state = {
             settings: {
-                disable:false,
+                disableScarcity:false,
                 text: "Hurry Up! Sales Ends In",
                 days: 0,
                 hours: 0,
@@ -17,7 +19,13 @@ class Product extends Component {
                 keepStock: 3,
                 decrementStock: true,
                 minutes: 44,
-                seconds: 8
+                seconds: 8,
+                upsell:{
+                    disable:false,
+                    title:"Want to add one of these ? ",
+                    subtitle:"Based on what's in your cart we thought you might want grab one of these items too.",
+                    products:[]
+                }
             },
             finishLoading: false
         };
@@ -25,26 +33,36 @@ class Product extends Component {
 
     componentDidMount(){
         axios.get('/v1/api/product?productId='+this.props.match.params.productId).then((e)=> {
-            this.setState({
-                finishLoading: true
-            });
+            this.setState({finishLoading: true});
             if(e.data && e.data.value){
                 this.setState({settings:JSON.parse(e.data.value)});
             }
         }).catch(()=> {
-            this.setState({
-                finishLoading: true
-            });
+            this.setState({finishLoading: true});
         });
     }
 
     onPropertyChange = (property, value) => {
+        let settings = this.state.settings;
+         _.set(settings, property, value);
         this.setState(()=>({
-            settings: {
-                ...this.state.settings,
-                [property]: value
-            }
+            settings: settings
         }));
+    };
+
+    handleResourceSelected = (products)=> {
+        console.log(products);
+        const tmpProducts = _.map(_.take(products.products, 3), function(object) {
+            return _.pick(object, ['id', 'title','image.src','handle','variants', 'options']);
+        });
+        this.setState({ resourcePickerOpen: false});
+        this.onPropertyChange("upsell.products", _.get(this.state,"settings.upsell.products",[]).concat(tmpProducts));
+    };
+
+    deleteProduct = (index)=> {
+        const tmpProducts = this.state.settings.upsell.products;
+        tmpProducts.splice(index, 1);
+        this.onPropertyChange("upsell.products",tmpProducts);
     };
 
     save = () => {
@@ -85,8 +103,8 @@ class Product extends Component {
                         sectioned>
                         <FormLayout>
                             <Checkbox
-                                checked={this.state.settings.disable}
-                                onChange={(e) => this.onPropertyChange("disable", e) }
+                                checked={this.state.settings.disableScarcity}
+                                onChange={(e) => this.onPropertyChange("disableScarcity", e) }
                                 label="Disable Scarcity on this product"/>
                             <TextField
                                 label="Text"
@@ -148,6 +166,54 @@ class Product extends Component {
 
                                 />
                             </FormLayout.Group>
+                        </FormLayout>
+                    </Card>
+
+                    <Card
+                        title="UpSell Settings" sectioned
+                        primaryFooterAction={{ content:  "Add products", onAction: () => this.setState({ resourcePickerOpen: true }), disabled:_.get(this.state,"settings.upsell.products",[]).length > 2 }}>
+                        <FormLayout>
+                            <Checkbox
+                            checked={_.get(this.state.settings,'upsell.disable',false)}
+                            onChange={(e) => this.onPropertyChange("upsell.disable", e) }
+                            label="Disable upsell on this product"/>
+                        <TextField
+                            label="Title"
+                            type="text"
+                            value={_.get(this.state.settings,'upsell.title',"")}
+                            onChange={(e) => this.onPropertyChange("upsell.title", e) }
+                        />
+                            <TextField
+                                label="Subtitle"
+                                type="text"
+                                multiline={5}
+                                value={_.get(this.state.settings,'upsell.subtitle',"")}
+                                onChange={(e) => this.onPropertyChange("upsell.subtitle", e) }
+                            />
+                        <ResourcePicker
+                            products
+                            allowMultiple
+                            open={this.state.resourcePickerOpen}
+                            onSelection={this.handleResourceSelected}
+                            onCancel={() => this.setState({ resourcePickerOpen: false })}
+                        />
+                        <ResourceList
+                            items={_.get(this.state,"settings.upsell.products",[]).map((item,index) => ({
+                                media: item.image && <Thumbnail source={item.image.src} alt={item.title} />,
+                                attributeOne: item.title,
+                                actions: [
+                                    {
+                                        icon: 'delete',
+                                        onClick: () => (this.deleteProduct(index)),
+                                        destructive: true
+                                    }],
+                                persistActions: true
+                              }))
+                             }
+                            renderItem={(item, index) => {
+                              return <ResourceList.Item key={index} {...item} />;
+                            }}
+                        />
                         </FormLayout>
                     </Card>
                 </Layout.Section>

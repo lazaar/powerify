@@ -1,49 +1,54 @@
 // @flow
 import React, {Component} from 'react';
-import { connect } from 'react-redux';
-import {Layout, ColorPicker , hsbToHex , rgbToHsb, Checkbox, Select, Card, FormLayout, TextField,Heading, ChoiceList, Popover} from '@shopify/polaris';
+import {connect} from 'react-redux';
+import {
+    Layout,
+    ColorPicker,
+    hsbToHex,
+    rgbToHsb,
+    Checkbox,
+    Select,
+    Card,
+    FormLayout,
+    TextField,
+    ChoiceList,
+    Popover
+} from '@shopify/polaris';
 
 class QuickView extends Component {
     constructor(props) {
         super(props);
-      
-        
-        
-        if(this.props.settings.quickview){
+        if (this.props.settings.quickview) {
             this.state = this.props.settings.quickview;
         }
-        else{
-        this.state = {
-            enable: true,
-            redirect: "Cart",
-            imgWidth: 345,
-            popWidth: 800,
-            popHeight: 500,
-            maxWords: 30,
-            QVBtnColorText: "#ffffff",
-            QVBtnTxtColorText: "#ffffff",
-            PriceColorText: "#ffffff",
-            AToCBtnColorText: "#ffffff",
-            ProductNameColorText: "#ffffff",
-            showPriceColor: false,
-            showQVBtnTxtColor: false,
-            showmecouponTextColor: false,
-            showQVBtnColor: false,
-            showAToCBtnColor: false,
-        };
-         this.props.onSettingsChange("quickview", this.state);
-     }
-    		
+        else {
+            this.state = {
+                enable: true,
+                redirect: "cart",
+                position:'center',
+                viewDetailPageText:"View full product details",
+                addToCartText:"Add to cart",
+
+                QVBtnColorText: "#000000",
+                QVBtnTxtColorText: "#ffffff",
+                PriceColorText: "#000000",
+                AToCBtnColorText: "#000000",
+                ProductNameColorText: "#000000"
+            };
+            this.props.onSettingsChange("quickview", this.state);
+        }
+
     }
-    componentDidMount(){ 
-    	
-        this.blurInputColor("QVBtnColorText","QVBtnColor");
-        this.blurInputColor("QVBtnTxtColorText","QVBtnTxtColor");
-        this.blurInputColor("PriceColorText","PriceColor");
-        this.blurInputColor("AToCBtnColorText","AToCBtnColor");
-        this.blurInputColor("ProductNameColorText","ProductNameColor");
+
+    componentDidMount() {
+
+        this.blurInputColor("QVBtnColorText", "QVBtnColor");
+        this.blurInputColor("QVBtnTxtColorText", "QVBtnTxtColor");
+        this.blurInputColor("PriceColorText", "PriceColor");
+        this.blurInputColor("AToCBtnColorText", "AToCBtnColor");
+        this.blurInputColor("ProductNameColorText", "ProductNameColor");
     }
-    
+
     onPropertyChange = (property, value, callback) => {
         this.setState(()=>({
             [property]: value
@@ -55,12 +60,11 @@ class QuickView extends Component {
             callback();
         }
     };
-   
-    handleClose = (property) => {
-    this.setState({ [property]: false })
-  	};
 
-    
+    handleClose = (property) => {
+        this.setState({[property]: false})
+    };
+
 
     displayColor = (hsbColor) => {
         let color = hsbToHex(hsbColor);
@@ -88,272 +92,200 @@ class QuickView extends Component {
 
 
     render() {
-    	const cover = {
-      position: 'fixed',
-      top: '0px',
-      right: '0px',
-      bottom: '0px',
-      left: '0px',
-    	}
         return (<Layout sectioned>
-            <Layout.Section
-
-                >
-                <Card sectioned>
+            <Layout.Section>
+                <Card sectioned
+                      title="General Settings">
                     <FormLayout>
-                       
                         <FormLayout.Group >
-                        <Heading>General Settings beta</Heading>
-						<Select
-						  label="Quick View Button Position:"
-						  options={[
-						    {
-						      label: 'Top',
-						      value: 'Top',
-						    },
-						    {
-						      label: 'Center',
-						      value: 'Center',
-						    },
-						    {
-						      label: 'Bottom',
-						      value: 'Bottom',
-						    },
-						  ]}
-						  selected={['Cartnoempty']}
-						  />
-						  <ChoiceList
-							  title="After the item is added, the visitor  "
-							  choices={[
+                            <Checkbox label="Enable Quick View"
+                                      checked={this.state.enable}
+                                      onChange={(e) => this.onPropertyChange("enable",e)}
+                            />
+                            <Select
+                                label="Quick View Button Position:"
+                                options={[
+                                    {
+                                      label: 'Top',
+                                      value: 'top'
+                                    },
+                                    {
+                                      label: 'Center',
+                                      value: 'center'
+                                    },
+                                    {
+                                      label: 'Bottom',
+                                      value: 'bottom'
+                                    }
+                                 ]}
+                                value={this.state.position}
+                                onChange={(e) => this.onPropertyChange("position",e)}
+                            />
+                            <ChoiceList
+                                title="After the item is added, the visitor  "
+                                choices={[
 							    {
 							      label: 'is redirected to Cart Page',
-							      value: 'Cart',
+							      value: 'cart'
 							    },
 							    {
 							      label: 'Continue Shopping',
-							      value: 'continueShopping',
+							      value: 'close'
 							    }
 							  ]}
-							  selected={this.state.redirect}
-							  onChange={(e) => this.onPropertyChange("redirect",e)}
-							/>
+                                selected={this.state.redirect}
+                                onChange={(e) => this.onPropertyChange("redirect",e)}
+                            />
+                        </FormLayout.Group>
 
-							<Checkbox label="Enable Quick View" 
-							  checked={this.state.enable}
-
-							  onChange={(e) => this.onPropertyChange("enable",e)}
-
-							/>
-
-
-                        </FormLayout.Group> 
-                    </FormLayout>
-                </Card>
-            </Layout.Section>
-
-
-
-            <Layout.Section
-                title="Popup Settings"
-                description="">
-                <Card sectioned>
-                    <FormLayout>
-                        <FormLayout.Group>
-	                       <TextField
-							  label="Main Image Width:"
-							  type="number"
-							  value={this.state.imgWidth}
-							  readOnly={false}
-							  onChange={(e) => this.onPropertyChange("imgWidth", e) }
-							  suffix="px"
-							/>
-							<TextField
-							  label="Popup window Width:"
-							  type="number"
-							  value={this.state.popWidth}
-							  readOnly={false}
-							  onChange={(e) => this.onPropertyChange("popWidth", e) }
-							  suffix="px"
-							/>
-							<TextField
-							  label="Popup window Height:"
-							  type="number"
-							  value={this.state.popHeight}
-							  readOnly={false}
-							  onChange={(e) => this.onPropertyChange("popHeight", e) }
-							  suffix="px"
-							/>
-							<TextField
-							  label="Description Max Words:"
-							  type="number"
-							  value={this.state.maxWords}
-							  readOnly={false}
-							  onChange={(e) => this.onPropertyChange("maxWords", e) }
-							/>
-
+                        <FormLayout.Group >
+                            <TextField
+                                label="Add to cart text"
+                                type="text"
+                                value={this.state.addToCartText}
+                                onChange={(e) => this.onPropertyChange("addToCartText", e) }
+                            />
+                            <TextField
+                                label="View detail page text"
+                                type="text"
+                                value={this.state.viewDetailPageText}
+                                onChange={(e) => this.onPropertyChange("viewDetailPageText", e) }
+                            />
                         </FormLayout.Group>
                     </FormLayout>
                 </Card>
             </Layout.Section>
+            
             <Layout.Section
-            	>
-            	<Card 
-            		title="Colors"
-            		sectioned>
-            			<FormLayout.Group condensed>
-            			<TextField label="Quick View Button Text Color" 
-  										value={this.state.QVBtnTxtColorText}
-  								    	onChange={(e) => this.onPropertyChange("QVBtnTxtColorText", e) }
-                                		onBlur={() => this.blurInputColor("QVBtnTxtColorText", "QVBtnTxtColor") }
-  							/>
-            			<Popover
-							  active={this.state.showQVBtnTxtColor}
-							  activator={ 
-							  	<button className="powerify-button-color" style={{
-				                backgroundColor:this.state.QVBtnTxtColorText,
-				      			 
-							  	 }} 
-							  	 onClick={() => this.setState({showQVBtnTxtColor:true})}
-							  	 ></button>
-
-							  			}
-							  sectioned
-							>
-
-							  <FormLayout>
-
-							  	<div style={ cover }   onClick={() => this.setState({showQVBtnTxtColor:false}) }/>
-							    <ColorPicker
+            >
+                <Card
+                    title="Colors"
+                    sectioned>
+                    <FormLayout.Group condensed>
+                        <TextField label="Quick View Button Text Color"
+                                   value={this.state.QVBtnTxtColorText}
+                                   onChange={(e) => this.onPropertyChange("QVBtnTxtColorText", e) }
+                                   onBlur={() => this.blurInputColor("QVBtnTxtColorText", "QVBtnTxtColor") }
+                        />
+                        <Popover
+                            active={this.state.showQVBtnTxtColor}
+                            activator={
+                                   <button
+                                      className="powerify-button-color"
+                                      style={{backgroundColor:this.state.QVBtnTxtColorText}}
+                                      onClick={() => this.setState({showQVBtnTxtColor:true})}> </button>
+                                }
+                            sectioned>
+                            <div className="powerify-color-overlay" onClick={() => this.setState({showQVBtnTxtColor:false})}> </div>
+                            <ColorPicker
                                 color={this.state.QVBtnTxtColor}
-                                onChange={(e) => this.onPropertyChange("QVBtnTxtColor", e, () => this.onPropertyChange("QVBtnTxtColorText", this.displayColor(e)))}
-                                onBlur={(e) => this.onPropertyChange("showQVBtnTxtColor", false)}
-                            	/>
-							    
-							  </FormLayout>
-							</Popover>
+                                onChange={(e) => {
+                                        this.setState({QVBtnTxtColor:e});
+                                        this.onPropertyChange("QVBtnTxtColorText",this.displayColor(e));
+                                     }}
+                                onBlur={(e) => this.setState({showQVBtnTxtColor:false})}/>
+                        </Popover>
 
-							<TextField label="Quick View Button Color" 
-  										value={this.state.QVBtnColorText}
-  								    	onChange={(e) => this.onPropertyChange("QVBtnColorText", e) }
-                                		onBlur={() => this.blurInputColor("QVBtnColorText", "QVBtnColor") }
-  							/>
-							<Popover
-							  active={this.state.showQVBtnColor}
-							  activator={ 
-							  	<button className="powerify-button-color" style={{
-				                backgroundColor:this.state.QVBtnColorText,
-				      			 
-							  	 }} 
-							  	 onClick={() => this.setState({showQVBtnColor:true})}
-							  	 ></button>
-
-							  			}
-							  sectioned>
-
-							  <FormLayout>
-
-							  	<div style={ cover }  onClick={() => this.setState({showQVBtnColor:false})} />
-							    <ColorPicker
+                        <TextField label="Quick View Button Color"
+                                   value={this.state.QVBtnColorText}
+                                   onChange={(e) => this.onPropertyChange("QVBtnColorText", e) }
+                                   onBlur={() => this.blurInputColor("QVBtnColorText", "QVBtnColor") }
+                        />
+                        <Popover
+                            active={this.state.showQVBtnColor}
+                            activator={
+                                   <button
+                                      className="powerify-button-color"
+                                      style={{backgroundColor:this.state.QVBtnColorText}}
+                                      onClick={() => this.setState({showQVBtnColor:true})}> </button>
+                                }
+                            sectioned>
+                            <div className="powerify-color-overlay" onClick={() => this.setState({showQVBtnColor:false})}> </div>
+                            <ColorPicker
                                 color={this.state.QVBtnColor}
-                                onChange={(e) => this.onPropertyChange("QVBtnColor", e, () => this.onPropertyChange("QVBtnColorText", this.displayColor(e)))}
-                                onBlur={(e) => this.onPropertyChange("showQVBtnColor", false)}
-                            	/>
-							    
-							  </FormLayout>
-							</Popover>
-							</FormLayout.Group>
-							<FormLayout.Group condensed>
-							<TextField label="Add to Cart Button Color" 
-  										value={this.state.AToCBtnColorText}
-										onChange={(e) => this.onPropertyChange("AToCBtnColorText", e) }
-                                		onBlur={() => this.blurInputColor("AToCBtnColorText", "AToCBtnColor") }
-                                		/>
-							<Popover
-							  active={this.state.showAToCBtnColor}
-							  activator={ 
-							  	<button className="powerify-button-color" style={{
-				                backgroundColor:this.state.AToCBtnColorText,
-				      			 
-							  	 }} 
-							  	 onClick={() => this.setState({showAToCBtnColor:true})}
-							  	 ></button>
+                                onChange={(e) => {
+                                        this.setState({QVBtnColor:e});
+                                        this.onPropertyChange("QVBtnColorText",this.displayColor(e));
+                                     }}
+                                onBlur={(e) => this.setState({showQVBtnColor:false})}/>
+                        </Popover>
+                    </FormLayout.Group>
+                    <FormLayout.Group condensed>
 
-							  			}
-							  sectioned>
-
-							  <FormLayout>
-
-							  	<div style={ cover }  onClick={() => this.setState({showAToCBtnColor:false})}/>
-							    <ColorPicker
+                        <TextField label="Add to Cart Button Color"
+                                   value={this.state.AToCBtnColorText}
+                                   onChange={(e) => this.onPropertyChange("AToCBtnColorText", e) }
+                                   onBlur={() => this.blurInputColor("AToCBtnColorText", "AToCBtnColor") }
+                        />
+                        <Popover
+                            active={this.state.showAToCBtnColor}
+                            activator={
+                                   <button
+                                      className="powerify-button-color"
+                                      style={{backgroundColor:this.state.AToCBtnColorText}}
+                                      onClick={() => this.setState({showAToCBtnColor:true})}> </button>
+                                }
+                            sectioned>
+                            <div className="powerify-color-overlay" onClick={() => this.setState({showAToCBtnColor:false})}> </div>
+                            <ColorPicker
                                 color={this.state.AToCBtnColor}
-                                onChange={(e) => this.onPropertyChange("AToCBtnColor", e, () => this.onPropertyChange("AToCBtnColorText", this.displayColor(e)))}
-                                onBlur={(e) => this.onPropertyChange("showAToCBtnColor", false)}
-                            	/>
-							    
-							  </FormLayout>
-							</Popover>
-							<TextField label="Product Name Color" 
-  										value={this.state.ProductNameColorText}
-										onChange={(e) => this.onPropertyChange("ProductNameColorText", e) }
-                                		onBlur={() => this.blurInputColor("ProductNameColorText", "ProductNameColor") }  />
-							<Popover
-							  active={this.state.showProductNameColor}
-							  activator={ 
-							  	<button className="powerify-button-color" style={{
-				                backgroundColor:this.state.ProductNameColorText,
-				      			 
-							  	 }} 
-							  	 onClick={() => this.setState({showProductNameColor:true})}
-							  	 ></button>
-
-							  			}
-							  sectioned>
-
-							  <FormLayout>
-
-							  	<div style={ cover } onClick={() => this.setState({showProductNameColor:false})}/>
-							    <ColorPicker
+                                onChange={(e) => {
+                                        this.setState({AToCBtnColor:e});
+                                        this.onPropertyChange("AToCBtnColorText",this.displayColor(e));
+                                     }}
+                                onBlur={(e) => this.setState({showAToCBtnColor:false})}/>
+                        </Popover>
+                        <TextField label="Product Name Color"
+                                   value={this.state.ProductNameColorText}
+                                   onChange={(e) => this.onPropertyChange("ProductNameColorText", e) }
+                                   onBlur={() => this.blurInputColor("ProductNameColorText", "ProductNameColor") }
+                        />
+                        <Popover
+                            active={this.state.showProductNameColor}
+                            activator={
+                                   <button
+                                      className="powerify-button-color"
+                                      style={{backgroundColor:this.state.ProductNameColorText}}
+                                      onClick={() => this.setState({showProductNameColor:true})}> </button>
+                                }
+                            sectioned>
+                            <div className="powerify-color-overlay" onClick={() => this.setState({showProductNameColor:false})}> </div>
+                            <ColorPicker
                                 color={this.state.ProductNameColor}
-                                onChange={(e) => this.onPropertyChange("ProductNameColor", e, () => this.onPropertyChange("ProductNameColorText", this.displayColor(e)))}
-                                onBlur={(e) => this.onPropertyChange("showProductNameColor", false)}
-                            	/>
-							    
-							  </FormLayout>
-							</Popover>
-							</FormLayout.Group>
-
-							<FormLayout.Group condensed>
-							<TextField label="Price Color" 
-  										value={this.state.PriceColorText}
-  								    	onChange={(e) => this.onPropertyChange("PriceColorText", e) }
-                                		onBlur={() => this.blurInputColor("PriceColorText", "PriceColor") }
-  							/>
-							<Popover
-							  active={this.state.showPriceColor}
-							  activator={ 
-							  	<button className="powerify-button-color" style={{
-				                backgroundColor:this.state.PriceColorText,
-				      			 
-							  	 }} 
-							  	 onClick={() => this.setState({showPriceColor:true})}
-							  	 ></button>
-
-							  			}
-							  sectioned>
-
-							  <FormLayout>
-
-							  	<div style={ cover } onClick={() => this.setState({showPriceColor:false})}/>
-							    <ColorPicker
+                                onChange={(e) => {
+                                        this.setState({ProductNameColor:e});
+                                        this.onPropertyChange("ProductNameColorText",this.displayColor(e));
+                                     }}
+                                onBlur={(e) => this.setState({showProductNameColor:false})}/>
+                        </Popover>
+                    </FormLayout.Group>
+                    <FormLayout.Group>
+                        <TextField label="Price Color"
+                                   value={this.state.PriceColorText}
+                                   onChange={(e) => this.onPropertyChange("PriceColorText", e) }
+                                   onBlur={() => this.blurInputColor("PriceColorText", "PriceColor") }
+                        />
+                        <Popover
+                            active={this.state.showPriceColor}
+                            activator={
+                                       <button
+                                          className="powerify-button-color"
+                                          style={{backgroundColor:this.state.PriceColorText}}
+                                          onClick={() => this.setState({showPriceColor:true})}> </button>
+                                    }
+                            sectioned>
+                            <div className="powerify-color-overlay" onClick={() => this.setState({showPriceColor:false})}> </div>
+                            <ColorPicker
                                 color={this.state.PriceColor}
-                                onChange={(e) => this.onPropertyChange("PriceColor", e, () => this.onPropertyChange("PriceColorText", this.displayColor(e)))}
-                                onBlur={(e) => this.onPropertyChange("showPriceColor", false)}
-                            	/>
-							    
-							  </FormLayout>
-							</Popover>
-            			</FormLayout.Group>
-            	</Card>
+                                onChange={(e) => {
+                                            this.setState({PriceColor:e});
+                                            this.onPropertyChange("PriceColorText",this.displayColor(e));
+                                         }}
+                                onBlur={(e) => this.setState({showPriceColor:false})}/>
+                        </Popover>
+                    </FormLayout.Group>
+
+                </Card>
             </Layout.Section>
         </Layout>);
     }
@@ -361,9 +293,9 @@ class QuickView extends Component {
 
 const mapStateToProps = (state) => {
     const {settings} = state;
-    return{
+    return {
         settings: settings
     }
 };
 
-export default connect(mapStateToProps, null) (QuickView);
+export default connect(mapStateToProps, null)(QuickView);

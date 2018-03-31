@@ -1,6 +1,9 @@
 
-export const upperBar = "<div class=\"powerify_upper_bar\" style=\"height:40px; color:{{color}};font-family:{{font}}; background-color:{{backgroundColor}};\">{{text}} </div>";
-export const buyme = "<div id='buybuy' class='buybuy powerify_add_to_card transition' style=\" {{position}}: 0; height : {{Size}};  \" >  <button type=\"submit\" name=\"add\" onclick=\"myFunction()\"  class=\"sticky-button\" style=\"backgroundColor: {{bg_colorText}}; color: {{colorText}}\" >  <span > {{callToAction}} </span></button>  </div>   <script>function myFunction() {document.getElementById(\"AddToCart-product-template\").click();} </script> ";
+export const upperBar = "<div class=\"powerify_upper_bar\"><a {{link}} style=\"color:{{color}};font-family:{{font}}; background-color:{{backgroundColor}};\">{{text}}</a> </div>";
+
+export const buyme = "<div class='powerify-sticky-me powerify-sticky-me-{{position}}'> " +
+        "<button class=\"powerify-sticky-me-button\" style=\"height: {{Size}}; font-family: {{font}}; background-color: {{bg_colorText}}; color: {{colorText}}\" > {{callToAction}}</button> " +
+    "</div>";
 
 export const exitCoupons = '<div style="display:none"><div id="powerify-coupon-on-exit" style="color: {{firstColor}}; background-color: {{backgroundColor}}; font-family: {{font}};">'
                                 +'<div class="powerify-coupon-wrapper">'
@@ -11,3 +14,10 @@ export const exitCoupons = '<div style="display:none"><div id="powerify-coupon-o
                                     +'</div>'
                                 +'</div>'
                             +'</div></div>';
+
+export const upsell ='<div style="display:none"><div id="powerify-upsell">' +
+    '<div class="powerify-upsell-title" style="color: {{titleColor}}; font-size: {{titleFontSize}}px; font-family: {{titleFont}};">{{title}}</div>' +
+    '<div class="powerify-upsell-subtitle">{{subtitle}}</div>' +
+    '<div class="powerify-upsell-products"></div>' +
+    '<a class="powerify-upsell-checkout" href="/cart" style=\"color:{{btnColor}};font-family:{{btnFont}}; background-color:{{btnBackgroundColor}};\">{{btnText}}</a>' +
+    '</div></div>';

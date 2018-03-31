@@ -49,6 +49,7 @@
     "pg": "^6.4.1",
     "pg-hstore": "^2.3.2",
     "pug": "^2.0.0-rc.4",
+    "push.js": "^1.0.5",
     "react-color": "^2.13.8",
     "react-native-network-info": "^3.0.0",
     "react-native-public-ip": "^1.0.0",

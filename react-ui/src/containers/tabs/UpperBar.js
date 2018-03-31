@@ -1,17 +1,13 @@
 // @flow
 import React, {Component} from 'react';
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
 import './style.css';
 import './fonts.css';
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import { connect } from 'react-redux';
 import {Layout, ColorPicker, rgbToHsb,hsbToHex,   Select, Card, FormLayout, TextField, Checkbox, Popover} from '@shopify/polaris';
 
 class UpperBar extends Component {
     constructor(props) {
         super(props);
-       
 
         if(this.props.settings.upperBar){
             this.state = this.props.settings.upperBar;
@@ -19,12 +15,11 @@ class UpperBar extends Component {
         else{
             this.state = {
                 enable: true,
-                enableDate:false,
-                font: "Chewy",
-                selectedDateText: moment().format("YYYY/MM/DD HH:mm"),
+                font: "Raleway",
                 text: "Free shipping / happy customer",
                 colorText: "#000000",
-                bg_colorText: "#ffffff"
+                bg_colorText: "#ffffff",
+                link:""
             };
             this.props.onSettingsChange("upperBar", this.state);
         }
@@ -32,7 +27,6 @@ class UpperBar extends Component {
     componentDidMount(){
         this.blurInputColor("colorText","color");
         this.blurInputColor("bg_colorText","bg_color");
-        this.setState({selectedDate:moment(this.state.selectedDateText, "YYYY/MM/DD HH:mm")});
     }
     
     onPropertyChange = (property, value, callback) => {
@@ -75,9 +69,6 @@ class UpperBar extends Component {
         }
     };
 
-
-
-
     render() {
         return (<Layout sectioned>
             <Layout.AnnotatedSection
@@ -85,79 +76,58 @@ class UpperBar extends Component {
                 description="Show/hide the Upper Bar">
                 <Card sectioned>
                     <FormLayout>
-                        <FormLayout.Group>
-                            <Checkbox
-                                checked={this.state.enable}
-                                onChange={(e) => this.onPropertyChange("enable", e) }
-                                label="Show Upper Bar"/>
-                            <Checkbox
-                                checked={this.state.enableDate}
-                                onChange={(e) => this.onPropertyChange("enableDate", e) }
-                                label="Enable date limit"/>
-                        </FormLayout.Group>
-                        {
-                            this.state.enableDate && (
-                                <div>
-                                    <TextField
-                                        label="Show Upper Bar until "
-                                        value={this.state.selectedDateText}/>
-                                    < DatePicker
-                                    selected={this.state.selectedDate}
-                                    onChange={(e) => {
-                                        this.setState({selectedDate:e});
-                                        this.onPropertyChange("selectedDateText",e.format("YYYY/MM/DD HH:mm"));
-                                     }}
-                                    showTimeSelect
-                                    inline
-                                    minDate={moment()}
-                                    timeIntervals={30}
-                                    dateFormat="YYYY/MM/DD HH:mm"
-                                    />
-                                </div>
-                            )
-                        }
+                        <Checkbox
+                            checked={this.state.enable}
+                            onChange={(e) => this.onPropertyChange("enable", e) }
+                            label="Show Upper Bar"/>
                         <TextField
                             label="Text"
                             value={this.state.text}
                             onChange={(e) => this.onPropertyChange("text", e)}
                             helpText=" use {country} to insert the visitor's country, and {flag} to use his flag "
                         />
-                            <Select
-                              label="Font"
-                              placeholder="Select"
-                              value={this.state.font}
-                              options={[
-                                 {
-                                  label: 'Raleway',
-                                  value: 'Raleway'
-                                },{
-                                  label: 'Chewy',
-                                  value: 'Chewy'
-                                },{
-                                  label: 'Montserrat',
-                                  value: 'Montserrat'
-                                },{
-                                  label: 'Titillium',
-                                  value: 'Titillium'
-                                },{
-                                  label: 'Pacifico',
-                                  value: 'Pacifico'
-                                },{
-                                  label: 'Josefin Sans',
-                                  value: 'Josefin Sans'
-                                },{
-                                  label: 'Comfortaa',
-                                  value: 'Comfortaa'
-                                },{
-                                  label: 'Lobster',
-                                  value: 'Lobster Two'
-                                },{
-                                  label: 'Quattrocento',
-                                  value: 'Quattrocento Sans'
-                                }
-                              ]}
-                              onChange={(e) => this.onPropertyChange("font", e) }
-                            />
+                        <TextField
+                            label="Link on upper bar click"
+                            value={this.state.link}
+                            onChange={(e) => this.onPropertyChange("link", e)}
+                            helpText="Use a relative link in your store (ex: /cart to redirect to cart page)"
+                        />
+                        <Select
+                          label="Font"
+                          placeholder="Select"
+                          value={this.state.font}
+                          options={[
+                             {
+                              label: 'Raleway',
+                              value: 'Raleway'
+                            },{
+                              label: 'Chewy',
+                              value: 'Chewy'
+                            },{
+                              label: 'Montserrat',
+                              value: 'Montserrat'
+                            },{
+                              label: 'Titillium',
+                              value: 'Titillium'
+                            },{
+                              label: 'Pacifico',
+                              value: 'Pacifico'
+                            },{
+                              label: 'Josefin Sans',
+                              value: 'Josefin Sans'
+                            },{
+                              label: 'Comfortaa',
+                              value: 'Comfortaa'
+                            },{
+                              label: 'Lobster',
+                              value: 'Lobster Two'
+                            },{
+                              label: 'Quattrocento',
+                              value: 'Quattrocento Sans'
+                            }
+                          ]}
+                          onChange={(e) => this.onPropertyChange("font", e) }
+                        />
                     </FormLayout>
                 </Card>
             </Layout.AnnotatedSection>
@@ -190,7 +160,7 @@ class UpperBar extends Component {
                                       style={{backgroundColor:this.state.colorText}}
                                       onClick={() => this.setState({textColorPopup:true})}> </button>
                                 }
-                            sectioned>
+                                sectioned>
                                 <div className="powerify-color-overlay" onClick={() => this.setState({textColorPopup:false})}> </div>
                                 <ColorPicker
                                     color={this.state.color}

@@ -3,6 +3,7 @@
  */
 
 import Noty from 'noty';
+import utilities from '../utilities';
 
 const salesPop = {
     settings : {},
@@ -14,6 +15,9 @@ const salesPop = {
         salesPop.settings.showOnProduct = settings.showOnProduct[0] === 'true';
         salesPop.settings.showCurrentProduct = settings.showCurrentProduct[0] === 'true';
         salesPop.settings.locations = settings.locations.split(";");
+        
+        salesPop.settings.maxTime = parseInt(salesPop.settings.maxTime);
+        salesPop.settings.minTime = parseInt(salesPop.settings.minTime);
 
         if(salesPop.isProductPage && salesPop.settings.showCurrentProduct){
             $.ajax({
@@ -32,21 +36,13 @@ const salesPop = {
             });
         }
         else{
-            $.ajax({
-                type: "get",
-                dataType: "json",
-                url: "/products.json",
-                success: function(result){
-                    result.products.forEach(function(element) {
-                        if(salesPop.settings.excludeProducts.indexOf(element.id) === -1){
-                            salesPop.products.push(element);
-                        }
-                    });
-                    salesPop.initNotifs();
-                },
-                error: function(e) {
-                    console.log("error Gettings Products",e);
-                }
+            utilities.getProducts((result)=>{
+                result.forEach(function(element) {
+                    if(salesPop.settings.excludeProducts.indexOf(element.id) === -1){
+                        salesPop.products.push(element);
+                    }
+                });
+                salesPop.initNotifs();
             });
         }
     },

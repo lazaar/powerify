@@ -1,0 +1,133 @@
+/**
+ * Created by ilazaar on 22/01/2018.
+ */
+import publicIP from 'react-native-public-ip';
+import {
+    USER_COUNTRY_TOKEN
+} from '../../config/index';
+
+const currencyConverter = {
+    currency:'',
+    moneyFormat:'',
+    newMoneyFormat:'',
+    settings:{},
+    convertionRates:{},
+    currencyText:'',
+    data:{
+        visitorCountry:'',
+        visitorCountryCode:'',
+        visitorCurrency:'',
+        visitorCurrencySymbol:''
+    },
+
+    init: function (currency, moneyFormat, settings, success) {
+        var data = JSON.parse(localStorage.getItem("powerify-currencyConverter")) || {};
+        this.currency = currency;
+        this.moneyFormat = moneyFormat;
+        this.newMoneyFormat = moneyFormat;
+        this.settings = settings;
+        if(data.visitorCountry){
+            success(data);
+            currencyConverter.data = data;
+            currencyConverter.getRate();
+        }
+        else{
+            publicIP().then(ip => {
+                var theIpUrl  = '//usercountry.com/v1.0/json/'+ip+'?token='+USER_COUNTRY_TOKEN+'/';
+                $.ajax(
+                    {
+                        url: theIpUrl,
+                        success: function(result){
+                            currencyConverter.data.visitorCountry = result.country ? result.country.name : "";
+                            currencyConverter.data.visitorCountryCode = result.country ? result.country['alpha-2'].toLowerCase() :"";
+                            currencyConverter.data.visitorCurrency = result.currency ? result.currency.code : "";
+                            currencyConverter.data.visitorCurrencySymbol = result.currency ? result.currency.symbol : "";
+                            localStorage.setItem("powerify-currencyConverter", JSON.stringify(currencyConverter.data));
+                            success(currencyConverter.data);
+                            currencyConverter.getRate();
+                        }
+                    }
+                );
+
+            });
+        }
+    },
+
+    getRate : function(){
+        this.data.visitorCurrency="USD";//TODO : Remove this line
+        this.currencyText = this.settings.displayWith === 'symbol' ? this.data.visitorCurrencySymbol : this.data.visitorCurrency;
+        if(this.data.visitorCurrency !== this.currency ) {
+            var oldConvertionRates = JSON.parse(localStorage.getItem("powerify-convertionRates")) || {};
+
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            console.log(today.toDateString(),oldConvertionRates.date);
+            if(oldConvertionRates.date === today.toDateString()){
+                currencyConverter.convertionRates = oldConvertionRates;
+                if (currencyConverter.convertionRates[currencyConverter.data.visitorCurrency] && currencyConverter.convertionRates[currencyConverter.currency] && currencyConverter.settings.isEnable) {
+                    currencyConverter.convertPrice();
+                }
+            }
+            else{
+                $.ajax(
+                    {
+                        url: 'https://api.fixer.io/latest?base=USD',
+                        success: function(result){
+                            var today = new Date();
+                            today.setHours(0, 0, 0, 0);
+                            result.date = today.toDateString();
+                            localStorage.setItem("powerify-convertionRates", JSON.stringify(result));
+                            currencyConverter.convertionRates = result.rates;
+                            currencyConverter.convertionRates['USD'] = 1.0 ;
+                            currencyConverter.convertionRates['MAD'] = 1.2 ; //TODO : Remove this line
+                            if (currencyConverter.convertionRates[currencyConverter.data.visitorCurrency] && currencyConverter.convertionRates[currencyConverter.currency] && currencyConverter.settings.isEnable) {
+                                currencyConverter.convertPrice();
+                            }
+                        }
+                    }
+                );
+            }
+        }
+    },
+
+    convertPrice : function(){
+        this.newMoneyFormat = "{{amount}} " + currencyConverter.currencyText;
+        $('[id*="Price"],[id*="price"],[class*="Price"],[class*="price"]').each(function () {
+            var html = $(this).html().trim();
+            var currencySymbol = currencyConverter.moneyFormat.trim().split(" ")[1];
+            if(html.length < 20 && html.endsWith(currencySymbol)){
+                var price = html.replace(currencySymbol,"");
+                $(this).html(currencyConverter.getNewPrice(price));
+            }
+        });
+
+
+    },
+
+    getNewPrice:function (price) {
+        var initialPrice = parseFloat(price);
+        if(currencyConverter.settings.isEnable){
+            var convertedPrice = (this.convertionRates[this.data.visitorCurrency]*initialPrice / this.convertionRates[this.currency]).toFixed(2);
+
+            if ( this.settings.decimals === 1 ){
+                convertedPrice = Math.trunc(convertedPrice);
+            }
+            else if( this.settings.decimals === 2){
+                convertedPrice = Math.floor(convertedPrice);
+            }
+            else if ( this.settings.decimals === 3 ){
+                convertedPrice = Math.trunc(convertedPrice) + 0.99 ;
+            }
+            return convertedPrice +' '+ currencyConverter.currencyText;
+        }
+        return Shopify.formatMoney(price, currencyConverter.moneyFormat);
+    },
+    
+    getCountry: function(){
+        return this.data.visitorCountry;
+    }
+
+};
+
+export default currencyConverter;

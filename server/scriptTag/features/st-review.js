@@ -5,10 +5,10 @@ import {
     APP_URL
 } from '../../config';
 import * as htmlTemplate from '../htmlTemplate';
+import push from 'push.js';
 
 const review = {
     init: function (settings) {
-        console.log(settings);
         $('.powerify-add-review-btn').css({
             "background-color":settings.bgColorText,
             "color":settings.submitColorText
