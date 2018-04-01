@@ -98,6 +98,7 @@ app.get('/api/products', (req, res) => {
   });
 });
 require('./routes/settings')(app);
+require('./routes/themes')(app);
 
 app.get('*', (req, res, next) => {
   const { shop } = req.session.shopify || {};

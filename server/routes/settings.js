@@ -11,7 +11,6 @@ module.exports = function(app){
 
     app.get('/v1/api/settings', function(req, res){
         const { shopify } = req;
-        console.log("get Settings");
         shopify.metafield.list().then(metafields => {
             let settings = {};
             metafields.every(function(metafield) {

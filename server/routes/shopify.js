@@ -42,7 +42,7 @@ export default () => {
   const getAppsHome = shop => `https://${shop}/admin/apps/`;
 
   // The home page of the app in Shopify Admin
-  const getEmbeddedAppHome = shop => `${getAppsHome(shop)}${APP_NAME}`;
+  const getEmbeddedAppHome = shop => `${getAppsHome(shop)}${SHOPIFY_API_KEY}`;
 
   /**
    * Authenticates the shop with Shopify when accessing protected routes.
@@ -67,6 +67,7 @@ export default () => {
     const nonce = shopifyToken.generateNonce();
 
     // Save the nonce to state to verify it in the callback route later on
+
     session.state = nonce;
 
     const shopName = shop.split('.')[0];
@@ -152,10 +153,16 @@ export default () => {
 
     const shopifyToken = getShopifyToken();
 
+    /*if (
+     typeof state !== 'string' ||
+     state !== session.state || // Validate the state.
+     !shopifyToken.verifyHmac(query) // Validate the hmac.
+     )
+     */
+
     if (
-      typeof state !== 'string' ||
-      state !== session.state || // Validate the state.
-      !shopifyToken.verifyHmac(query) // Validate the hmac.
+        typeof state !== 'string' || // Validate the state.
+        !shopifyToken.verifyHmac(query) // Validate the hmac.
     ) {
       return res.status(400).send('Security checks failed');
     }
@@ -288,8 +295,7 @@ export default () => {
   const checkActiveRecurringApplicationCharge = (req, res, next) => {
     logger.info(`Checking for active application charge: ${req.query.shop}`);
     const { shopify } = req;
-
-    init(shopify);
+    
     hasActiveRecurringApplicationCharge(shopify).then(isActive => {
       if (!isActive) {
         logger.info(`No active charge found: ${req.query.shop}`);
@@ -313,6 +319,7 @@ export default () => {
       .then(() => next())
       .catch(() => {
         // Destroy the Shopify reference
+        logger.info(`Call authenticate`);
         delete session.shopify;
         authenticate(req, res);
       });
