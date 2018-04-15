@@ -14,6 +14,11 @@ export const AUTH_CALLBACK_ROUTE = '/auth/callback';
 export const INSTALL_PAGE = `https://apps.shopify.com/${APP_NAME}`;
 export const UNINSTALL_ROUTE = '/uninstall';
 
+export const SMTP_HOST = 'smtp.gmail.com';
+export const SMTP_PORT = '465';
+export const SMTP_USER = 'webde.ensao@gmail.com';
+export const SMTP_PWD = 'oscare11';
+
 export const sessionSecret =
   process.env.SESSION_SECRET || 'Your Session Secret goes here';
 

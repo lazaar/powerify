@@ -5,6 +5,7 @@ import logger from 'winston';
 import { Models } from '../db';
 import multer from 'multer';
 import fs from 'fs';
+import mailer from '../services/mail';
 
 module.exports = function(app){
 
@@ -41,7 +42,9 @@ module.exports = function(app){
                                     domain: req.body.shop,
                                     productId: req.body.productId,
                                     title: req.body.title,
-                                    name: req.body.name
+                                    name: req.body.name,
+                                    toMail:req.body.emailAdmin,
+                                    productTitle:req.body.productTitle
                                 };
                                 if(req.body.email){
                                     newItem.email = req.body.email;
@@ -138,7 +141,10 @@ module.exports = function(app){
     });
 
     function returnFct(res, result){
-        if(result.code !== 200 && filePath){
+        if(result.code === 200){
+            mailer.sendNewReviewMail(result.review);
+        }
+        else if(filePath){
             fs.unlink(filePath, ()=>{});
         }
         res.status(result.code).json(result);

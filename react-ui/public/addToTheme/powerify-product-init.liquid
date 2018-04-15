@@ -31,7 +31,9 @@
 	      <i class="powerify-review-star-form icon-star icon-star-5"></i>
       </div>
         <input  name="shop" type="hidden" value="{{ shop.domain  }}"/>
+        <input  name="emailAdmin" type="hidden" value="{{ shop.email  }}"/>
       	<input name="productId" type="hidden" value="{{ product.id }}"/>
+      	<input name="productTitle" type="hidden" value="{{ product.title }}"/>
       <div class="powerify-submit-message"></div>
         <input class="powerify-form-review-submit" type="submit" name="submit" value="Submit" />
     </form>
