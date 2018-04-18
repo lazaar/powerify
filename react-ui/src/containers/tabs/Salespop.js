@@ -8,7 +8,7 @@ class Salespop extends Component {
         super(props);
         
        
-        if(false){
+        if(this.props.settings.salespop){
             this.state = this.props.settings.salespop;
         }
         else{
