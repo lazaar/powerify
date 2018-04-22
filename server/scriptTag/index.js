@@ -85,16 +85,16 @@ const shopify = {
     },
 
     loadScript: function(){
-        if(!shopify.inMobile) {
             utilities.loadScript("https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js",function () {
-                if(shopify.settings.quickview && shopify.settings.quickview.enable && !shopify.isCartPage){
-                    quickView.init(shopify.settings.quickview, shopify.userSettings);
+              if(!shopify.inMobile) {
+                if (shopify.settings.quickview && shopify.settings.quickview.enable && !shopify.isCartPage) {
+                  quickView.init(shopify.settings.quickview, shopify.userSettings);
                 }
-                if(shopify.settings.exitCoupon && shopify.settings.exitCoupon.enableDesktop){
-                    exitCoupon.init(shopify.isProductPage, shopify.isCartPage, shopify.settings.exitCoupon);
+                if (shopify.settings.exitCoupon && shopify.settings.exitCoupon.enableDesktop) {
+                  exitCoupon.init(shopify.isProductPage, shopify.isCartPage, shopify.settings.exitCoupon);
                 }
+              }
             });
-        }
     },
 
     initBarTop : function(visitorCountry, visitorCountryCode){

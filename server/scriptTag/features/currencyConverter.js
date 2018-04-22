@@ -1,10 +1,8 @@
 /**
  * Created by ilazaar on 22/01/2018.
  */
-import publicIP from 'react-native-public-ip';
-import {
-    USER_COUNTRY_TOKEN
-} from '../../config/index';
+import countries from '../../config/countries.json';
+import _ from 'lodash';
 
 const currencyConverter = {
     currency:'',
@@ -32,24 +30,17 @@ const currencyConverter = {
             currencyConverter.getRate();
         }
         else{
-            publicIP().then(ip => {
-                var theIpUrl  = '//usercountry.com/v1.0/json/'+ip+'?token='+USER_COUNTRY_TOKEN+'/';
-                $.ajax(
-                    {
-                        url: theIpUrl,
-                        success: function(result){
-                            currencyConverter.data.visitorCountry = result.country ? result.country.name : "";
-                            currencyConverter.data.visitorCountryCode = result.country ? result.country['alpha-2'].toLowerCase() :"";
-                            currencyConverter.data.visitorCurrency = result.currency ? result.currency.code : "";
-                            currencyConverter.data.visitorCurrencySymbol = result.currency ? result.currency.symbol : "";
-                            localStorage.setItem("powerify-currencyConverter", JSON.stringify(currencyConverter.data));
-                            success(currencyConverter.data);
-                            currencyConverter.getRate();
-                        }
-                    }
-                );
+          $.get("https://ipinfo.io", function(response) {
+            currencyConverter.data.visitorCountryCode = response.country;
+            var countryData = currencyConverter.searchForCountry(currencyConverter.data.visitorCountryCode);
 
-            });
+            currencyConverter.data.visitorCountry = countryData.name;
+            currencyConverter.data.visitorCurrency = countryData.currency ?  countryData.currency.currencyCode : "" ;
+            currencyConverter.data.visitorCurrencySymbol = countryData.currency ?  countryData.currency.currencySymbol : "" ;
+            localStorage.setItem("powerify-currencyConverter", JSON.stringify(currencyConverter.data));
+            success(currencyConverter.data);
+            currencyConverter.getRate();
+          }, "jsonp");
         }
     },
 
@@ -61,8 +52,6 @@ const currencyConverter = {
 
             var today = new Date();
             today.setHours(0, 0, 0, 0);
-
-            console.log(today.toDateString(),oldConvertionRates.date);
             if(oldConvertionRates.date === today.toDateString()){
                 currencyConverter.convertionRates = oldConvertionRates;
                 if (currencyConverter.convertionRates[currencyConverter.data.visitorCurrency] && currencyConverter.convertionRates[currencyConverter.currency] && currencyConverter.settings.isEnable) {
@@ -99,6 +88,7 @@ const currencyConverter = {
             if(html.length < 20 && html.endsWith(currencySymbol)){
                 var price = html.replace(currencySymbol,"");
                 $(this).html(currencyConverter.getNewPrice(price));
+
             }
         });
 
@@ -107,10 +97,9 @@ const currencyConverter = {
 
     getNewPrice:function (price) {
         var initialPrice = parseFloat(price);
-        if(currencyConverter.settings.isEnable){
+        if(currencyConverter.settings.isEnable && this.convertionRates && this.convertionRates.length > 0){
             var convertedPrice = (this.convertionRates[this.data.visitorCurrency]*initialPrice / this.convertionRates[this.currency]).toFixed(2);
-
-            if ( this.settings.decimals === 1 ){
+          if ( this.settings.decimals === 1 ){
                 convertedPrice = Math.trunc(convertedPrice);
             }
             else if( this.settings.decimals === 2){
@@ -126,6 +115,16 @@ const currencyConverter = {
     
     getCountry: function(){
         return this.data.visitorCountry;
+    },
+  
+    searchForCountry:function(codeCountry) {
+      var results = [];
+
+      if (countries) {
+        results = _.find(countries, function(o) { return o.code == codeCountry; });
+      }
+
+      return (!_.isEmpty(results)) ? (results) : [] ;
     }
 
 };
