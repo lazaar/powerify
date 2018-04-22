@@ -1,9 +1,6 @@
 /**
  * Created by ilazaar on 21/01/2018.
  */
-
-import * as htmlTemplate from './htmlTemplate';
-import publicIP from 'react-native-public-ip';
 import utilities from './utilities';
 import salesPop from './features/salespop';
 import notifications from './features/notifications';
