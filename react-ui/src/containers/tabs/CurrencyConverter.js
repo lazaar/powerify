@@ -48,11 +48,6 @@ class CurrencyConverter extends Component {
                                 checked={this.state.isEnable}
                                 onChange={(e) => this.onPropertyChange("isEnable", e) }
                             />
-                            <Checkbox
-                                label="Checkout currency notification"
-                                checked={this.state.checkoutNotification}
-                                onChange={(e) => this.onPropertyChange("checkoutNotification", e) }
-                            />
 
                         </FormLayout.Group>
                     </FormLayout>

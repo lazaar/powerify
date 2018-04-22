@@ -73,7 +73,7 @@ const salesPop = {
             var text= salesPop.settings.textTemplate.replace("{{location}}",location).replace("{{product}}", "<span class='powerify-noty-content-title'>"+product.title+"</span>");
             if(!document.hidden){
                 new Noty({
-                    text: '<img src="'+productImage+'"/><span class="powerify-noty-content">'+text+'</span>',
+                    text: '<div class="powerify-noty-image" style="background-image:url(\''+productImage+'\')"></div><span class="powerify-noty-content">'+text+'</span>',
                     type:salesPop.settings.color,
                     layout:salesPop.settings.position,
                     theme:'bootstrap-v3',

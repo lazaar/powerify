@@ -82,7 +82,7 @@ const scarcity = {
         clock.start();
     },
     defaultStart:function (clock) {
-        clock.start(true);
+        clock.start(null,true);
     },
     initStockNumber:function (element, keepStock, time) {
         setTimeout(function () {

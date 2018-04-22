@@ -130,9 +130,6 @@ class Salespop extends Component {
                       title="Content of Sales Pop"
                 >
                     <FormLayout>
-                        <div className={["powerify_sales-pop-"+this.state.color, "powerify_sales-pop"].join(' ')}>
-                            {this.state.textTemplate}
-                        </div>
                         <TextField
                             label="Text"
                             type="text"

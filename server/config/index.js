@@ -16,8 +16,8 @@ export const UNINSTALL_ROUTE = '/uninstall';
 
 export const SMTP_HOST = 'smtp.gmail.com';
 export const SMTP_PORT = '465';
-export const SMTP_USER = 'webde.ensao@gmail.com';
-export const SMTP_PWD = 'oscare11';
+export const SMTP_USER = 'powerifymailing@gmail.com';
+export const SMTP_PWD = '123456.Aa';
 
 export const sessionSecret =
   process.env.SESSION_SECRET || 'Your Session Secret goes here';

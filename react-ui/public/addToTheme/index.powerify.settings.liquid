@@ -1,5 +1,15 @@
 {% layout none %}{
-  "settings": {{ shop.metafields.powerify.settings | json}},
-  "moneyFormat": "{{ shop.money_format }}",
-  "currency": "{{ shop.currency }}"
+  "productId": {{ product.id }},
+  {% if product.metafields.powerify.settings != blank  %}
+    "settings": {{ product.metafields.powerify.settings }},
+  {% else %}
+      "settings": {},
+  {% endif %}
+
+  {% if product.metafields.powerify.reviews != blank  %}
+    "reviews": {{ product.metafields.powerify.reviews }}
+  {% else %}
+     "reviews": {}
+  {% endif %}
+
 }
