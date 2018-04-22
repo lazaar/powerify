@@ -45,7 +45,6 @@ const currencyConverter = {
     },
 
     getRate : function(){
-        this.data.visitorCurrency="USD";//TODO : Remove this line
         this.currencyText = this.settings.displayWith === 'symbol' ? this.data.visitorCurrencySymbol : this.data.visitorCurrency;
         if(this.data.visitorCurrency !== this.currency ) {
             var oldConvertionRates = JSON.parse(localStorage.getItem("powerify-convertionRates")) || {};
@@ -69,7 +68,6 @@ const currencyConverter = {
                             localStorage.setItem("powerify-convertionRates", JSON.stringify(result));
                             currencyConverter.convertionRates = result.rates;
                             currencyConverter.convertionRates['USD'] = 1.0 ;
-                            currencyConverter.convertionRates['MAD'] = 1.2 ; //TODO : Remove this line
                             if (currencyConverter.convertionRates[currencyConverter.data.visitorCurrency] && currencyConverter.convertionRates[currencyConverter.currency] && currencyConverter.settings.isEnable) {
                                 currencyConverter.convertPrice();
                             }
