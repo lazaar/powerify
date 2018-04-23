@@ -20,7 +20,7 @@ class Salespop extends Component {
                 showOnProduct:['false'],
                 showCurrentProduct:['true'],
                 timeout:5,
-                color:'info',
+                color:'success',
                 position:'bottomLeft',
                 minTime:6,
                 maxTime:10,
@@ -144,16 +144,16 @@ class Salespop extends Component {
                                 value={this.state.color}
                                 options={[
                                  {
-                                  label: 'Blue',
+                                  label: 'Dark',
                                   value: 'info'
                                 },{
-                                  label: 'Green',
+                                  label: 'Classic',
                                   value: 'success'
                                 },{
-                                  label: 'Red',
+                                  label: 'Pill',
                                   value: 'error'
                                 },{
-                                  label: 'Yellow',
+                                  label: 'Bubble',
                                   value: 'warning'
                                 }
                               ]}
