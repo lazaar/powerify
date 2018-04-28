@@ -1,15 +1,11 @@
 {% layout none %}{
-  "productId": {{ product.id }},
-  {% if product.metafields.powerify.settings != blank  %}
-    "settings": {{ product.metafields.powerify.settings }},
-  {% else %}
-      "settings": {},
-  {% endif %}
+    {% if shop.metafields.powerify.settings != blank  %}
+      "settings": {{ shop.metafields.powerify.settings | json}},
+    {% else %}
+        "settings": {},
+    {% endif %}
 
-  {% if product.metafields.powerify.reviews != blank  %}
-    "reviews": {{ product.metafields.powerify.reviews }}
-  {% else %}
-     "reviews": {}
-  {% endif %}
+  "moneyFormat": "{{ shop.money_format }}",
+  "currency": "{{ shop.currency }}"
 
 }
