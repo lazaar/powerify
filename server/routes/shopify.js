@@ -120,10 +120,10 @@ export default () => {
 
     const newCharge = {
       name: APP_NAME,
-      price: 9.99,
+      price: 14.99,
       return_url: `${APP_URL}${ACTIVATE_CHARGE_ROUTE}`,
       test: true,
-      trial_days: 7
+      trial_days: 14
     };
 
     shopify.recurringApplicationCharge
